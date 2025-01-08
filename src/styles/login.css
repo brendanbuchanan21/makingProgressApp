@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+.welcome-section {
+  height: 20vh;
+  width: 100vw;
+ 
+}
+.welcome-header-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6%;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.welcome-text {
+    font-size: clamp(1.5rem, 3.5rem, 3.8rem);
+    margin-bottom: 2%;
+}
+
+.login-section {
+    width: 100vw;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+}
+
+
+.login-container {
+    height: 50vh;
+    width: 25vw;
+    border: 2px solid lightblue;
+    box-shadow: 0px 4px 8px rgba(173, 216, 230, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+.form-login-text {
+    font-size: clamp(1.2rem, 1.5rem, 2rem);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
+.shaded-login-area {
+    height: 35vh;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+   
+}
+#email {
+    height: 15%;
+    border: 2px solid hsl(0, 0, 90%);
+    margin-top: 10%;
+    margin-bottom: 5%;
+    border-radius: 12px;
+    border: none; /* Remove the default border */
+    
+    outline: none; /* Remove the focus outline */
+    background-color: #f9f9f9da; /* Light background for contrast */
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
+}
+
+#password {
+    margin-top: 2%;
+    margin-bottom: 5%;
+    height: 15%;
+    border: 2px solid hsl(0, 0, 90%);
+    border-radius: 12px;
+    border: none; /* Remove the default border */
+    outline: none; /* Remove the focus outline */
+    background-color: #f9f9f9da; /* Light background for contrast */
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
+}
+#login-btn {
+    margin: 0 auto;
+    height: 15%;
+    width: 40%;
+    border-radius: 12px;
+    border: none; /* Remove default border */
+    background-color: lightblue; /* Light blue background */
+    color: #ffffff; /* White text for contrast */
+    font-size: 1rem; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    cursor: pointer; /* Show pointer on hover */
+    box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /
+}
+
+a {
+    text-decoration: none;
+    color: hsl(0, 0%, 40%);
+}
+#sign-up-text {
+    color: hsl(0, 0%, 40%);
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.sign-up-section {
+    border: 2px solid red;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#sign-up-login-text {
+    color: #004080;
+}
+
+#confirmPassword {
+    margin-bottom: 10%;
+    height: 15%;
+    border: 2px solid hsl(0, 0, 90%);
+    border-radius: 12px;
+    border: none; /* Remove the default border */
+    outline: none; /* Remove the focus outline */
+    background-color: #f9f9f9da; /* Light background for contrast */
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
+}
+
+#login-signup-text {
+    color: #004080;
+}
