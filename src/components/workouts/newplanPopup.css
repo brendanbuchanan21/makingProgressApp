@@ -1,0 +1,67 @@
+.NewPlan-popup-section {
+    width: 100vw;
+    height: 100vh;
+    border: 20px solid blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.NewPlan-popup-container {
+    border: 2px solid red;
+    width: 30vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.NewPlan-popup-close-btn-div {
+    width: 100%;
+    height: auto;
+    border: 2px solid purple;
+    display: flex;
+    justify-content: end;
+    padding: .5rem;
+}
+.NewPlan-popup-close-btn {
+    height: 2rem;
+    width: 2rem;
+}
+.NewPlan-popup-info-div {
+    border: 2px solid orange;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.NewPlan-template-options {
+    border: 2px solid purple;
+    margin-top: 1rem;
+    height: 30%;
+}
+
+.NewPlan-popup-create-plan-text {
+    margin-bottom: .5rem;
+}
+.NewPlan-template-btn {
+    margin: .5rem;
+    width: 20%;
+    height: 50%;
+}
+.NewPlan-which-days-container {
+    border: 3px solid red;
+    margin-top: 1rem;
+}
+
+.NewPlan-which-days-container p {
+    margin-bottom: 1rem;
+}
+.Newplan-day-of-week-btn {
+    margin: .5rem;
+    width: 15%;
+}
+
+.Newplan-day-of-week-btn.selected {
+ background-color: lightblue;
+}
+
