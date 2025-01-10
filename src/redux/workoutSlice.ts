@@ -1,33 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
-
-interface workoutState {
-    workoutDays: string[];
-    programDuration: string;
-}
-
-const initialState: workoutState = {
-    workoutDays: [],
-    programDuration: '',
+// Define the type for a workout plan
+interface WorkoutPlan {
+    days: string[];
+    duration: string;
+  }
+  
+  // Define the initial state type
+  interface WorkoutState {
+    plans: WorkoutPlan[]; // Array of workout plans
+    currentPlan: WorkoutPlan | null; // Currently selected workout plan
+  }
+  
+  // Initial state
+  const initialState: WorkoutState = {
+    plans: [],
+    currentPlan: null,
   };
 
-
-  const workoutSlice = createSlice({
-    name: 'workout',
+const workoutSlice = createSlice({
+  name: "workout",
   initialState,
   reducers: {
-    setWorkoutDays(state, action: PayloadAction<string[]>) {
-      state.workoutDays = action.payload;
+    setCurrentPlan(state, action: PayloadAction<WorkoutPlan>) {
+        state.currentPlan = action.payload;
     },
-    setProgramDuration(state, action: PayloadAction<string>) {
-      state.programDuration = action.payload;
-    },
+   
   },
-  });
+});
 
-
-  export const { setWorkoutDays, setProgramDuration } = workoutSlice.actions;
-
-// Export the reducer to use in the store
-export default workoutSlice.reducer;
+export const { setCurrentPlan } = workoutSlice.actions;
+export const workoutReducer = workoutSlice.reducer;

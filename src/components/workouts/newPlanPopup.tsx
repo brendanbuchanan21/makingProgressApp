@@ -1,37 +1,88 @@
 import './newplanPopup.css'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPlan } from '../../redux/workoutSlice';
+import { RootState } from '../../redux/store';
+import AddExercisesPopUp from './addExercisesPopup';
+
 
 interface NewPlanPopupProps {
 
     onClose: () => void;
 }
 
-const NewPlanPopup: React.FC<NewPlanPopupProps> = ({ onClose }) => {
+const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
 
-    const [workoutDays, setWorkoutDays] = useState<string[]>([]);
-    const [programDuration, setProgramDuration] = useState<string>('');
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
+     // Access the current workout plan from the Redux store
+    const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
+    
+    // If no current plan, set default values
+    const workoutDays = currentPlan ? currentPlan.days : [];
+    const programDuration = currentPlan ? currentPlan.duration : '';
 
     const handleDayClick = (day: string) => {
-        setWorkoutDays((prevState) => 
-            prevState.includes(day)
-                ? prevState.filter((d) => d !== day) 
-                : [...prevState, day]
-        );
+        const updatedDays = workoutDays.includes(day)
+        ? workoutDays.filter((d) => d !== day)
+        : [...workoutDays, day];
+
+        if (currentPlan) {
+            // Dispatch only the days and duration
+            dispatch(setCurrentPlan({
+                days: updatedDays,
+                duration: currentPlan.duration || '', // Ensure duration is always a string
+            }));
+        } else {
+            // If no current plan, create a new plan with only days and duration
+            dispatch(setCurrentPlan({
+                days: updatedDays,
+                duration: '', // or any default duration
+            }));
+        }
     }
 
     const handleDurationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setProgramDuration(event.target.value);
+        const updatedDuration = event.target.value;
+        if (currentPlan) {
+            // Dispatch only the updated duration
+            dispatch(setCurrentPlan({
+                days: currentPlan.days,
+                duration: updatedDuration,
+            }));
+        } else {
+            // If no current plan, create a new plan with the selected duration
+            dispatch(setCurrentPlan({
+                days: [],
+                duration: updatedDuration,
+            }));
     };
-
-    const handleSubmit = (e: React.FormEvent) => {
-            e.preventDefault();
-            console.log('selected workout days:', workoutDays);
-            console.log('selected program duration:', programDuration);
-            onClose();
     }
+    
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Create a new plan object (in case no plan exists yet)
+        const newPlan = {
+            id: Date.now().toString(), // Unique ID
+            name: 'New Plan',
+            exercises: [], // Will add exercises later
+            days: workoutDays,
+            duration: programDuration,
+        };
+
+        // Dispatch the action to set the current plan in Redux
+        dispatch(setCurrentPlan(newPlan));
+
+        // Close the popup
+        onClose();
+
+        // Optionally navigate to another page after submitting
+        navigate('/addExercisesPopup');
+    };
 
     const handleClose = () => {
         onClose();

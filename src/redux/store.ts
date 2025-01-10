@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { workoutReducer } from './workoutSlice';
+import { workoutReducer } from "./workoutSlice";
 
 const store = configureStore({
-    reducer: {
-      workout: workoutReducer, // This will be your slice for workout-related data
-    },
-  });
+  reducer: {
+    workout: workoutReducer, // Include the workout slice reducer
+  },
+});
 
-  export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export default store;

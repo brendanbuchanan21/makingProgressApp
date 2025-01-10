@@ -5,7 +5,9 @@ import SignUp from './components/welcome/signup'; // Adjust the path as needed
 import DashBoard from './components/dashboard/dashboard';
 import WorkoutSection from './components/workouts/workout'
 import NewPlanPopup from './components/workouts/newPlanPopup';
-import { useNavigate } from 'react-router-dom';
+import AddExercisesPopUp from './components/workouts/addExercisesPopup';
+
+
 
 import './App.css'
 
@@ -23,6 +25,7 @@ function App() {
        <Route path='/dashboard' element={<DashBoard />} />
        <Route path='/workouts' element={<WorkoutSection />} />
        <Route path='/newPlanPopup' element={<NewPlanPopup onClose={() => { console.log('Popup closed'); }} />} />
+       <Route path='/addExercisesPopup' element={<AddExercisesPopUp />} />
       </Routes>
     </Router>
     </>
