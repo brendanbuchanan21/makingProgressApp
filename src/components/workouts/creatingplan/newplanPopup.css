@@ -1,0 +1,107 @@
+.NewPlan-popup-section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.NewPlan-popup-container {
+    border: 2px solid #0a0a0a;
+    width: 30vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+}
+
+.NewPlan-popup-close-btn-div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    padding: .5rem;
+}
+.NewPlan-popup-close-btn {
+    height: 2rem;
+    width: 2rem;
+    border-radius: .5rem;
+    border: none;
+}
+.NewPlan-popup-info-div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.NewPlan-popup-info-div h2 {
+    margin-bottom: 5%;
+}
+
+.NewPlan-template-options {
+    border: 2px solid purple;
+    margin-top: 1rem;
+    height: 30%;
+}
+
+.NewPlan-popup-create-plan-text {
+    margin-bottom: .5rem;
+}
+.NewPlan-template-btn {
+    margin: .5rem;
+    width: 20%;
+    height: 50%;
+}
+.NewPlan-which-days-container {
+    border-bottom: 1px solid #0a0a0a;
+    margin: 0 auto;
+    width: 90%;
+}
+.NewPlan-which-days-container p {
+    margin-bottom: 1rem;
+    font-size: clamp(1rem, 1.2rem, 1.3rem);
+    color: hsl(0, 0%, 25%);
+}
+.day-of-week-btn-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center all buttons horizontally */
+    gap: 1rem; /* Space between buttons */
+    width: 100%;
+    height: 15vh;
+    margin-bottom: 3%;
+}
+.Newplan-day-of-week-btn {
+    width: 4rem;
+    height: 3rem;
+    font-weight: 600;
+    border: 2px solid whitesmoke;
+    border-radius: 5%;
+    cursor: pointer;
+}
+.Newplan-day-of-week-btn.selected {
+ border: 2px solid #90EE90;
+}
+.NewPlan-program-duration-div p {
+    margin-bottom: 3%;
+    font-size: clamp(1rem, 1.2rem, 1.3rem);
+    color: hsl(0, 0%, 25%);
+}
+.program-duration-select {
+    width: 90%;
+    padding: .5rem;
+    color: hsl(0, 0%, 40%);
+    font-size: clamp(.6rem, .9rem, 1.2rem);
+    border-radius: .5rem;
+    margin-bottom: 5%;
+}
+.NewPlan-submit-btn-div {
+    
+    width: 90%;
+    height: 5vh;
+    margin: 0 auto;
+}
+.NewPlan-submit-btn {
+    width: 100%;
+    height: 100%;border-radius: .5rem;
+}

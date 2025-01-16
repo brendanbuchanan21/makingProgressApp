@@ -22,12 +22,12 @@
     justify-content: center;
     gap: 5%;
     padding: 2rem;
-    background-color: whitesmoke;
+   
 }
 .WP-card {
     height: 50vh;
     width: 25vw;
-    border: 2px solid lime;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,17 +47,24 @@
     width: 50%;
     height: 15%;
     border-radius: 12px;
-    border: none; /* Remove default border */
-    background-color: #1F305E; /* Light blue background */
-    color: white; /* White text for contrast */
-    font-size: 1rem; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    cursor: pointer; /* Show pointer on hover */
-    box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #0a0a0a; 
+    color: #0a0a0a; 
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer; 
+    box-shadow: 0px 4px 6px rgba(154, 158, 159, 0.8); 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Added transform transition */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     margin: 0 auto;
-}
+  }
+  
+  .WP-card-btn:hover {
+    background-color: #f0f0f0; /* Change background color slightly on hover */
+    color: #333333; /* Change text color on hover (optional) */
+    transform: translateY(-4px); /* Pop-out effect */
+    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8); /* Increase shadow for more pop-out feel */
+  }
+  

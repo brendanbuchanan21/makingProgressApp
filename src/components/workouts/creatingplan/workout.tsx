@@ -1,7 +1,7 @@
 import './workouts.css'
-import '../dashboard/dashboard.css';
-import NavBar from '../dashboard/navbar';
-import calendarImg from '../../images/calendarImg.jpg';
+import '../../dashboard/dashboard.css'
+import NavBar from '../../dashboard/navbar';
+import calendarImg from '../../../images/calendarImg.jpg';
 import NewPlanPopup from './newPlanPopup';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';

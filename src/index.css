@@ -5,3 +5,8 @@
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+:root{ 
+    --green-color: #90EE90;
+  }
+  

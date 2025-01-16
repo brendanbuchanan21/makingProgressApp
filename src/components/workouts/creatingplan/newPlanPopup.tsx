@@ -2,9 +2,9 @@ import './newplanPopup.css'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPlan } from '../../redux/workoutSlice';
-import { RootState } from '../../redux/store';
-import AddExercisesPopUp from './addExercisesPopup';
+import { setCurrentPlan } from '../../../redux/workoutSlice';
+import { RootState } from '../../../redux/store';
+import SubmitWorkoutPg from './submitworkoutpg';
 
 
 interface NewPlanPopupProps {
@@ -21,45 +21,21 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
      // Access the current workout plan from the Redux store
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     
-    // If no current plan, set default values
-    const workoutDays = currentPlan ? currentPlan.days : [];
-    const programDuration = currentPlan ? currentPlan.duration : '';
+    const [workoutDays, setWorkoutDays] = useState<string[]>([]);
+    const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
+
+    
 
     const handleDayClick = (day: string) => {
-        const updatedDays = workoutDays.includes(day)
-        ? workoutDays.filter((d) => d !== day)
-        : [...workoutDays, day];
-
-        if (currentPlan) {
-            // Dispatch only the days and duration
-            dispatch(setCurrentPlan({
-                days: updatedDays,
-                duration: currentPlan.duration || '', // Ensure duration is always a string
-            }));
-        } else {
-            // If no current plan, create a new plan with only days and duration
-            dispatch(setCurrentPlan({
-                days: updatedDays,
-                duration: '', // or any default duration
-            }));
-        }
+        
+        const updatedDays = workoutDays.includes(day) ? workoutDays.filter((d) => d !== day) : [...workoutDays, day];
+        setWorkoutDays(updatedDays);
     }
 
     const handleDurationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const updatedDuration = event.target.value;
-        if (currentPlan) {
-            // Dispatch only the updated duration
-            dispatch(setCurrentPlan({
-                days: currentPlan.days,
-                duration: updatedDuration,
-            }));
-        } else {
-            // If no current plan, create a new plan with the selected duration
-            dispatch(setCurrentPlan({
-                days: [],
-                duration: updatedDuration,
-            }));
-    };
+        setProgramDuration(updatedDuration);
+    
     }
     
     const handleSubmit = (e: React.FormEvent) => {
@@ -72,6 +48,10 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
             exercises: [], // Will add exercises later
             days: workoutDays,
             duration: programDuration,
+            weeks: [{
+                weekNumber: 1,
+                days: workoutDays.map((day) => ({ day })) 
+            }],
         };
 
         // Dispatch the action to set the current plan in Redux
@@ -81,7 +61,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         onClose();
 
         // Optionally navigate to another page after submitting
-        navigate('/addExercisesPopup');
+        navigate('/submitworkoutpg');
     };
 
     const handleClose = () => {
@@ -103,6 +83,7 @@ return (
                 <form onSubmit={handleSubmit}>
                     <div className='NewPlan-which-days-container'>
                         <p>Which days will you workout?</p>
+                        <div className='day-of-week-btn-container'>
                         {['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'].map((day) => (
                             <button
                                 key={day}
@@ -112,6 +93,7 @@ return (
                                 {day}
                             </button>
                         ))}
+                        </div>
                     </div>
 
                     <div className='NewPlan-program-duration-div'>
@@ -133,9 +115,8 @@ return (
                                 )}
                             </select>
                         </div>
-
-                    <div className='NewPlan-submit-btn-div'>
-                        <button type="submit" className="NewPlan-submit-btn">Next</button>
+                        <div className='NewPlan-submit-btn-div'>
+                        <button type="submit" className="NewPlan-submit-btn" disabled={workoutDays.length === 0 || !programDuration }>Next</button>
                     </div>
                 </form>
             </div>
