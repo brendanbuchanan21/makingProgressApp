@@ -4,10 +4,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-   
     border-top: none;
-    border-bottom: 2px solid #0A0A0A;
-    color: #0A0A0A;
+    color: #fff;
+    background-color: black;
     
 }
 
@@ -23,6 +22,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    color: #fff;
 }
 
 .dashboard-navbar-directory-div {
@@ -36,10 +36,12 @@
     padding-top: 1rem;
     font-size: clamp(1rem, 1.2rem, 1.5rem);
 }
-
+.dashboard-navbar-directory-div p {
+    color: white;
+}
 #db-settings-svg {
     width: 5%;
-    height: 45%;
+    height: 50%;
 }
 
 .dashboard-preview-section {
@@ -70,14 +72,14 @@
     justify-content: center;
     flex-direction: row;
     gap: 3%;
-    border: 5px solid whitesmoke;
+    border: 2px solid var(--blue);
+    border-radius: 5px;
     
 }
 .preview-card {
     font-family: Arial, Helvetica, sans-serif;
     width: 35%;
     height: auto;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,16 +98,20 @@
     height: 15%;
     width: 35%;
     border-radius: 12px;
-    border: none; /* Remove default border */
-    background-color: #90EE90; /* Light blue background */
-    color: white; /* White text for contrast */
+    border: 1px solid var(--blue); /* Remove default border */
+     /* Light blue background */
+    color: black; /* White text for contrast */
     font-size: 1rem; /* Adjust font size */
     font-weight: bold; /* Make the text bold */
     cursor: pointer; /* Show pointer on hover */
-    box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; 
     text-align: center;
     padding: .5rem;
 }
 
-
+.dashboard-preview-card-btn:hover {
+    background-color: var(--hover-blue); /* You can change this to a darker blue or another color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transform: scale(1.05); /* Slightly enlarge the button */
+    color: white;
+}

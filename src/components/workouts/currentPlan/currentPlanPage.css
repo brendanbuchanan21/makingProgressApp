@@ -1,0 +1,128 @@
+.currentPlanPage {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.currentPlanPage-header-div {
+    margin: 2% 0 5% 0;
+    text-align: center;
+}
+
+.currentPlanPage-header-div h1 {
+  
+    font-size: clamp(1.5rem, 2rem, 2.2rem);
+}
+
+.currentPlanPage-edit-plan-btn-div {
+    margin: 0 auto;
+    width: 80vw;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2%;
+}
+.currentPlanPage-edit-plan-btn-div button {
+    width: 10%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.currentPlanPage-back-btn {
+    background-color: white;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+}
+.currentPlanPage-back-btn:hover {
+    border: 1px solid var(--hover-blue);
+    background-color: var(--hover-blue);
+    color: white;
+}
+.currentPlanPage-edit-btn {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+}
+.currentPlanPage-edit-btn:hover {
+    background-color: var(--hover-blue);
+}
+
+.grid-container {
+   
+    display: grid;
+    width: 80vw;
+    height: auto;
+    margin: 0 auto;
+    gap: 5%;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    grid-auto-rows: auto; /* Rows adjust based on content height */
+    
+}
+
+
+.week-card-div {
+    border: 2px solid var(--grey); /* Matching border color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    padding: 20px; /* Inner padding for consistent spacing */
+    width: 100%; /* Responsive width */
+    max-width: 300px; /* Optional: Limit max width for consistent sizing */
+    height: auto; /* Allow dynamic height based on content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Ensure even spacing between elements */
+    gap: 10px; /* Spacing between child elements */
+    text-align: center; /* Center align text inside the card */
+    font-family: 'Arial', sans-serif; /* Clean font */
+    color: #333; /* Darker text for better readability */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effects */
+    margin: auto; /* Center horizontally */
+}
+
+.week-card-div:hover {
+    transform: translateY(-5px); /* Subtle lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.week-card-div h3 {
+    font-size: 1.5rem; /* Bold and larger text for the week number */
+    font-weight: bold;
+    color: black; /* Matching border color */
+    margin-bottom: 10px; /* Spacing below the heading */
+}
+
+.week-card-div p {
+    font-size: 1.2rem; /* Slightly smaller than heading */
+    color: #666; /* Softer text color for secondary information */
+    margin-bottom: 10px; /* Spacing below the paragraph */
+}
+
+.week-card-div button {
+    width: 100%; /* Full width button */
+    max-width: 200px; /* Optional: Limit button width */
+    height: 45px; /* Consistent height */
+    border: 1px solid var(--blue); /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1rem; /* Readable font size */
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+    color: var(--blue); /* White text */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth hover and click effects */
+}
+
+.week-card-div button:hover {
+    border: 1px solid var(--hover-blue);
+    transform: scale(1.02); 
+    color: var(--hover-blue);
+}
+
+.week-card-div button:active {
+    transform: scale(0.98); /* Pressed effect */
+    background-color: hsl(204, 72%, 50%); /* Slightly darker pressed color */
+}

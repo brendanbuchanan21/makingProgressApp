@@ -83,6 +83,26 @@ const workoutSlice = createSlice({
           console.log(`Adding new day: ${day} with exercise: ${exercise.name}`);
           week.days.push({ day, exercises: [exercise] });
         }
+
+
+        if(weekNumber === 1) {
+          const firstWeekDays = state.currentPlan.weeks.find(w => w.weekNumber === 1)?.days;
+
+          if(firstWeekDays) {
+            
+            state.currentPlan.weeks.forEach(w => {
+
+              if(w.weekNumber !== 1) {
+
+                w.days = firstWeekDays.map(firstWeekDay => ({
+                  day: firstWeekDay.day,
+                  exercises: [...firstWeekDay.exercises],
+                }));
+              }
+            });
+          }
+        }
+
       }
     },
 

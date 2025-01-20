@@ -47,7 +47,7 @@
     width: 50%;
     height: 15%;
     border-radius: 12px;
-    border: 1px solid #0a0a0a; 
+    border: 1px solid var(--blue); 
     color: #0a0a0a; 
     font-size: 1rem;
     font-weight: bold;
@@ -62,8 +62,8 @@
   }
   
   .WP-card-btn:hover {
-    background-color: #f0f0f0; /* Change background color slightly on hover */
-    color: #333333; /* Change text color on hover (optional) */
+    background-color: var(--hover-blue); /* Change background color slightly on hover */
+    color: white; /* Change text color on hover (optional) */
     transform: translateY(-4px); /* Pop-out effect */
     box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8); /* Increase shadow for more pop-out feel */
   }

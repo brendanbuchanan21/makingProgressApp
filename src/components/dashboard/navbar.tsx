@@ -1,5 +1,5 @@
 import './dashboard.css'
-import settingsImg from '../../images/settings_24dp_WHITE_FILL0_wght400_GRAD0_opsz24.svg'
+import settingsIcon from '../../images/settingsIcon.png'
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -18,7 +18,7 @@ const NavBar = () => {
             <p>Workouts</p>
             </Link>
             <p>BioMetrics</p>
-            <img src={settingsImg} id='db-settings-svg' />
+            <img src={settingsIcon} id='db-settings-svg' />
         </div>
         </nav>
         </>

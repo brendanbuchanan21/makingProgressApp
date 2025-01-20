@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPlan } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import SubmitWorkoutPg from './submitworkoutpg';
-
+import NavBar from '../../dashboard/navbar';
 
 interface NewPlanPopupProps {
 
@@ -41,6 +41,17 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        const numberOfWeeks = parseInt(programDuration.split(" ")[0]); // As
+
+        const weeks = Array.from({ length: numberOfWeeks }, (_, i) => ({
+            weekNumber: i + 1,
+            days: workoutDays.map((day) => ({
+                day: day, // Copy the day from workoutDays array (e.g., 'Mon', 'Tue', etc.)
+                exercises: [] // Empty array to be populated later with exercises for each week
+            })),
+        }));
+
+
         // Create a new plan object (in case no plan exists yet)
         const newPlan = {
             id: Date.now().toString(), // Unique ID
@@ -48,10 +59,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
             exercises: [], // Will add exercises later
             days: workoutDays,
             duration: programDuration,
-            weeks: [{
-                weekNumber: 1,
-                days: workoutDays.map((day) => ({ day })) 
-            }],
+            weeks,
         };
 
         // Dispatch the action to set the current plan in Redux
@@ -71,7 +79,13 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     }
 
 return (
+    <>
+    <NavBar />
     <section className='NewPlan-popup-section'>
+
+    <div className='NewPlan-popup-back-btn-div'>
+        <button className='NewPlan-popup-back-btn' onClick={handleClose} >&#x25c0; Back</button>
+    </div>
     <div className='NewPlan-popup-container'>
         <div className='NewPlan-popup-content'>
             <div className='NewPlan-popup-close-btn-div'>
@@ -123,7 +137,7 @@ return (
         </div>
     </div>
 </section>
-    
+    </>
 );
 
 

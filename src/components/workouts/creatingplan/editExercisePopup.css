@@ -1,0 +1,80 @@
+.edit-exercise-popup {
+    border: 2px solid hsl(204, 82%, 65%);; /* Brown color for border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f8f9fa; /* Light background for contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    height: auto; /* Adjust height dynamically */
+    width: 40%; /* Slightly smaller width */
+    padding: 20px; /* Inner padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Spacing between elements */
+    font-family: 'Arial', sans-serif; /* Clean font */
+    color: #333; /* Darker text for better readability */
+    margin: auto; /* Center the popup horizontally */
+    z-index: 2000;
+    position: absolute; /* Absolute positioning relative to the nearest positioned ancestor */
+    top: 50%; /* Position it 50% from the top */
+    left: 50%; /* Position it 50% from the left */
+    transform: translate(-50%, -50%); /* 
+}
+
+.edit-exercise-popup p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: hsl(204, 82%, 65%);; /* Match the border color */
+}
+
+.edit-exercise-popup input {
+    width: 100%; /* Full width inside the form */
+    height: 40px; /* Consistent height for inputs */
+    padding: 10px; /* Comfortable padding */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    transition: border-color 0.3s; /* Smooth focus transition */
+}
+
+.edit-exercise-popup input:focus {
+    outline: none;
+    border-color: hsl(204, 82%, 65%);; /* Highlight on focus */
+}
+
+.edit-exercise-popup button {
+    width: 100%; /* Full width for buttons */
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth hover and click effects */
+}
+
+.edit-exercise-popup button:first-of-type {
+    background-color: hsl(204, 82%, 65%);; /* Save button color */
+    color: #fff; /* White text */
+}
+
+.edit-exercise-popup button:first-of-type:hover {
+    background-color: hsl(204, 82%, 65%);; /* Darker shade on hover */
+    transform: scale(1.02); /* Slight scale effect */
+}
+
+.edit-exercise-popup button:last-of-type {
+    background-color: #ccc; /* Cancel button color */
+    color: #333; /* Darker text */
+}
+
+.edit-exercise-popup button:last-of-type:hover {
+    background-color: #bbb; /* Darker shade on hover */
+    transform: scale(1.02); /* Slight scale effect */
+}
+
+.edit-exercise-popup button:active {
+    transform: scale(0.98); /* Pressed effect */
+}

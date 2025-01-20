@@ -34,7 +34,9 @@ return (
             <div className='WP-card'>
                 <p className='WP-card-text'>Current Plan</p>
                 <img src={calendarImg} className='WP-card-img'/>
-                <p className='WP-card-btn'>let's go</p>
+                <Link to='/currentPlanPage' className='WP-card-btn'>
+                <p>let's go</p>
+                </Link>
             </div>
         </div>
     </section>

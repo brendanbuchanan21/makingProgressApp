@@ -6,7 +6,7 @@ import DashBoard from './components/dashboard/dashboard';
 import WorkoutSection from './components/workouts/creatingplan/workout'
 import NewPlanPopup from './components/workouts/creatingplan/newPlanPopup';
 import SubmitWorkoutPg from './components/workouts/creatingplan/submitworkoutpg';
-
+import CurrentPlanPage from './components/workouts/currentPlan/currentPlanPage';
 
 
 import './App.css'
@@ -26,6 +26,7 @@ function App() {
        <Route path='/workouts' element={<WorkoutSection />} />
        <Route path='/newPlanPopup' element={<NewPlanPopup onClose={() => { console.log('Popup closed'); }} />} />
        <Route path='/submitworkoutpg' element={<SubmitWorkoutPg />} />
+       <Route path='/currentPlanPage' element={<CurrentPlanPage />} />
       </Routes>
     </Router>
     </>

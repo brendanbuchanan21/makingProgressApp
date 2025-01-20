@@ -1,257 +1,286 @@
-
-
 #add-exercises-popup-section {
-    width: 100vw;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(253, 253, 253, 0.5); /* Semi-transparent black */
+  backdrop-filter: blur(8px); /* Blurry background effect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+/* Ensure the popup section stays on top */
 }
 
 #add-exercises-popup-outer-container {
-    border: 3px solid whitesmoke;
-    height: auto;
-    width: 50%;
-    padding: 5%;
-    overflow: auto;
-    margin: 4rem auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  border: 2px solid #1414d2;;
+  border-radius: 10px; /* Rounded corners */
+  background-color: #f8f9fa; /* Light background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  width: 60%; /* Matches the width of the expanded day card */
+  max-width: 800px;
+  padding: 20px; /* Inner padding */
+  margin: 20px auto; /* Centered with top and bottom spacing */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Consistent spacing between elements */
+  font-family: 'Arial', sans-serif; /* Clean font */
+  color: #333; /* Darker text for readability */
+  position: relative; /* For proper positioning */
+  
 }
 
-#add-exercises-popup-header-div {
-    text-align: center;
+#add-exercises-popup-header-div h1 {
+  font-size: 1.8rem; /* Slightly larger heading */
+  font-weight: bold;
+  color: black; /* Same as border for visual alignment */
+  text-align: center; /* Centered title */
+  margin-bottom: 10px;
 }
+
 .AE-popup-days-container {
-    height: auto;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between day cards */
 }
+
 .AE-popup-day-card {
-    border: 2px solid #1F305E;
-    height: auto;
-    margin-bottom: 5%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid black;
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fff; /* Contrast for items */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+  padding: 15px 20px; /* Inner padding for better spacing */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer; /* Pointer cursor for better interactivity */
 }
+
 .AE-popup-day-card:hover {
-    transform: scale(1.05); /* Slightly enlarges the card */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow for a pop-out effect */
+  transform: scale(1.05); /* Hover effect for engagement */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow for a pop-out effect */
+}
+
+.AE-card-day-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .AE-btn {
-    height: 80%;
-    background-color: lightblue;
+  background-color: #1414d2;;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
 }
 
 .AE-btn:hover {
-    background-color: #1F305E;
-    color: white;
-    cursor: pointer;
+  background-color: #1414d2;;
+  transform: scale(1.05); /* Slight hover effect */
 }
-.AE-card-day-text {
-   
-    
-}
+
 .AE-back-and-forward-btns-div {
-    display: flex;
-    justify-content: space-between;
-    height: 5vh;
-    
+  display: flex;
+  justify-content: space-between; /* Align buttons side by side */
+  gap: 10px;
+  margin-top: 20px; /* Add spacing from the day cards */
 }
 
 .AE-back-and-forward-btns-div button {
-    border: 2px solid #1F305E;
-    width: 25%;
-    height: 100%;
-    border-radius: 10px;
-    background: none;
-    color: #1F305E;
+  flex: 1;
+  height: 45px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  background-color: #f8f9fa;
+  color: #1414d2;;
 }
+
 .AE-back-and-forward-btns-div button:hover {
-
-    border: 2px solid lightblue;
-    color: lightblue;
+  background-color: #0F0FB8;
+  color: #fff;
+  transform: scale(1.02); /* Slight hover effect */
+  border: none;
 }
 
-.exercise-popup-overlay {
-    border: 2px solid red;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for the overlay */
-    backdrop-filter: blur(8px); /* Blurry background effect */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /
+.AE-back-and-forward-btns-div button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
 }
 
-.exercise-popup {
-    background: white;
-    border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    width: 50%;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .exercise-popup h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .exercise-popup input {
-    width: 90%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .exercise-popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  
-  .exercise-popup-buttons button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background: lightblue;
-    color: #1F305E;
-    transition: background 0.3s;
-  }
-  
-  .exercise-popup-buttons button:hover {
-    background: #1F305E;
-    color: white;
-  }
 
-
-
-
- 
-
- /* Background overlay for the expanded day view */
 .overlay-for-submit-workout {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-    z-index: 999; /* Make sure it sits above other content */
-    backdrop-filter: blur(8px); /* Blurs the background */
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for the overlay */
+backdrop-filter: blur(8px); /* Blurry background effect */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000; /* Ensure overlay stays on top */
 }
 
-/* Expanded Day View Container */
+/* Expanded Day Card Styling */
 .expanded-day-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    width: 60%; /* Adjust the width to fit your design */
-    max-width: 700px; /* Optional max width */
-    max-height: 80vh;
-    z-index: 1000; /* Ensures it's above the overlay */
+    border: 2px solid #1414d2;; /* Border color matching the edit popup */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f8f9fa; /* Light background for contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    width: 60%; /* Slightly wider width */
+    max-width: 800px;
+    padding: 20px; /* Inner padding */
+    margin: 20px auto; /* Centered with top and bottom spacing */
+    display: flex;
+    position: absolute; /* Absolute positioning relative to the nearest positioned ancestor */
+    top: 50%; /* Position it 50% from the top */
+    left: 50%; /* Position it 50% from the left */
+    transform: translate(-50%, -50%); /* Move it back by 50% of its own width and height to truly center it */
+    flex-direction: column;
+    gap: 20px; /* Consistent spacing between elements */
+    font-family: 'Arial', sans-serif; /* Clean font */
+    color: #333; /* Darker text for readability */
+    z-index: 1001;
+  }
+  
+  .expanded-day-card h2 {
+    font-size: 1.8rem; /* Slightly larger heading */
+    font-weight: bold;
+    color: black; /* Same as border for visual alignment */
+    text-align: center; /* Centered title */
+    margin-bottom: 10px;
+  }
+  
+  .exercise-list {
     display: flex;
     flex-direction: column;
+    gap: 15px; /* Spacing between exercise items */
+  }
+  
+  .exercise-item {
+    display: flex;
+    justify-content: space-between; /* Align exercise description and button */
     align-items: center;
-    text-align: center;
-    overflow-y: auto;
-}
-
-/* Header of the expanded day view */
-.expanded-day-card h2 {
-    margin-bottom: 1.5rem;
-}
-
-/* Styling for the exercises list */
-.exercise-list {
-    width: 100%;
-    margin-bottom: 2rem;
-    text-align: left;
-}
-
-/* Each exercise item in the list */
-.exercise-item {
-    border-bottom: 1px solid #ccc;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-}
-
-.individual-exercise-edit-btn-div button {
-    background-color: lightblue;
+    padding: 10px;
+    border: 1px solid #ccc; /* Subtle border for individual items */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* Contrast for items */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+  }
+  
+  .individual-exercise-description-div p {
+    margin: 5px 0;
+    font-size: 1rem; /* Uniform text size */
+  }
+  
+  .individual-exercise-edit-btn-div button {
+    background-color: #ccc;
+    color: black;
     border: none;
-    border-radius: 2px;
-}
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    margin-bottom: 10%;
+  }
+  
+  .individual-exercise-edit-btn-div button:hover {
+    background-color: #1414d2;
+    transform: scale(1.05); /* Slight hover effect */
+    color: white;
+  }
 
-/* Add Exercise Form Styles */
-.add-exercise-form {
-    width: 100%;
+  .individual-exercise-name {
+    font-weight: 600;
+    font-size: clamp(1rem, 1.8rem, 2rem);
+  }
+
+  .individual-exercise-muscle-group {
+    color: #1414d2;;
+  }
+  
+  .individual-exercise-edit-btn-div button:active {
+    transform: scale(0.98); /* Click effect */
+  }
+  
+  .add-exercise-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Input fields for the form */
-.add-exercise-form input,
-.add-exercise-form select {
-    padding: 0.75rem;
-    font-size: 1rem;
+    gap: 10px; /* Spacing between form inputs */
+  }
+  
+  .add-exercise-form input,
+  .add-exercise-form select {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%;
-}
-
-/* Button to add exercise */
-.add-exercise-form button {
-    padding: 1rem;
-    background-color: #1F305E;
-    color: white;
+    font-size: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow */
+    transition: border-color 0.3s;
+  }
+  
+  .add-exercise-form input:focus,
+  .add-exercise-form select:focus {
+    outline: none;
+    border-color: #1414d2;
+  }
+  
+  .AE-btns-div {
+    display: flex;
+    justify-content: space-between; /* Align buttons side by side */
+    gap: 10px;
+  }
+  
+  .AE-btns-div button {
+    flex: 1;
+    height: 45px;
     border: none;
     border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Button hover effect */
-.add-exercise-form button:hover {
-    background-color: lightblue;
-}
-.AE-btns-div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.individual-exercise-name {
-   font-size: clamp(1rem, 1.3rem, 1.5rem);
-   margin-bottom: 1%;
-   font-weight: 600;
-}
-
-.individual-exercise-muscle-group {
-    color: #1F305E;
-    font-weight: 500;
-    font-size: clamp(.8rem, 1.1rem, 1.3rem);
-    margin-bottom: 2%;
-}
-
-.individual-exercise-sets-and-rir {
-    color: hsl(0, 0%, 20%);
-}
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .AE-btns-div button:first-of-type {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .AE-btns-div button:first-of-type:hover {
+    background-color: #bbb;
+  }
+  
+  .AE-btns-div button:last-of-type {
+    background-color: #1414d2;;
+    color: #fff;
+  }
+  
+  .AE-btns-div button:last-of-type:hover {
+    background-color: #1414d2;;
+    transform: scale(1.02);
+  }
+  
+  .AE-btns-div button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
