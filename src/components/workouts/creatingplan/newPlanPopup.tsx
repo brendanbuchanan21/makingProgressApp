@@ -65,9 +65,6 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         // Dispatch the action to set the current plan in Redux
         dispatch(setCurrentPlan(newPlan));
 
-        // Close the popup
-        onClose();
-
         // Optionally navigate to another page after submitting
         navigate('/submitworkoutpg');
     };

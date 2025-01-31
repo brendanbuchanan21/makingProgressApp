@@ -13,7 +13,7 @@
 }
 
 #add-exercises-popup-outer-container {
-  border: 2px solid #1414d2;;
+  border: 2px solid var(--grey);
   border-radius: 10px; /* Rounded corners */
   background-color: #f8f9fa; /* Light background for contrast */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
@@ -45,7 +45,7 @@
 }
 
 .AE-popup-day-card {
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 8px; /* Rounded corners */
   background-color: #fff; /* Contrast for items */
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
@@ -99,18 +99,21 @@
 .AE-back-and-forward-btns-div button {
   flex: 1;
   height: 45px;
-  border: 2px solid black;
+  border: 2px solid var(--blue);
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   background-color: #f8f9fa;
-  color: #1414d2;;
+  color: var(--blue);
 }
-
+#AE-back-btn:hover {
+  background-color: var(--hover-blue);
+  color: white;
+}
 .AE-back-and-forward-btns-div button:hover {
-  background-color: #0F0FB8;
+  background-color: var(--blue);
   color: #fff;
   transform: scale(1.02); /* Slight hover effect */
   border: none;
@@ -138,7 +141,7 @@ z-index: 1000; /* Ensure overlay stays on top */
 
 /* Expanded Day Card Styling */
 .expanded-day-card {
-    border: 2px solid #1414d2;; /* Border color matching the edit popup */
+    border: 1px solid var(--grey); /* Border color matching the edit popup */
     border-radius: 10px; /* Rounded corners */
     background-color: #f8f9fa; /* Light background for contrast */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
@@ -261,8 +264,8 @@ z-index: 1000; /* Ensure overlay stays on top */
   }
   
   .AE-btns-div button:first-of-type {
-    background-color: #ccc;
-    color: #333;
+    background-color: var(--blue);
+    color: white;
   }
   
   .AE-btns-div button:first-of-type:hover {

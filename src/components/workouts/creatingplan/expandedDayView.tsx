@@ -12,14 +12,10 @@ const ExpandedDayView = ({
     selectedDay,
     weekNumber,
     resetSelectedDay,
-    openEditDayModal, // New prope
-    openEditExerciseModal, // New prop
   }: {
-    selectedDay: string;
+    selectedDay: DayPlan;
     weekNumber: number;
     resetSelectedDay: () => void;
-    openEditDayModal?: () => void; // Optional
-    openEditExerciseModal?: () => void; // Optional
   }) => {
     const dispatch = useDispatch();
 
@@ -28,7 +24,7 @@ const ExpandedDayView = ({
   const week = currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
   // If the week is found, find the day and extract exercises
-  const exercisesForDay = week?.days.find(day => day.day === selectedDay)?.exercises || [];
+    const exercisesForDay = week?.days.find((day) => day.day === selectedDay.day)?.exercises || [];
     const [exerciseName, setExerciseName] = useState('');
     const [muscleGroup, setMuscleGroup] = useState('Chest');
     const [sets, setSets] = useState(0);
@@ -56,7 +52,7 @@ const ExpandedDayView = ({
         dispatch(
             addExerciseToDay({
                 weekNumber,
-                day: selectedDay,
+                day: selectedDay.day,
                 exercise: newExercise
             })
         );
@@ -66,9 +62,6 @@ const ExpandedDayView = ({
         setMuscleGroup('Chest');
         setSets(0);
         setRepsInReserve(0);
-        
-        console.log('Selected Day:', selectedDay);  
-        console.log('Week Number:', weekNumber); 
     };
 
      
@@ -77,7 +70,7 @@ const ExpandedDayView = ({
         dispatch(
           editExercise({
             weekNumber,
-            day: selectedDay,
+            day: selectedDay.day,
             exerciseIndex: exercisesForDay.findIndex((exercise) => exercise.name === selectedExercise?.name),
             updatedExercise,
           })
@@ -91,7 +84,7 @@ const ExpandedDayView = ({
             dispatch(
                 deleteExercise({
                     weekNumber,
-                    day: selectedDay,
+                    day: selectedDay.day,
                     exerciseIndex,
                 })
             )
@@ -112,7 +105,7 @@ const ExpandedDayView = ({
             <>
                 <div className="overlay-for-submit-workout" />
                 <div className="expanded-day-card">
-                    <h2>{selectedDay ? `${selectedDay} Exercises` : 'No day selected'}</h2>
+                    <h2>{selectedDay.day} Exercises</h2>
                     <div className="exercise-list">
                         {exercisesForDay?.map((exercise, index) => (
                             <div key={index} className="exercise-item">

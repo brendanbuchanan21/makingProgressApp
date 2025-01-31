@@ -3,6 +3,7 @@ import { RootState } from "../../../redux/store";
 import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";
+import { Link } from "react-router-dom";
 
 const CurrentPlanPage = () => {
 
@@ -19,7 +20,9 @@ const CurrentPlanPage = () => {
                 <h1>Your Plan</h1>
             </div>
             <div className="currentPlanPage-edit-plan-btn-div">
-                <button className="currentPlanPage-back-btn">Back</button>
+            <Link to="/workouts" className="currentPlanPage-back-btn">
+            Back
+            </Link>
                 <button className="currentPlanPage-edit-btn">Edit Plan</button>
             </div>
             <div className="grid-container">

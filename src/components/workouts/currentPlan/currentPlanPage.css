@@ -33,6 +33,14 @@
     background-color: white;
     color: var(--blue);
     border: 1px solid var(--blue);
+    width: 10%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 .currentPlanPage-back-btn:hover {
     border: 1px solid var(--hover-blue);
@@ -126,3 +134,156 @@
     transform: scale(0.98); /* Pressed effect */
     background-color: hsl(204, 72%, 50%); /* Slightly darker pressed color */
 }
+
+
+
+
+
+.overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it’s above other content */
+  }
+
+.week-expanded-container {
+    
+    width: 50vw;
+    height: 70vh;
+    z-index: 10000;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding-top: 2%;
+    gap: 5%;
+}
+.week-header-div {
+  
+    width: 90%;
+    position: relative;
+}
+
+.week-header-div button {
+    position: absolute;
+    top: 10%;
+    right: 1%;
+    border: none;
+    background-color: var(--blue);
+    color: white;
+    border-radius: 5px;
+    width: 10%;
+    height: 100%;
+    cursor: pointer;
+}
+.overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .week-expanded-container {
+    width: 50vw;
+    height: 70vh;
+    background-color: var(--grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+  }
+  
+  .week-header-div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--blue);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .week-header-div h1 {
+    font-size: 1.8rem;
+    color: var(--blue);
+    margin: 0;
+  }
+  
+  .week-header-div button {
+    font-size: 1.2rem;
+    background-color: white;
+    color: white;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    border-radius: 5px;
+    width: 10%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .week-header-div button:hover {
+    background-color: var(--dark-blue);
+  }
+  
+  .week-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .week-day-card {
+    background-color: white;
+    border: 1px solid var(--light-grey);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    height: 20%;
+  }
+  .week-day-card:hover {
+    transform: scale(1.05); /* Slightly increase size */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add a stronger shadow */
+    cursor: pointer;
+  }
+  
+  .day-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--dark-grey);
+    margin-bottom: 10px;
+  }
+  
+  .day-sets {
+    font-size: 1rem;
+    color: var(--dark-grey);
+  }
+  
+  .day-sets span {
+    font-weight: bold;
+    color: var(--blue);
+  }
+  

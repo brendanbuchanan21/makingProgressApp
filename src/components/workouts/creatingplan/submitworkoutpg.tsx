@@ -13,25 +13,18 @@ const SubmitWorkoutPg = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [selectedDay, setSelectedDay] = useState<string | null>(null);
-    const [activeModal, setActiveModal] = useState(null);
+    const [selectedDay, setSelectedDay] = useState<DayPlan | null>(null);
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const days: DayPlan[] = currentPlan?.weeks?.flatMap((week: WeekPlan) => week.days) ?? [];
     const firstWeekDays: DayPlan[] = currentPlan?.weeks?.[0]?.days ?? [];
 
 
-
-
-    const openEditDayModal = () => setActiveModal('editDay');
-    const openEditExerciseModal = () => setActiveModal('editExercise');
-    const closeModal = () => setActiveModal(null);
-
-    const getWeekNumber = (selectedDay: string | null): number | undefined => {
+    const getWeekNumber = (selectedDay: DayPlan | null): number | undefined => {
         if (!selectedDay) return undefined;
 
         for (const week of currentPlan.weeks) {
-            if (week.days.some((day) => day.day === selectedDay)) {
+            if (week.days.some((day) => day.day === selectedDay.day)) {
                 return week.weekNumber;
             }
         }
@@ -48,7 +41,8 @@ const SubmitWorkoutPg = () => {
         }
 
     const submitWorkoutPlan = () => {
-        const isPlanComplete = days.every(day => day.exercises && day.exercises.length > 0);
+        
+        const isPlanComplete = firstWeekDays.every(day => day.exercises && day.exercises.length > 0);
 
         if (!isPlanComplete) {
             alert('Please make sure all days have exercises before submitting.');
@@ -71,7 +65,7 @@ const SubmitWorkoutPg = () => {
                     
                 <div className="AE-popup-days-container">
              {firstWeekDays.map((day: DayPlan, index: number) => (
-            <div className='AE-popup-day-card' key={index} onClick={() => setSelectedDay(day.day)}>
+            <div className='AE-popup-day-card' key={index} onClick={() => setSelectedDay(day)}>
             <p className="AE-card-day-text">{day.day}</p>
             <p className="AE-btn">View</p>
             </div>
@@ -86,8 +80,7 @@ const SubmitWorkoutPg = () => {
 
             {/* Expanded Day View */}
             {selectedDay && (
-                   <ExpandedDayView selectedDay={selectedDay}  resetSelectedDay={resetSelectedDay} weekNumber={currentWeekNumber} 
-                   openEditDayModal={openEditDayModal}  openEditExerciseModal={openEditExerciseModal} />
+                   <ExpandedDayView selectedDay={selectedDay}  resetSelectedDay={resetSelectedDay} weekNumber={currentWeekNumber} />
             )}
             </section>
             </>

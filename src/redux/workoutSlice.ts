@@ -59,16 +59,14 @@ const workoutSlice = createSlice({
 
     addExerciseToDay(state, action: PayloadAction<{ weekNumber: number; day: string; exercise: Exercise }>) {
       const { weekNumber, day, exercise } = action.payload;
-
+      console.log("Adding exercise to day:", day);  // Debugging line
       const week = state.currentPlan.weeks.find(week => week.weekNumber === weekNumber);
-      console.log('Found week:', week);
       if(week) { 
         const dayIndex = week.days.findIndex(d => d.day === day); 
        
         if (dayIndex !== -1) {
           // If day is found, add the exercise
           const dayPlan = week.days[dayIndex];
-          console.log('Adding exercise to existing day:', dayPlan);
     
           
       // Ensure exercises array exists
@@ -80,27 +78,7 @@ const workoutSlice = createSlice({
         dayPlan.exercises.push(exercise);
         } else {
           // If the day doesn't exist, create it and add the exercise
-          console.log(`Adding new day: ${day} with exercise: ${exercise.name}`);
           week.days.push({ day, exercises: [exercise] });
-        }
-
-
-        if(weekNumber === 1) {
-          const firstWeekDays = state.currentPlan.weeks.find(w => w.weekNumber === 1)?.days;
-
-          if(firstWeekDays) {
-            
-            state.currentPlan.weeks.forEach(w => {
-
-              if(w.weekNumber !== 1) {
-
-                w.days = firstWeekDays.map(firstWeekDay => ({
-                  day: firstWeekDay.day,
-                  exercises: [...firstWeekDay.exercises],
-                }));
-              }
-            });
-          }
         }
 
       }

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import './currentPlanPage.css'
+import ExpandedWeekView from "./expanedWeekView";
 
 const WeekCard = () => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
@@ -16,6 +17,11 @@ const handleWeekClick = (weekNumber: number) => {
     setSelectedWeek(weekNumber);
 }
 
+const handleCloseExpandedView = () => {
+    setSelectedWeek(null);
+}
+const weekData = selectedWeek !== null ? weeks.find((week) => week.weekNumber === selectedWeek) : null;
+
     
     return (
         <>
@@ -26,6 +32,16 @@ const handleWeekClick = (weekNumber: number) => {
             <button>View</button>
         </div>
         ))}
+
+
+
+        {weekData && (
+            <ExpandedWeekView
+            weekNumber={weekData.weekNumber}
+            weekData={weekData}
+            onClose={handleCloseExpandedView}
+            />
+        )}
         </>
     )
 }
