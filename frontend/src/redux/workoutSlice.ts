@@ -19,7 +19,8 @@ export interface WeekPlan {
   days: DayPlan[];
 }
 
-interface WorkoutPlan {
+export interface WorkoutPlan {
+  id?: string;
   weeks: WeekPlan[];
   duration: string;
 }
@@ -30,8 +31,10 @@ interface WorkoutSliceState {
 
 const initialState: WorkoutSliceState = {
     currentPlan: {
+      id: '',
       weeks: [],
       duration: '',
+      // so i store the plansId here???
     },
 };
 
@@ -41,7 +44,10 @@ const workoutSlice = createSlice({
   reducers: {
 
     setCurrentPlan: (state, action) => {
-      state.currentPlan = action.payload;
+      state.currentPlan = {
+        ...action.payload,
+        id: action.payload._id, // Ensure `id` is always set from `_id`
+      };
     },
   
     //action to set the plan duration
