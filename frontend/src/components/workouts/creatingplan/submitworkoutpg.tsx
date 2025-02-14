@@ -1,12 +1,12 @@
 import { RootState } from "../../../redux/store";
 import './submitworkoutpg.css';
-import { useDispatch, useSelector, UseSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from "../../dashboard/navbar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { setCurrentPlan } from "../../../redux/workoutSlice";
-import { DayPlan, WeekPlan } from "../../../redux/workoutSlice";
+import { DayPlan } from "../../../redux/workoutSlice";
 import ExpandedDayView from "./expandedDayView";
+import { useDeleteExerciseProgramMutation } from "../../../redux/workoutApi";
 
 
 const SubmitWorkoutPg = () => {
@@ -14,9 +14,13 @@ const SubmitWorkoutPg = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedDay, setSelectedDay] = useState<DayPlan | null>(null);
+    const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
+    
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
-    const days: DayPlan[] = currentPlan?.weeks?.flatMap((week: WeekPlan) => week.days) ?? [];
+    const workoutProgramId = currentPlan.id;
+
+
     const firstWeekDays: DayPlan[] = currentPlan?.weeks?.[0]?.days ?? [];
 
 
@@ -36,8 +40,27 @@ const SubmitWorkoutPg = () => {
         setSelectedDay(null);
     };
     
-        const handleBackClick: () => void = () => {
-            navigate('/workouts');
+        const handleBackClick: () => Promise<void> = async () => {
+
+            if(window.confirm("Are you sure you want to abandon this plan?")) {
+                if(!workoutProgramId) {
+                }
+                try {
+                     await deleteExerciseProgram({ id: workoutProgramId as string })
+                     navigate('/workouts');
+
+                } catch (error) {
+                    console.error('unsuccessful deletion of program', error);
+                }
+
+            
+            }
+            // have logic once function is triggered, prompt
+            // an alert, are you sure you want to leave this plan? 
+            // once pressed ok, then we want to 
+            // create new workout api function for deleting the program from DB
+
+           
         }
 
     const submitWorkoutPlan = () => {

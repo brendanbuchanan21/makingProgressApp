@@ -6,7 +6,7 @@ import { setPlanDuration, addWeek, addExerciseToDay, editExercise, deleteExercis
 import { DayPlan, WeekPlan } from "../../../redux/workoutSlice";
 import { RootState } from "../../../redux/store";
 import EditExercisePopup from './editExercisePopUp';
-
+import { useAddingExerciseToDayMutation } from '../../../redux/workoutApi';
 
 const ExpandedDayView = ({
     selectedDay,
@@ -32,6 +32,7 @@ const ExpandedDayView = ({
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const [showEditPopup, setShowEditPopup] = useState(false);
     
+    const [addingExerciseToDay] = useAddingExerciseToDayMutation();
     
 
     const handleBackDay = () => {
@@ -40,8 +41,14 @@ const ExpandedDayView = ({
 
 
      // Handle adding exercise to store
-     const handleAddExercise = () => {
-        
+     const handleAddExercise = async () => {
+        console.log("Current Plan:", currentPlan);
+        if (!currentPlan.id) {
+            console.error("Workout ID is missing!");
+            return;
+        }
+        const workoutId = currentPlan.id;
+
         const newExercise: Exercise = {
             name: exerciseName,
             muscleGroup,
@@ -49,19 +56,33 @@ const ExpandedDayView = ({
             repsInReserve,
         };
 
-        dispatch(
-            addExerciseToDay({
+        try {
+            const response = await addingExerciseToDay({
+                id: workoutId,
                 weekNumber,
                 day: selectedDay.day,
                 exercise: newExercise
-            })
-        );
+            }).unwrap();
+            console.log("exercise added successfully:", response);
 
-        // Reset the form fields
-        setExerciseName('');
-        setMuscleGroup('Chest');
-        setSets(0);
-        setRepsInReserve(0);
+            dispatch(
+                addExerciseToDay({
+                    weekNumber,
+                    day: selectedDay.day,
+                    exercise: newExercise
+                })
+            );
+             // Reset the form fields
+            setExerciseName('');
+            setMuscleGroup('Chest');
+            setSets(0);
+            setRepsInReserve(0);
+    
+        } catch (error) {
+            console.error("failed to add exercise:", error);
+        }
+      
+       
     };
 
      

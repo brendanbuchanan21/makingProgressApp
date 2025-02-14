@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPlan } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
-import SubmitWorkoutPg from './submitworkoutpg';
 import NavBar from '../../dashboard/navbar';
+import { usePostWorkoutPlanMutation } from '../../../redux/workoutApi';
 
 interface NewPlanPopupProps {
 
@@ -24,8 +24,9 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     const [workoutDays, setWorkoutDays] = useState<string[]>([]);
     const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
 
-    
-
+    //using the RTK mutation hook
+    const [postWorkoutPlan, { isLoading, error }] = usePostWorkoutPlanMutation();
+ 
     const handleDayClick = (day: string) => {
         
         const updatedDays = workoutDays.includes(day) ? workoutDays.filter((d) => d !== day) : [...workoutDays, day];
@@ -38,7 +39,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     
     }
     
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const numberOfWeeks = parseInt(programDuration.split(" ")[0]); // As
@@ -46,27 +47,31 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         const weeks = Array.from({ length: numberOfWeeks }, (_, i) => ({
             weekNumber: i + 1,
             days: workoutDays.map((day) => ({
-                day: day, // Copy the day from workoutDays array (e.g., 'Mon', 'Tue', etc.)
-                exercises: [] // Empty array to be populated later with exercises for each week
+                day: day, 
+                exercises: [] 
             })),
         }));
 
 
         // Create a new plan object (in case no plan exists yet)
         const newPlan = {
-            id: Date.now().toString(), // Unique ID
             name: 'New Plan',
             exercises: [], // Will add exercises later
             days: workoutDays,
             duration: programDuration,
             weeks,
         };
+        console.log("workout plan before sending to server:", newPlan);
 
-        // Dispatch the action to set the current plan in Redux
-        dispatch(setCurrentPlan(newPlan));
-
-        // Optionally navigate to another page after submitting
-        navigate('/submitworkoutpg');
+        try {
+            const returnedPlan = await postWorkoutPlan(newPlan).unwrap();
+            console.log("Workout plan received from backend:", returnedPlan); 
+            //update the state of the current plan 
+            dispatch(setCurrentPlan(returnedPlan));
+            navigate('/submitworkoutpg');
+        } catch (error) {
+            console.error('Error posting our workout:', error);
+        }
     };
 
     const handleClose = () => {
