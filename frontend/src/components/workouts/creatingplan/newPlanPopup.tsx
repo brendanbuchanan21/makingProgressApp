@@ -25,7 +25,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
 
     //using the RTK mutation hook
-    const [postWorkoutPlan, { isLoading, error }] = usePostWorkoutPlanMutation();
+    const [postWorkoutPlan] = usePostWorkoutPlanMutation();
  
     const handleDayClick = (day: string) => {
         

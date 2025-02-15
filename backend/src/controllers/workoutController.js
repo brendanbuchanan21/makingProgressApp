@@ -39,13 +39,13 @@ export const addExerciseToDay = async (req, res) => {
     const { name, muscleGroup, sets, repsInReserve } = req.body;
 
     try {
-        const newExercise = await workoutModel.findOneAndUpdate(
+        const updatedWorkout = await workoutModel.findOneAndUpdate(
             { 
                 _id: id,  // Find the workout by its unique ID
                 "weeks.weekNumber": parseInt(weekNumber), // Find the week inside `weeks` array
             },
             { 
-                $push: { "weeks.$.days.$[dayMatch].exercises": { name, muscleGroup, sets, repsInReserve } } 
+                $push: { "weeks.$.days.$[dayMatch].exercises": {  _id: new mongoose.Types.ObjectId(), name, muscleGroup, sets, repsInReserve } } 
             },
             { 
                 arrayFilters: [{ "dayMatch.day": day }], 
@@ -53,11 +53,17 @@ export const addExerciseToDay = async (req, res) => {
             }
 
         )
-        if (!newExercise) {
+        if (!updatedWorkout) {
             return res.status(404).json({ message: "Workout or day not found." });
         }
 
-            res.json(newExercise);
+          // Find the newly added exercise (last one in the array)
+          const week = updatedWorkout.weeks.find(w => w.weekNumber === parseInt(weekNumber));
+          const dayPlan = week?.days.find(d => d.day === day);
+          const addedExercise = dayPlan?.exercises[dayPlan.exercises.length - 1];
+  
+          res.json(addedExercise); 
+
     } catch (error) {
         console.error("Error adding exercise:", error);
         res.status(500).json({ message: "Internal server error" });
