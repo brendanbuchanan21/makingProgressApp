@@ -25,6 +25,7 @@ const EditExercisePopup: React.FC<EditExercisePopupProps> = ({ exercise, onSave,
     const [sets, setSets] = useState(exercise.sets);
     const [repsInReserve, setRepsInReserve] = useState(exercise.repsInReserve);
 
+    
 
     const handleSave = () => {
         const updatedExercise = {
@@ -33,6 +34,9 @@ const EditExercisePopup: React.FC<EditExercisePopupProps> = ({ exercise, onSave,
             sets,
             repsInReserve,
         };
+
+
+
         onSave(updatedExercise);
     }
 

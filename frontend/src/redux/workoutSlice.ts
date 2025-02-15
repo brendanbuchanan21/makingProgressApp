@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 export interface Exercise {
+  id?: string;
   name: string;
   muscleGroup: string;
   sets: number;
@@ -113,20 +114,26 @@ const workoutSlice = createSlice({
     deleteExercise(state, action: PayloadAction<{
       weekNumber: number;
       day: string;
-      exerciseIndex: number;
+      exerciseId: string;
     }>) {
-      const { weekNumber, day, exerciseIndex } = action.payload;
+      const { weekNumber, day, exerciseId } = action.payload;
 
       const week = state.currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
-      if(week) {
-        const dayPlan = week.days.find(d => d.day === day);
-
-        if(dayPlan && dayPlan.exercises[exerciseIndex]) {
-          // update the specific exercise
-          dayPlan.exercises.splice(exerciseIndex, 1);
-        }
+      if(!week) {
+        return;
       }
+      const dayPlan = week.days.find((d) => d.day === day) 
+
+      if (!dayPlan) return;
+
+      // Ensure exercises is always an array before filtering
+      if (!dayPlan.exercises) {
+          dayPlan.exercises = []; // Initialize as an empty array if it's undefined
+      }
+  
+      dayPlan.exercises = dayPlan.exercises.filter((exercise) => exercise.id !== exerciseId);
+    
     }
 
 
