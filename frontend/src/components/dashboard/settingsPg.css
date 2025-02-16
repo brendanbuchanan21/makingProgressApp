@@ -1,0 +1,44 @@
+.settings-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.settings-main-container {
+    margin-top: 10%;
+    border: 2px solid black;
+    width: 40vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+.settings-page-header-div {
+    display: flex;
+    border-bottom: 1px solid var(--grey);
+    width: 100%;
+    justify-content: center;
+}
+.settings-page-container-body-div {
+    margin: 1rem;
+    height: 80%;
+}
+.settings-description-container {
+    height: 10%;
+    border-bottom: 2px solid blue;
+    margin-top: 1rem;
+}
+.sign-out-div {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sign-out-div button {
+    font-size: 1.2rem;
+}
+
+.sign-out-div button:hover {
+    color: var(--blue);
+    cursor: pointer;
+}

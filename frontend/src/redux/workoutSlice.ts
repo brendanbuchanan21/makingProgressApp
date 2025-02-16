@@ -94,20 +94,26 @@ const workoutSlice = createSlice({
     editExercise(state, action: PayloadAction<{
       weekNumber: number;
       day: string;
-      exerciseIndex: number;
+      exerciseId: string
       updatedExercise: Exercise
     }>) {
-      const { weekNumber, day, exerciseIndex, updatedExercise } = action.payload;
+      const { weekNumber, day, exerciseId, updatedExercise } = action.payload;
 
+      console.log('hmmm very curious trying to figure out:', exerciseId);
       const week = state.currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
       if(week) {
         const dayPlan = week.days.find(d => d.day === day);
 
-        if(dayPlan && dayPlan.exercises[exerciseIndex]) {
-          // update the specific exercise
-          dayPlan.exercises[exerciseIndex] = updatedExercise;
+        if(dayPlan) {
+         const exerciseIndex = dayPlan.exercises.findIndex((exercise) => exercise.id === exerciseId)
+
+         if(exerciseIndex !== -1) {
+          dayPlan.exercises[exerciseIndex] = {...dayPlan.exercises[exerciseIndex], ...updatedExercise}
+         }
         }
+
+      
       }
     },
 

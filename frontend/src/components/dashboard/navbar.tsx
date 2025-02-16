@@ -18,7 +18,9 @@ const NavBar = () => {
             <p>Workouts</p>
             </Link>
             <p>BioMetrics</p>
+            <Link to="/settingsPg">
             <img src={settingsIcon} id='db-settings-svg' />
+            </Link>
         </div>
         </nav>
         </>

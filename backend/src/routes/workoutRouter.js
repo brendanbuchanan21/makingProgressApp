@@ -21,7 +21,7 @@ workoutRouter.delete('/:id/weeks/:weekNumber/days/:day/:exerciseId', deleteAnExe
 workoutRouter.post('/:id/weeks/:weekNumber/days/:day', addExerciseToDay)
 //delete a workout
 
-workoutRouter.patch('/:id/weeks/:weekNumber/days/:day/:exerciseId', editExercise)
+workoutRouter.patch('/:workoutId/weeks/:weekNumber/days/:day/:exerciseId', editExercise)
 
 
 workoutRouter.delete('/:id', deleteEntireProgram);
