@@ -2,6 +2,8 @@ import './dashboard.css'
 import graphPreview from '../../images/graphPreview.jpeg';
 import workoutimg from '../../images/workoutimg.png';
 import dumbbell from '../../images/dumbbell-svgrepo-com.svg'
+import dumbbellFull from '../../images/dbpicture.jpg'
+
 import React from 'react';
 import { Link } from 'react-router-dom'
 
@@ -22,7 +24,7 @@ const PreviewSection: React.FC = () => {
             </div>
             <div className="preview-card">
                 <p className='preview-card-title'>Workouts</p>
-                <img src={workoutimg} alt="workout img" className='preview-card-img' />
+                <img src={dumbbellFull} alt="workout img" className='preview-card-img' />
                 <Link to="/workouts" className="dashboard-preview-card-btn">
         Take me here
     </Link>

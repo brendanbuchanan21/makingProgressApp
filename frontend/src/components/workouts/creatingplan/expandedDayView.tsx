@@ -22,6 +22,7 @@ const ExpandedDayView = ({
       // Find the week that matches the weekNumber
   const week = currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
+  console.log(currentPlan);
   // If the week is found, find the day and extract exercises
     const exercisesForDay = week?.days.find((day) => day.day === selectedDay.day)?.exercises || [];
     const [exerciseName, setExerciseName] = useState('');
@@ -31,7 +32,6 @@ const ExpandedDayView = ({
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const workoutId = currentPlan?.id ?? "";
-    
     // api functions
     const [addingExerciseToDay] = useAddingExerciseToDayMutation();
     const [deleteExerciseApi] = useDeleteExerciseApiMutation();
@@ -94,22 +94,31 @@ const ExpandedDayView = ({
     const handleSaveExercise = async (updatedExercise: Exercise) => {
         // Dispatch an action to save the updated exercise
 
+        if(!selectedExercise?.id) {
+            console.error("Exercise Id is missing");
+            return;
+        }
+
+        const exerciseId = selectedExercise.id;
+
+        
 
         try {
             const response = await editExerciseApi({
-                workoutId: workoutId,
-                exerciseId,
+                workoutId,
                 weekNumber,
-                day: selectedDay.day
+                day: selectedDay.day,
+                exerciseId,
+                updatedExercise
             }).unwrap()
 
-
+            console.log('exercise submitted to backend:', response);
 
             dispatch(
                 editExercise({
                   weekNumber,
                   day: selectedDay.day,
-                  exerciseIndex: exercisesForDay.findIndex((exercise) => exercise.name === selectedExercise?.name),
+                  exerciseId,
                   updatedExercise,
                 })
               );

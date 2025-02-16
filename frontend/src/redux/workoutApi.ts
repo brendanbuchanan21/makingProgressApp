@@ -14,7 +14,8 @@ interface editExerciseRequest {
     workoutId: string, 
     exerciseId: string, 
     weekNumber: number | string,
-    day: string | number
+    day: string | number,
+    updatedExercise: Exercise
 }
 
 export const newWorkoutProgramApi = createApi({
@@ -55,9 +56,10 @@ export const newWorkoutProgramApi = createApi({
             })
         }),
         editExerciseApi: builder.mutation<void, editExerciseRequest>({
-            query: ({ workoutId, exerciseId, weekNumber, day }) => ({
+            query: ({ workoutId, weekNumber, day, exerciseId, updatedExercise }) => ({
                 url: `/${workoutId}/weeks/${weekNumber}/days/${day}/${exerciseId}`,
-                method: "PATCH"
+                method: "PATCH",
+                body: updatedExercise
             })
         })
     }),

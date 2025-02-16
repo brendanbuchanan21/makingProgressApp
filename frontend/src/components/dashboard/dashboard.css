@@ -40,8 +40,9 @@
     color: white;
 }
 #db-settings-svg {
-    width: 5%;
+    width: 100%;
     height: 50%;
+    cursor: pointer;
 }
 
 .dashboard-preview-section {
@@ -72,7 +73,7 @@
     justify-content: center;
     flex-direction: row;
     gap: 3%;
-    border: 2px solid var(--blue);
+    
     border-radius: 5px;
     
 }
@@ -84,17 +85,20 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
+    border-radius: 2px
 }
 .preview-card-title {
-    margin-bottom: 3%;
+    margin-bottom: 2%;
 }
 .preview-card-img {
     width: 100%;
-    height: 80%;
+    min-height: 80%;
+    object-fit: cover;
+
 }
 
 .dashboard-preview-card-btn {
-    margin-top: 10%;
+    margin-top: 5%;
     height: 15%;
     width: 35%;
     border-radius: 12px;

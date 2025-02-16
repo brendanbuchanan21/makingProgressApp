@@ -1,9 +1,9 @@
 import './workouts.css'
 import '../../dashboard/dashboard.css'
 import NavBar from '../../dashboard/navbar';
-import calendarImg from '../../../images/calendarImg.jpg';
-import NewPlanPopup from './newPlanPopup';
-import React, { useState } from 'react';
+import todayImg from '../../../images/todayImg.jpg'
+import planningImg from '../../../images/planningImg.jpg'
+import currentPlanImg from '../../../images/currentPlanImg.jpeg'
 import { Link } from 'react-router-dom';
  
 
@@ -19,7 +19,7 @@ return (
         <div className='WP-cards-container'>
             <div className='WP-card'>
                 <p className='WP-card-text'>New Plan</p>
-                <img src={calendarImg} className='WP-card-img'/>
+                <img src={planningImg} className='WP-card-img'/>
                 <Link to='/newPlanPopup' className='WP-card-btn'>
                 <p>let's go</p>
                 </Link>
@@ -27,13 +27,13 @@ return (
 
             <div className='WP-card'>
                 <p className='WP-card-text'>Today's workout</p>
-                <img src={calendarImg} className='WP-card-img'/>
+                <img src={todayImg} className='WP-card-img'/>
                 <p className='WP-card-btn'>let's go</p>
             </div>
 
             <div className='WP-card'>
                 <p className='WP-card-text'>Current Plan</p>
-                <img src={calendarImg} className='WP-card-img'/>
+                <img src={currentPlanImg} className='WP-card-img' />
                 <Link to='/currentPlanPage' className='WP-card-btn'>
                 <p>let's go</p>
                 </Link>

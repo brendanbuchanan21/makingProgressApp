@@ -103,20 +103,26 @@ export const addExerciseToDay = async (req, res) => {
     }
 
     export const editExercise = async (req, res) => {
-        const { id, weekNumber, day, exerciseId } = req.params;
+        const { workoutId, weekNumber, day, exerciseId } = req.params;
         const { name, muscleGroup, sets, repsInReserve } = req.body;
 
+        console.log("Received edit request:");
+    console.log("Workout ID:", workoutId);
+    console.log("Exercise ID:", exerciseId);
+    console.log("Week Number:", weekNumber);
+    console.log("Day:", day);
+    console.log("Update Data:", req.body);
         const updatedFields = {};
 
         if(name) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].name"] = name;
         if(muscleGroup) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].muscleGroup"] = muscleGroup;
-        if (sets) updateFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].sets"] = sets;
-        if(repsInReserve) updateFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].repsInReserve"] = repsInReserve;
+        if (sets) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].sets"] = sets;
+        if(repsInReserve) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].repsInReserve"] = repsInReserve;
 
         try {
             const editedExercise = await workoutModel.findOneAndUpdate(
                 {
-                    _id: id,
+                    _id: workoutId,
                     "weeks.weekNumber": weekNumber,
                 },
                 {
@@ -133,7 +139,7 @@ export const addExerciseToDay = async (req, res) => {
                 return res.status(404).json({message: "Exercise not found"});
             }
 
-            res.status(200).json(editExercise);
+            res.status(200).json(editedExercise);
         } catch (error) {
             console.error(error);
             res.status(500).json({message: "could not locate exercise"});
