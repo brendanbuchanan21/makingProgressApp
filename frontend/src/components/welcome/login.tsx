@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link, Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import visibilityOn from '../../images/visibilityOnEye.svg';
+import visibilityOff from '../../images/visibilityOffEye.svg'
 import '../../styles/login.css';;
 
 const Login = () => {
@@ -9,6 +11,13 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+
+
+    const togglePasswordVisbility = () => {
+        setShowPassword(!showPassword)
+    }
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,6 +43,7 @@ const Login = () => {
             <p className='form-login-text'>Login</p>
             <form onSubmit={handleLogin}>
                 <div className='shaded-login-area'>
+                    <div className='input-div'>
                     <input 
                         type="email"
                         id="email"
@@ -42,14 +52,21 @@ const Login = () => {
                         required
                         placeholder='email address'
                         />
+                        </div>
+
+                        <div className='input-div'>
                     <input 
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         placeholder='password'
                         />
+                <img src={showPassword ? visibilityOn : visibilityOff}
+                    className='password-toggle-icon' onClick={togglePasswordVisbility} />
+                        </div>
+
                         <button type="submit" id="login-btn">Login</button>
                 </div>
 

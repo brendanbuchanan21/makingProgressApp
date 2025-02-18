@@ -2,11 +2,16 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
-
+.settings-main-section-wrapper {
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .settings-main-container {
-    margin-top: 10%;
     border: 2px solid black;
     width: 40vw;
     height: 60vh;

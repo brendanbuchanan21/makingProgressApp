@@ -1,5 +1,5 @@
 import './dashboard.css'
-import settingsIcon from '../../images/settingsIcon.png'
+import settingsIcon2 from '../../images/settingsIcon.svg'
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -17,9 +17,11 @@ const NavBar = () => {
             <Link to="/workouts">
             <p>Workouts</p>
             </Link>
+            <Link to="/biometricsHome">
             <p>BioMetrics</p>
+            </Link>
             <Link to="/settingsPg">
-            <img src={settingsIcon} id='db-settings-svg' />
+            <img src={settingsIcon2} id='db-settings-svg' />
             </Link>
         </div>
         </nav>
