@@ -32,7 +32,7 @@ const PreviewSection: React.FC = () => {
             <div className="preview-card">
                 <p className='preview-card-title'>BioMetrics</p>
                 <img src={graphPreview} className='preview-card-img' />
-                <Link to="/practice" className='dashboard-preview-card-btn'>Take me here</Link>
+                <Link to="/biometricsHome" className='dashboard-preview-card-btn'>Take me here</Link>
             </div>
             </div>
         </section>

@@ -1,15 +1,11 @@
 import express from 'express';
 import path from 'path'
 import { fileURLToPath } from 'url';
-import authorRouter from './routes/authorRouter.js';
-import bookRouter from './routes/bookRouter.js';
-import { handleAuthorRequest } from './controllers/authorController.js';
-import practiceRouter from './routes/practiceRouter.js';
-import exp from 'constants';
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 import workoutRouter from './routes/workoutRouter.js';
 import cors from 'cors'
+import biometricRouter from './routes/biometricRouter.js';
 
 const port = 8000;
 const app = express();
@@ -38,16 +34,11 @@ mongoose.connect(process.env.MONG_URI)
 
 
 
-app.use("/authors", authorRouter);
-app.use("/books", bookRouter);
-app.use("/practice", practiceRouter);
+
+
 app.use(express.json());
 app.use("/api/workouts", workoutRouter);
+app.use("/api/biometrics", biometricRouter);
 
-
-
-app.get('/', (req, res) => {
-    res.send("Hello Brendan ;)");
-});
 
 

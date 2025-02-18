@@ -2,6 +2,7 @@ import './settingsPg.css'
 import { signOut } from 'firebase/auth'
 import { auth } from '../welcome/firebase'
 import { useNavigate } from 'react-router-dom'
+import NavBar from './navbar'
 
 const SettingsPg = () => {
 
@@ -36,9 +37,10 @@ const SettingsPg = () => {
 
         <>
         <div className="settings-page">
+        <NavBar />
 
+        <div className='settings-main-section-wrapper'>
          <div className='settings-main-container'>
-
             <div className="settings-page-header-div">
             <h1>Settings</h1>  
             </div>
@@ -59,6 +61,7 @@ const SettingsPg = () => {
             </div>
             <div className='sign-out-div'>
             <button onClick={logout}>Sign Out</button>
+         </div>
          </div>
          </div>
 

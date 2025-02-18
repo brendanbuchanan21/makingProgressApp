@@ -33,7 +33,7 @@
 
 .login-container {
     height: 50vh;
-    width: 25vw;
+    width: 30vw;
     border: 2px solid lightblue;
     box-shadow: 0px 4px 8px rgba(173, 216, 230, 0.5);
     display: flex;
@@ -49,40 +49,35 @@
 
 .shaded-login-area {
     height: 35vh;
-    width: 20vw;
+    width: 25vw;
     display: flex;
     flex-direction: column;
    
 }
-#email {
-    height: 15%;
-    border: 2px solid hsl(0, 0, 90%);
-    margin-top: 10%;
-    margin-bottom: 5%;
-    border-radius: 12px;
-    border: none; /* Remove the default border */
-    
-    outline: none; /* Remove the focus outline */
-    background-color: #f9f9f9da; /* Light background for contrast */
-    font-size: 16px;
-    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    padding: 10px;
+.input-div {
+    width: 25vw;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
-
-#password {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    height: 15%;
-    border: 2px solid hsl(0, 0, 90%);
-    border-radius: 12px;
-    border: none; /* Remove the default border */
-    outline: none; /* Remove the focus outline */
+#email, #password {
+    height: 5vh;
+    width: 15vw;
+    border: none; /* Remove default border */
+    outline: none;
     background-color: #f9f9f9da; /* Light background for contrast */
     font-size: 16px;
-    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
+    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle shadow */
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
     padding: 10px;
+    border-radius: 12px;
+    margin: 0; /* Ensure both inputs have no extra margin */
+}
+.password-toggle-icon {
+    position: absolute;
+    right: 10%;
 }
 #login-btn {
     margin: 0 auto;
