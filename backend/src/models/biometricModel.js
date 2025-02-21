@@ -10,7 +10,9 @@ const biometricSchema = new Schema({
     activityLevel: String,
     goal: String,
     bmi: Number,
-    reccomendedCalories: Number
+    reccomendedCalories: Number,
+    bodyFatPercentage: Number,
+    leanBodyMass: Number,
 });
 
 const biometricModel = mongoose.model('BioMetric', biometricSchema);

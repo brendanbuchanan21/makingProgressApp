@@ -3,19 +3,23 @@ import { workoutReducer } from "./workoutSlice";
 import { newWorkoutProgramApi } from "./workoutApi";
 import storage  from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { newBioMetricApi } from "./biometricApi";
+import { biometricReducer } from "./biometricSlice";
 
 
 // Configuration for Redux Persist
 const persistConfig = {
   key: "root",
-  storage, // ✅ Corrected from Storage to storage
-  whitelist: ["workout"], // ✅ Persist only the workout slice
+  storage, 
+  whitelist: ["workout"], 
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
   workout: workoutReducer, // Persisted state
-  [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, // RTK Query API state (not persisted)
+  biometric: biometricReducer,
+  [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
+  [newBioMetricApi.reducerPath]: newBioMetricApi.reducer// RTK Query API state (not persisted)
 });
 
 // Create a persisted reducer
@@ -26,8 +30,8 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // ✅ Required for Redux Persist to avoid errors
-    }).concat(newWorkoutProgramApi.middleware),
+      serializableCheck: false, 
+    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

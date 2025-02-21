@@ -1,4 +1,8 @@
-import { act, useState } from "react";
+import { useState, useEffect } from "react";
+import { usePostBioMetricsMutation } from "../../redux/biometricApi";
+import { setBiometricData } from "../../redux/biometricSlice";
+import { useDispatch } from "react-redux";
+import BodyFatPopup from "./bodyFatPopup";
 
 interface GettingBioMetricsFormProps {
     onClose: () => void;
@@ -6,6 +10,8 @@ interface GettingBioMetricsFormProps {
 
 const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }) => {
 
+
+    const dispatch = useDispatch();
 
     //setting ranges for different metrics 
     const feetOptions = [4,5,6,7];
@@ -23,25 +29,57 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
     const [activityLevel, setActivityLevel] = useState("");
     const [goal, setGoal] = useState("");
 
+    const [showBodyFatPopup, setShowBodyFatPopup] = useState(false);
+    const [selectedBodyFat, setSelectedBodyFat] = useState(0);
+
+
+    //make api call to post data to backend 
+    const [postBioMetrics] = usePostBioMetricsMutation();
 
     // handle submitting the form to the backend 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleFinalSubmit = async () => {
 
+        const bioMetricData = {
+            height: `${feet}'${inches}`,
+            weight: Number(weight),
+            age: Number(age),
+            gender, 
+            activityLevel,
+            goal, 
+            bodyFatPercentage: selectedBodyFat
+        };
+
+        console.log("Submitting Biometric Data:", bioMetricData); 
+        try {
+            const response = await postBioMetrics(bioMetricData).unwrap();
+            console.log('succesful postage of metrics. here is the return:', response)
+            dispatch(setBiometricData({
+                ...bioMetricData, 
+                bmi: response.bmi,
+                recommendedCalories: response.recommendedCalories,
+                id: response.id,
+                leanBodyMass: response.leanBodyMass
+            }))
+        } catch (error) {
+            console.log('something went wrong:', error)
+        }
+    }
+
+    useEffect(() => {
+        if (selectedBodyFat !== 0) {
+          handleFinalSubmit();  // Call handleFinalSubmit when body fat is updated
+        }
+      }, [selectedBodyFat]);  // Dependency on selectedBodyFat
+    
+
+
+    const handleNextBtn = (e: React.FormEvent) => {
+        e.preventDefault();
         if(!feet || !inches || !weight || !age || !gender || !activityLevel || !goal) {
             alert('please fill out all fields');
             return;
         }
-
-        const bioMetricData = {
-            height: `${feet}'${inches}`,
-            weight,
-            age,
-            gender, 
-            activityLevel,
-            goal
-        };
-        console.log('sending the data to the backend', bioMetricData);
+        setShowBodyFatPopup(true);
     }
 
 
@@ -49,7 +87,8 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
         <>
         <div className="modal-overlay">
         <div className="modal-content">
-        <form onSubmit={handleSubmit}>
+            {!showBodyFatPopup ? (
+        <form onSubmit={handleNextBtn}>
             <div className="biometric-form-header-div">
             <h2>Tell us about yourself</h2>
             </div>
@@ -118,10 +157,17 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
                     <option value="gain-weight">Gain Weight</option>
                 </select>
             </div>
-            <button onClick={onClose}>Go back</button>
-            <button>Submit Form</button>
+            <button onClick={onClose} className="first-biometric-pop-up-btn">Go back</button>
+            <button className="first-biometric-pop-up-btn" >Next</button>
            
         </form>
+            ) : (
+               <BodyFatPopup onSubmit={(bodyFat) => {
+                setSelectedBodyFat(bodyFat);
+              }} onBack={() => setShowBodyFatPopup(false)}/> 
+            
+                   
+                )}
         </div>
         </div>
         </>

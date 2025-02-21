@@ -1,10 +1,11 @@
-import biometricModel from "../models/biometricModel";
+import biometricModel from "../models/biometricModel.js";
 
 
 export const submitBiometrics = async (req, res) => {
 
     try {
-        const { height, weight, age, gender, activityLevel, goal } = req.body;
+        console.log('request body:', req.body);
+        const { height, weight, age, gender, activityLevel, goal, bodyFatPercentage } = req.body;
         if(!height || !weight || !age || !gender || !activityLevel || !goal) {
           return res.status(400).json({message: "one of these inputs from the form is empty"});
         }
@@ -43,6 +44,13 @@ export const submitBiometrics = async (req, res) => {
          if (goal === "lose-weight") recommendedCalories -= 500;
          if (goal === "gain-weight") recommendedCalories += 500;
          
+
+         let leanBodyMass = null;
+         if (bodyFatPercentage) {
+            leanBodyMass = weight * (1 - bodyFatPercentage / 100);
+         }
+
+
          const newBioMetric = new biometricModel({
             height, 
             weight,
@@ -51,15 +59,33 @@ export const submitBiometrics = async (req, res) => {
             activityLevel,
             goal, 
             bmi,
-            recommendedCalories
+            recommendedCalories,
+            bodyFatPercentage,
+            leanBodyMass,
 
          });
 
          await newBioMetric.save();
-         res.status(201).json({ message: "Biometric data saved!", bmi, recommendedCalories });
+         res.status(201).json({ message: "Biometric data saved!", bmi, recommendedCalories, id: newBioMetric._id, leanBodyMass });
 
 
     } catch(error) {
         res.status(500).json({ message: "Server error", error: error.message });
+    }
+}
+
+
+export const deleteBioMetrics = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        const bioMetricsData = await biometricModel.findByIdAndDelete(id);
+        if(!bioMetricsData) {
+            res.status(405).json({message: 'could not find data via id'})
+        }
+        res.status(200).json({message: 'succesfully find program and deleted'});
+    } catch (error) {
+        console.error('error retrieving the data id:', error);
     }
 }
