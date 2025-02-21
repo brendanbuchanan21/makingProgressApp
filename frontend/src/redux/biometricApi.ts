@@ -15,6 +15,9 @@ interface bioMetricResponse {
     message: string;
     id: string
     leanBodyMass: number;
+    protein: number,
+    fats: number,
+    carbs: number
 
 }
 

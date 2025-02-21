@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface biometricState {
     height: string | null;
-    weight: number | null;
+    initialWeight: number | null;
     age: number | null;
     gender: string | null;
     activityLevel: string | null;
@@ -12,11 +12,14 @@ interface biometricState {
     id?: string | null;
     leanBodyMass: number | null;
     bodyFatPercentage: number | null;
+    protein: number | null;
+    fats: number | null;
+    carbs: number | null;
 }
 
 const initialState: biometricState = {
     height: null,
-    weight: null,
+    initialWeight: null,
     age: null,
     gender: null,
     activityLevel: null,
@@ -26,6 +29,9 @@ const initialState: biometricState = {
     id: null,
     leanBodyMass: null,
     bodyFatPercentage: null,
+    protein: null,
+    fats: null,
+    carbs: null
 }
 
 const biometricSlice = createSlice({
