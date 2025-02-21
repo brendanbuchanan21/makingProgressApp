@@ -41,7 +41,7 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
 
         const bioMetricData = {
             height: `${feet}'${inches}`,
-            weight: Number(weight),
+            initialWeight: Number(weight),
             age: Number(age),
             gender, 
             activityLevel,
@@ -58,7 +58,11 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
                 bmi: response.bmi,
                 recommendedCalories: response.recommendedCalories,
                 id: response.id,
-                leanBodyMass: response.leanBodyMass
+                leanBodyMass: response.leanBodyMass,
+                protein: response.protein,
+                fats: response.fats,
+                carbs: response.carbs
+
             }))
         } catch (error) {
             console.log('something went wrong:', error)

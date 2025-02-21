@@ -5,8 +5,8 @@ export const submitBiometrics = async (req, res) => {
 
     try {
         console.log('request body:', req.body);
-        const { height, weight, age, gender, activityLevel, goal, bodyFatPercentage } = req.body;
-        if(!height || !weight || !age || !gender || !activityLevel || !goal) {
+        const { height, initialWeight, age, gender, activityLevel, goal, bodyFatPercentage } = req.body;
+        if(!height || !initialWeight || !age || !gender || !activityLevel || !goal) {
           return res.status(400).json({message: "one of these inputs from the form is empty"});
         }
 
@@ -17,11 +17,11 @@ export const submitBiometrics = async (req, res) => {
 
 
         //calculate BMI 
-        const bmi = (weight / (heightInInches * heightInInches)) * 703;
+        const bmi = (initialWeight / (heightInInches * heightInInches)) * 703;
 
 
         // Convert lbs to kg
-        const weightInKg = weight / 2.2046;
+        const weightInKg = initialWeight / 2.2046;
 
          // Calculate Basal Metabolic Rate (BMR)
          let bmr = 10 * weightInKg + 6.25 * heightInInches * 2.54 - 5 * age;
@@ -41,19 +41,33 @@ export const submitBiometrics = async (req, res) => {
 
          // Adjust calories based on goal
          let recommendedCalories = tdee;
-         if (goal === "lose-weight") recommendedCalories -= 500;
-         if (goal === "gain-weight") recommendedCalories += 500;
+         if (goal === "lose-weight") recommendedCalories -= 250;
+         if (goal === "gain-weight") recommendedCalories += 250;
          
 
          let leanBodyMass = null;
+         let proteinGrams = null;
+         let fatGrams = null;
+         let carbGrams = null;
+
+
          if (bodyFatPercentage) {
-            leanBodyMass = weight * (1 - bodyFatPercentage / 100);
-         }
+            leanBodyMass = initialWeight * (1 - bodyFatPercentage / 100);
+            proteinGrams = leanBodyMass; // 1 gram per pound of LBM
+
+            fatGrams = initialWeight * 0.5; // 0.3 grams per pound of total weight
+            const fatCalories = fatGrams * 9;
+        
+            const remainingCalories = recommendedCalories - (proteinGrams * 4) - fatCalories;
+            carbGrams = remainingCalories / 4;
+        } else {
+            console.log("Body fat percentage not provided. Macronutrients not calculated.");
+        }
 
 
          const newBioMetric = new biometricModel({
             height, 
-            weight,
+            initialWeight,
             age,
             gender,
             activityLevel,
@@ -62,11 +76,16 @@ export const submitBiometrics = async (req, res) => {
             recommendedCalories,
             bodyFatPercentage,
             leanBodyMass,
+            protein: proteinGrams,
+            fats: fatGrams,
+            carbs: carbGrams
 
          });
 
          await newBioMetric.save();
-         res.status(201).json({ message: "Biometric data saved!", bmi, recommendedCalories, id: newBioMetric._id, leanBodyMass });
+         res.status(201).json({ message: "Biometric data saved!", bmi, recommendedCalories, id: newBioMetric._id, leanBodyMass, protein: proteinGrams,
+            fats: fatGrams, carbs: carbGrams
+          });
 
 
     } catch(error) {
