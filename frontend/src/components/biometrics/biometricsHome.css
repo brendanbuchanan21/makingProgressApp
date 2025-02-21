@@ -53,7 +53,8 @@
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    width: 30vw; /* Adjust width as needed */
+    width: 70vw; /* Adjust width as needed */
+    height: 80vh;
     text-align: center;
 }
 
@@ -67,7 +68,7 @@
 }
 
 /* Buttons */
-.modal-content button {
+.first-biometric-pop-up-btn {
     margin-top: 15px;
     padding: 10px 15px;
     border: none;
@@ -100,4 +101,40 @@
     justify-content: start;
     align-items: center;
     margin-bottom: 1rem;
+}
+
+
+/* this is the body fat percentage pop up form */
+.body-fat-image-section {
+
+}
+
+
+.body-fat-image-section h1 {
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+.body-images {
+  width: 50vw;
+  height: 60vh;
+}
+
+.input-div-body-fat {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+
+.second-biometric-pop-up-btn {
+
+padding: 10px 15px;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+font-size: 16px;
 }

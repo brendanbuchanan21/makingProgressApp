@@ -2,11 +2,16 @@ import './biometricsHome.css'
 import NavBar from '../dashboard/navbar';
 import { useState } from 'react';
 import GettingBioMetricsForm from './gettingTheBiometrics';
+import { useSelector, UseSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import BiometricDashboard from './biometricsDashboard';
 
 
 const BiometricsHome = () => {
 
     const [showInputForm, setShowInputForm] = useState(false);
+
+    const biometricId = useSelector((state: RootState) => state.biometric.id);
 
     const handleGetStarted = () => {
         setShowInputForm(true);
@@ -20,6 +25,9 @@ const BiometricsHome = () => {
         <>
         <div className="biometrics-home-page">
             <NavBar />
+            {biometricId ? (
+                <BiometricDashboard />
+            ) : ( 
         <section className="biometrics-intro">
         <div className="biometrics-intro-container">
             <h1>Track your transformation</h1>
@@ -29,8 +37,9 @@ const BiometricsHome = () => {
             </p>
             <button className="get-started-btn" onClick={handleGetStarted}>Get Started</button>
         </div>
-        {showInputForm && <GettingBioMetricsForm />}
+        {showInputForm && <GettingBioMetricsForm onClose={handleCloseForm} />}
         </section>
+            )}
         </div>
         </>
     )

@@ -32,10 +32,6 @@ mongoose.connect(process.env.MONG_URI)
         console.log(error);
     })
 
-
-
-
-
 app.use(express.json());
 app.use("/api/workouts", workoutRouter);
 app.use("/api/biometrics", biometricRouter);
