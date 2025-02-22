@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 interface bioMetricRequest {
     height: string;
-    weight: number;
+    initialWeight: number;
     age: number;
     gender: any;
     activityLevel: any;

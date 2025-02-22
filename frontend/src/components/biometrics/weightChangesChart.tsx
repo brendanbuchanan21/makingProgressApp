@@ -7,7 +7,7 @@ import { RootState } from '../../redux/store';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const WeightProgressChart = () => {
-    const initialWeight = useSelector((state: RootState) => state.biometric.initialWeight);
+    const initialWeight = useSelector((state: RootState) => state.bodyWeight.initialWeight) ?? 0;
 
     // Placeholder data for weeks (X-axis)
     const weeks = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];

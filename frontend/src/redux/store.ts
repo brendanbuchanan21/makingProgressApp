@@ -5,6 +5,7 @@ import storage  from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { newBioMetricApi } from "./biometricApi";
 import { biometricReducer } from "./biometricSlice";
+import { bodyWeightReducer } from "./bodyWeightSlice";
 
 
 // Configuration for Redux Persist
@@ -18,6 +19,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   workout: workoutReducer, // Persisted state
   biometric: biometricReducer,
+  bodyWeight: bodyWeightReducer,
   [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
   [newBioMetricApi.reducerPath]: newBioMetricApi.reducer// RTK Query API state (not persisted)
 });
