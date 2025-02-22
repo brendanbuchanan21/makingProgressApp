@@ -19,7 +19,7 @@
     gap: 3rem; padding-top: 3rem;
 }
 .biometric-card-wrapper {
-    width: 25%;
+    width: 25vw;
     height: 90%;
     display: flex;
     flex-direction: column;
@@ -32,6 +32,87 @@
 .biometric-card-div {
     border: 2px solid var(--grey);
     width: 100%;
-    height: 80%;
+    height: 100%;
+}
+.biometric-card-div p {
+    margin-bottom: .4rem;
+}
+.month-div {
+    text-align: center;
+}
+.body-weight-card-toggle-div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .2rem;
 }
 
+
+.body-weight-card-toggle-div select {
+    border: none;
+}
+.body-weight-card-today-input-div {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: .5rem;
+    align-items: center;
+    gap: .5rem;
+}
+
+.weight-calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.calendar-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Highlight logged weight days */
+.weight-logged {
+    background-color: #36A2EB;
+    color: white;
+}
+
+/* Hover effect */
+.calendar-cell:hover {
+    background-color: #add8e6;
+    cursor: pointer;
+}
+
+/* Styling for the input field */
+.body-weight-card-today-input-div input {
+    width: 30%;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+.body-weight-card-today-input-div button {
+    border: 1px solid var(--blue);
+    background: none;
+    width: 2.5rem;
+    height: 1.5rem;
+    border-radius: .5rem;
+    color: var(--blue);
+}

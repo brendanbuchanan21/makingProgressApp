@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { usePostBioMetricsMutation } from "../../redux/biometricApi";
 import { setBiometricData } from "../../redux/biometricSlice";
+import { addInitialWeight } from "../../redux/bodyWeightSlice";
 import { useDispatch } from "react-redux";
 import BodyFatPopup from "./bodyFatPopup";
 
@@ -64,6 +65,10 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
                 carbs: response.carbs
 
             }))
+            dispatch(addInitialWeight({ 
+                weight: Number(weight), 
+                date: new Date().toISOString().split("T")[0] // Gets today's date in YYYY-MM-DD format
+            }));
         } catch (error) {
             console.log('something went wrong:', error)
         }
@@ -168,7 +173,7 @@ const GettingBioMetricsForm: React.FC<GettingBioMetricsFormProps> = ({ onClose }
             ) : (
                <BodyFatPopup onSubmit={(bodyFat) => {
                 setSelectedBodyFat(bodyFat);
-              }} onBack={() => setShowBodyFatPopup(false)}/> 
+              }} onBack={() => setShowBodyFatPopup(false)} gender={gender}/> 
             
                    
                 )}
