@@ -1,0 +1,26 @@
+.current-workout-page {
+    height: 100vh;
+    width: 100vw;
+    padding: 2rem;
+}
+.current-workout-page-header-div {
+    display: flex;
+    justify-content: center;
+    
+}
+.current-workout-page-main-content-div {
+    border: 3px solid purple;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+}
+.workout-card {
+    border: 2px solid orange;
+    height: 100%;
+    width: 50%;
+}
+.workout-card-day-name-div {
+    border: 2px solid pink;
+    margin-top: 2rem;
+    text-align: center;
+}
