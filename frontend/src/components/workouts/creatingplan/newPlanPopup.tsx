@@ -23,6 +23,8 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     
     const [workoutDays, setWorkoutDays] = useState<string[]>([]);
     const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
+    const [planName, setPlanName] = useState<string>("");
+    const [startDate, setStartDate] = useState<string>("");
 
     //using the RTK mutation hook
     const [postWorkoutPlan] = usePostWorkoutPlanMutation();
@@ -38,12 +40,18 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         setProgramDuration(updatedDuration);
     
     }
+
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const numberOfWeeks = parseInt(programDuration.split(" ")[0]); // As
-
+        if (!startDate || workoutDays.length === 0 || !programDuration) {
+            console.error("Missing required fields.");
+            return;
+        }
+    
+        const numberOfWeeks = parseInt(programDuration.split(" ")[0]); 
+    
         const weeks = Array.from({ length: numberOfWeeks }, (_, i) => ({
             weekNumber: i + 1,
             days: workoutDays.map((day) => ({
@@ -52,13 +60,13 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
             })),
         }));
 
-
         // Create a new plan object (in case no plan exists yet)
         const newPlan = {
-            name: 'New Plan',
+            name: planName,
             exercises: [], // Will add exercises later
             days: workoutDays,
             duration: programDuration,
+            startDate: startDate,
             weeks,
         };
         console.log("workout plan before sending to server:", newPlan);
@@ -86,7 +94,7 @@ return (
     <section className='NewPlan-popup-section'>
 
     <div className='NewPlan-popup-back-btn-div'>
-        <button className='NewPlan-popup-back-btn' onClick={handleClose} >&#x25c0; Back</button>
+
     </div>
     <div className='NewPlan-popup-container'>
         <div className='NewPlan-popup-content'>
@@ -94,11 +102,21 @@ return (
                 <button className='NewPlan-popup-close-btn' onClick={handleClose}>&times;</button>
             </div>
             <div className='NewPlan-popup-info-div'>
-                <h2>Create your plan</h2>
-
                 <form onSubmit={handleSubmit}>
+                    <div className='program-title-name-div'>
+                    <input type="text" placeholder='Name Your Plan' className='program-name-input' onChange={(e) => setPlanName(e.target.value)}/>
+                    </div>
+                    
+                    <div className='program-start-date-div'>
+                        <label htmlFor="start-date" className='start-date-label'>Start Date:</label>
+                        <input type="date" id='start-date' name='start-date' onChange={(e) => setStartDate(e.target.value)} />
+                    </div>
+
+
                     <div className='NewPlan-which-days-container'>
+                        <div className='which-days-p-tag-div'>
                         <p>Which days will you workout?</p>
+                        </div>
                         <div className='day-of-week-btn-container'>
                         {['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'].map((day) => (
                             <button
@@ -113,7 +131,10 @@ return (
                     </div>
 
                     <div className='NewPlan-program-duration-div'>
+                        <div className='program-duration-text-p-div'>
                             <p>How long will this program be?</p>
+                        </div>
+                            <div className='program-duration-select-div'>
                             <select
                                 value={programDuration}
                                 onChange={handleDurationChange}
@@ -130,7 +151,8 @@ return (
                                     )
                                 )}
                             </select>
-                        </div>
+                            </div>
+                    </div>
                         <div className='NewPlan-submit-btn-div'>
                         <button type="submit" className="NewPlan-submit-btn" disabled={workoutDays.length === 0 || !programDuration }>Next</button>
                     </div>

@@ -6,10 +6,10 @@ import mongoose, { mongo } from "mongoose";
 // we are going to create a post workout plan 
 
 export const newWorkoutPlan = async (req, res) => {
-     const { name, exercises, days, duration, weeks } = req.body;
+     const { name, exercises, days, duration, startDate, weeks } = req.body;
      
      try {
-     const newPlan = await workoutModel.create({ name, exercises, days, duration, weeks })
+     const newPlan = await workoutModel.create({ name, exercises, days, duration, startDate, weeks })
         res.status(200).json(newPlan)
      } catch (error) {
         res.status(400).json({error: error.message})

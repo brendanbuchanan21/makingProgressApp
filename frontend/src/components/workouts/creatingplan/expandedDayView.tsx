@@ -69,7 +69,6 @@ const ExpandedDayView = ({
             const exerciseWithId: Exercise = { ...newExercise, id: response._id };
 
           
-            console.log("what the fuck!", exerciseWithId);
             dispatch(
                 addExerciseToDay({
                     weekNumber,

@@ -18,23 +18,25 @@ return (
 
         <div className='WP-cards-container'>
             <div className='WP-card'>
-                <p className='WP-card-text'>New Plan</p>
-                <img src={planningImg} className='WP-card-img'/>
-                <Link to='/newPlanPopup' className='WP-card-btn'>
+            <p className='WP-card-text'>Current Plan</p>
+                <img src={currentPlanImg} className='WP-card-img' />
+                <Link to='/currentPlanPage' className='WP-card-btn'>
                 <p>let's go</p>
                 </Link>
             </div>
 
             <div className='WP-card'>
-                <p className='WP-card-text'>Today's workout</p>
+                <p className='WP-card-text'>Start Workout</p>
                 <img src={todayImg} className='WP-card-img'/>
-                <p className='WP-card-btn'>let's go</p>
+                <Link to='/todaysWorkoutPage' className='WP-card-btn'>
+                <p>let's go</p>
+                </Link>
             </div>
 
             <div className='WP-card'>
-                <p className='WP-card-text'>Current Plan</p>
-                <img src={currentPlanImg} className='WP-card-img' />
-                <Link to='/currentPlanPage' className='WP-card-btn'>
+                <p className='WP-card-text'>New Plan</p>
+                <img src={planningImg} className='WP-card-img'/>
+                <Link to='/newPlanPopup' className='WP-card-btn'>
                 <p>let's go</p>
                 </Link>
             </div>

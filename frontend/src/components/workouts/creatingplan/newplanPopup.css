@@ -56,13 +56,53 @@
     width: 20%;
     height: 50%;
 }
+
+.program-title-name-div {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.program-name-input {
+    width: 80%;
+    height: 2.2rem;
+    border-radius: .5rem;
+    border: 1px solid var(--grey);
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.program-start-date-div {
+    margin: 0 auto;
+    width: 90%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    border-bottom: 1px solid #0a0a0a;
+    
+}
+.start-date-label {
+    margin-right: 10px;
+}
+input[type="date"] {
+    border: 1px solid var(--grey);
+    border-radius: .2rem;
+}
+
 .NewPlan-which-days-container {
     border-bottom: 1px solid #0a0a0a;
+    padding-top: 1rem;
     margin: 0 auto;
     width: 90%;
 }
-.NewPlan-which-days-container p {
+.which-days-p-tag-div {
     margin-bottom: 1rem;
+    color: hsl(0, 0%, 25%);
+    display: flex;
+}
+
+.which-days-p-tag-div p {
     font-size: clamp(1rem, 1.2rem, 1.3rem);
     color: hsl(0, 0%, 25%);
 }
@@ -83,7 +123,7 @@
     border-radius: 5%;
     cursor: pointer;
     background-color: white;
-    color: var(--blue)
+    color: black;
 }
 .Newplan-day-of-week-btn:hover {
     cursor: pointer;
@@ -94,36 +134,56 @@
  background-color: var(--hover-blue);
  color: white;
 }
+
+.NewPlan-program-duration-div {
+    display: flex;
+    flex-direction: column;
+}
+.program-duration-text-p-div {
+    margin: 0 auto;
+    color: hsl(0, 0%, 25%);
+    display: flex;
+    width: 90%;
+}
+
 .NewPlan-program-duration-div p {
-    margin-top: 2%;
+    margin-top: 3%;
     margin-bottom: 3%;
     font-size: clamp(1rem, 1.2rem, 1.3rem);
     color: hsl(0, 0%, 25%);
 }
-.program-duration-select {
+.program-duration-select-div {
+    display: flex;
     width: 90%;
+    margin: 0 auto;
+}
+.program-duration-select {
+    width: 60%;
     padding: .5rem;
+    padding-left: 1rem;
     color: black;
     font-size: clamp(.6rem, .9rem, 1.2rem);
     border-radius: .5rem;
+    margin-top: 1%;
     margin-bottom: 5%;
-    border: 1px solid black;
+    border: 1px solid var(--grey);
 }
 .program-duration-select option {
     color: var(--blue);
 }
-
 .NewPlan-submit-btn-div {
-    
-    width: 90%;
+    width: 100%;
     height: 5vh;
-    margin: 0 auto;
+    display: flex;
+    justify-content: end;
+    padding-right: 1rem;
+    
 }
 .NewPlan-submit-btn {
-    width: 100%;
+    width: 20%;
     height: 100%;
     border-radius: .5rem;
-    border: 1px solid black;
+    border: 1px solid var(--grey);
     background-color: white;
 }
 
@@ -131,18 +191,4 @@
     width: 100vw;
     height: 10vh;
     margin-top: 5%;
-}
-.NewPlan-popup-back-btn {
-    margin-left: 35%;
-    height: 50%;
-    width: 5%;
-    border: 1px solid var(--blue);
-    background-color: white;
-    color: var(--blue);
-    cursor: pointer;
-    border-radius: .5rem;
-}
-.NewPlan-popup-back-btn:hover {
-    background-color: hsl(204, 82%, 65%);
-    color: white;
 }

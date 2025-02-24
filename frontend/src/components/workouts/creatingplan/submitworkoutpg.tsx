@@ -55,11 +55,6 @@ const SubmitWorkoutPg = () => {
 
             
             }
-            // have logic once function is triggered, prompt
-            // an alert, are you sure you want to leave this plan? 
-            // once pressed ok, then we want to 
-            // create new workout api function for deleting the program from DB
-
            
         }
 

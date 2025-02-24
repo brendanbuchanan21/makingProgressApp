@@ -1,11 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
+export interface Set {
+  setNumber: number;
+  reps: number;
+  weight: number;
+  rir: number
+}
+
 export interface Exercise {
   id?: string;
   name: string;
   muscleGroup: string;
-  sets: number;
+  sets: Set[];
   repsInReserve: number;
 }
 
@@ -24,6 +31,7 @@ export interface WorkoutPlan {
   id?: string;
   weeks: WeekPlan[];
   duration: string;
+  startDate: string;
 }
 
 interface WorkoutSliceState {
@@ -35,7 +43,7 @@ const initialState: WorkoutSliceState = {
       id: '',
       weeks: [],
       duration: '',
-      // so i store the plansId here???
+      startDate: ''
     },
 };
 
@@ -76,7 +84,6 @@ const workoutSlice = createSlice({
           const dayPlan = week.days[dayIndex];
     
           
-      // Ensure exercises array exists
         if (!dayPlan.exercises) {
            dayPlan.exercises = []; // Initialize exercises array if undefined
       }

@@ -47,6 +47,10 @@ const workoutSchema = new Schema({
     duration: {
         type: String,
         required: true
+    },
+    startDate: {
+        type: String,
+        required: true
     }
 }, { timestamps: true});
 

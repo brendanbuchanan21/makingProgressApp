@@ -10,6 +10,7 @@ import CurrentPlanPage from './components/workouts/currentPlan/currentPlanPage';
 import BiometricsHome from './components/biometrics/biometricsHome';
 import SettingsPg from './components/dashboard/settingsPg';
 import HistoryHome from './components/history/historyHome';
+import TodaysWorkoutPage from './components/workouts/currentPlan/todaysWorkoutPage';
 
 import './App.css'
 
@@ -27,6 +28,7 @@ function App() {
        <Route path='/dashboard' element={<DashBoard />} />
        <Route path='/settingsPg' element={<SettingsPg />} />
        <Route path='/workouts' element={<WorkoutSection />} />
+       <Route path='/todaysWorkoutPage' element={<TodaysWorkoutPage />} />
        <Route path='/history' element={<HistoryHome />} />
        <Route path='/newPlanPopup' element={<NewPlanPopup onClose={() => { console.log('Popup closed'); }} />} />
        <Route path='/submitworkoutpg' element={<SubmitWorkoutPg />} />
