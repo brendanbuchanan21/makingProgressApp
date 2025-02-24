@@ -13,7 +13,9 @@ const NavBar = () => {
         </div>
 
         <div className="dashboard-navbar-directory-div">
-            <p>Logs</p>
+            <Link to='/history'>
+            <p>History</p>
+            </Link>
             <Link to="/workouts">
             <p>Workouts</p>
             </Link>

@@ -34,9 +34,30 @@
     width: 100%;
     height: 100%;
 }
+
 .biometric-card-div p {
     margin-bottom: .4rem;
 }
+.biometric-weight-graph-toggle-div {
+    display: flex;
+    margin-top: 1rem;
+    padding-left: 2.5rem;
+}
+.view-option {
+    cursor: pointer;
+    padding: .5rem;
+}
+.view-option:hover {
+    color: var(--hover-blue);
+}
+
+.view-option.active {
+    color: var(--blue); /* Active color */
+    font-weight: bold;
+  }
+
+
+
 .month-div {
     text-align: center;
 }
@@ -90,7 +111,7 @@
 
 /* Highlight logged weight days */
 .weight-logged {
-    background-color: #36A2EB;
+    background-color: blue;
     color: white;
 }
 
@@ -116,3 +137,17 @@
     border-radius: .5rem;
     color: var(--blue);
 }
+.weight-calendar-container {
+    margin-top: 1rem;
+}
+
+.calendar-month-selector {
+    border: 1px solid var(--grey);
+}
+.initial-weight {
+    background-color: #02f88c;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
