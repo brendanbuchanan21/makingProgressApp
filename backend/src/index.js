@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import workoutRouter from './routes/workoutRouter.js';
 import cors from 'cors'
 import biometricRouter from './routes/biometricRouter.js';
+import bodyWeightRouter from './routes/bodyWeightRouter.js';
 
 const port = 8000;
 const app = express();
@@ -35,6 +36,7 @@ mongoose.connect(process.env.MONG_URI)
 app.use(express.json());
 app.use("/api/workouts", workoutRouter);
 app.use("/api/biometrics", biometricRouter);
+app.use("/api/bodyWeight", bodyWeightRouter);
 
 
 

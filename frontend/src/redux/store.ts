@@ -6,6 +6,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { newBioMetricApi } from "./biometricApi";
 import { biometricReducer } from "./biometricSlice";
 import { bodyWeightReducer } from "./bodyWeightSlice";
+import { newBodyWeightApi } from "./bodyWeightApi";
 
 
 // Configuration for Redux Persist
@@ -17,11 +18,12 @@ const persistConfig = {
 
 // Combine reducers
 const rootReducer = combineReducers({
-  workout: workoutReducer, // Persisted state
+  workout: workoutReducer, 
   biometric: biometricReducer,
   bodyWeight: bodyWeightReducer,
   [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
-  [newBioMetricApi.reducerPath]: newBioMetricApi.reducer// RTK Query API state (not persisted)
+  [newBioMetricApi.reducerPath]: newBioMetricApi.reducer,
+  [newBodyWeightApi.reducerPath]: newBodyWeightApi.reducer,
 });
 
 // Create a persisted reducer
@@ -33,7 +35,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, 
-    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware),
+    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

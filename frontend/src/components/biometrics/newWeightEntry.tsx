@@ -26,7 +26,6 @@ const WeightCalendar: React.FC<WeightCalendarProps> = ({ weightData }) => {
   // Handle month/year change
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const [year, month] = event.target.value.split('-').map(Number);
-    console.log(`Selected: Year ${year}, Month ${month}`); // ✅ Debugging
     setSelectedYear(year);
     setSelectedMonth(month);
   };
@@ -46,14 +45,11 @@ const WeightCalendar: React.FC<WeightCalendarProps> = ({ weightData }) => {
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   const dates = Array.from({ length: daysInMonth }, (_, i) => new Date(selectedYear, selectedMonth, i + 1));
 
-  console.log("Months Options Length:", monthsOptions.length);
-console.log("Months Options:", monthsOptions);
-console.log("Redux initialWeightDate:", initialWeightDate);
 
   return (
     <div className="weight-calendar-container">
       {/* Month Selector */}
-      <select onChange={handleMonthChange} value={`${selectedYear}-${selectedMonth}`}>
+      <select onChange={handleMonthChange} value={`${selectedYear}-${selectedMonth}`} className='calendar-month-selector'>
         {monthsOptions.map(({ year, month }) => (
           <option key={`${year}-${month}`} value={`${year}-${month}`}>
             {new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}
@@ -66,9 +62,10 @@ console.log("Redux initialWeightDate:", initialWeightDate);
         {dates.map((date) => {
           const formattedDate = date.toISOString().split('T')[0];
           const hasEntry = weightData.some(entry => entry.date === formattedDate);
+          const isInitialWeightDate = initialWeightDate === formattedDate;
 
           return (
-            <div key={formattedDate} className={`calendar-cell ${hasEntry ? 'weight-logged' : ''}`}>
+            <div key={formattedDate} className={`calendar-cell ${hasEntry ? 'weight-logged' : ''} ${isInitialWeightDate ? 'initial-weight' : ''}`}>
               {date.getDate()}
             </div>
           );
@@ -82,73 +79,3 @@ export default WeightCalendar;
 
 
 
-
-/*
-
-const WeightCalendar: React.FC<WeightCalendarProps> = ({ weightData }) => {
-    const svgRef = useRef<SVGSVGElement | null>(null);
-  
-    useEffect(() => {
-      // Get the current month and year
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth(); // 0-indexed
-  
-      // Get number of days in the current month
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
-      // Create an array of Date objects for each day of the month
-      const dates = d3.range(1, daysInMonth + 1).map(day => new Date(year, month, day));
-  
-      // Dimensions and layout
-      const cellSize = 30;
-      const numCols = 7; // days of the week
-      const numRows = Math.ceil(dates.length / numCols);
-      const width = numCols * cellSize + 40;
-      const height = numRows * cellSize + 40;
-  
-      // Select the SVG element and set dimensions
-      const svg = d3.select(svgRef.current)
-                    .attr('width', width)
-                    .attr('height', height);
-  
-      // Clear any previous content
-      svg.selectAll('*').remove();
-  
-      // Create a group for the calendar
-      const calendarGroup = svg.append('g').attr('transform', 'translate(20,20)');
-  
-      // Create a rectangle for each date
-      calendarGroup.selectAll('rect')
-        .data(dates)
-        .enter()
-        .append('rect')
-        .attr('width', cellSize)
-        .attr('height', cellSize)
-        .attr('x', (d, i) => (i % numCols) * cellSize)
-        .attr('y', (d, i) => Math.floor(i / numCols) * cellSize)
-        .attr('fill', (d) => {
-          // Check if there's an entry for this date in weightData
-          const entry = weightData.find(e => new Date(e.date).toDateString() === d.toDateString());
-          return entry ? '#36A2EB' : '#fff'; // Blue if logged, light gray if not
-        })
-        .attr('stroke', '#ccc');
-  
-      // Add the date text in the middle of each cell
-      calendarGroup.selectAll('text')
-        .data(dates)
-        .enter()
-        .append('text')
-        .attr('x', (d, i) => (i % numCols) * cellSize + cellSize / 2)
-        .attr('y', (d, i) => Math.floor(i / numCols) * cellSize + cellSize / 2)
-        .attr('dy', '.35em')
-        .attr('text-anchor', 'middle')
-        .text(d => d.getDate());
-    }, [weightData]);
-  
-    return <svg ref={svgRef}></svg>;
-  };
-  
-  export default WeightCalendar;
-
-  */

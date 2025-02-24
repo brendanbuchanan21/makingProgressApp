@@ -1,6 +1,5 @@
 import workoutModel from "../models/workoutModel.js";
 import mongoose, { mongo } from "mongoose";
-import workoutRouter from "../routes/workoutRouter.js";
 
 
 

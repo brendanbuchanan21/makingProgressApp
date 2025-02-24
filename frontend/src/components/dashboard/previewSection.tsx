@@ -1,6 +1,6 @@
 import './dashboard.css'
 import graphPreview from '../../images/graphPreview.jpeg';
-import workoutimg from '../../images/workoutimg.png';
+import biometricsImg from '../../images/biometricsImage.jpg'
 import dumbbell from '../../images/dumbbell-svgrepo-com.svg'
 import dumbbellFull from '../../images/dbpicture.jpg'
 
@@ -31,7 +31,7 @@ const PreviewSection: React.FC = () => {
             </div>
             <div className="preview-card">
                 <p className='preview-card-title'>BioMetrics</p>
-                <img src={graphPreview} className='preview-card-img' />
+                <img src={biometricsImg} className='preview-card-img' />
                 <Link to="/biometricsHome" className='dashboard-preview-card-btn'>Take me here</Link>
             </div>
             </div>
