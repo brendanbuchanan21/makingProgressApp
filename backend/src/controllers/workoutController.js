@@ -35,7 +35,7 @@ export const getWorkoutPlan = async (req, res) => {
 
 export const addExerciseToDay = async (req, res) => {
     const { id, weekNumber, day } = req.params;
-    const { name, muscleGroup, sets, repsInReserve } = req.body;
+    const { name, muscleGroup, sets } = req.body;
 
     try {
         const updatedWorkout = await workoutModel.findOneAndUpdate(
@@ -44,7 +44,7 @@ export const addExerciseToDay = async (req, res) => {
                 "weeks.weekNumber": parseInt(weekNumber), // Find the week inside `weeks` array
             },
             { 
-                $push: { "weeks.$.days.$[dayMatch].exercises": {  _id: new mongoose.Types.ObjectId(), name, muscleGroup, sets, repsInReserve } } 
+                $push: { "weeks.$.days.$[dayMatch].exercises": {  _id: new mongoose.Types.ObjectId(), name, muscleGroup, sets } } 
             },
             { 
                 arrayFilters: [{ "dayMatch.day": day }], 
@@ -103,20 +103,13 @@ export const addExerciseToDay = async (req, res) => {
 
     export const editExercise = async (req, res) => {
         const { workoutId, weekNumber, day, exerciseId } = req.params;
-        const { name, muscleGroup, sets, repsInReserve } = req.body;
+        const { name, muscleGroup, sets} = req.body;
 
-        console.log("Received edit request:");
-    console.log("Workout ID:", workoutId);
-    console.log("Exercise ID:", exerciseId);
-    console.log("Week Number:", weekNumber);
-    console.log("Day:", day);
-    console.log("Update Data:", req.body);
         const updatedFields = {};
 
         if(name) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].name"] = name;
         if(muscleGroup) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].muscleGroup"] = muscleGroup;
         if (sets) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].sets"] = sets;
-        if(repsInReserve) updatedFields["weeks.$.days.$[dayMatch].exercises.$[exerciseMatch].repsInReserve"] = repsInReserve;
 
         try {
             const editedExercise = await workoutModel.findOneAndUpdate(
@@ -196,5 +189,94 @@ export const addExerciseToDay = async (req, res) => {
         }
     }
 
+    export const addSetToExercise = async (req, res) => {
+
+        try {
+
+        const { workoutId, weekNumber, day, exerciseId } = req.params;
+        const { newSet } = req.body;
+
+        const workoutPlan = await workoutModel.findById(workoutId);
+        console.log('Workout Plan:', workoutPlan);
+        if(!workoutPlan) {
+            return res.status(404).json({message: 'problem retrieving the workoutPlan'});
+        }
+
+        //finding the week 
+        const week = workoutPlan.weeks.find((w) => w.weekNumber === parseInt(weekNumber));
+
+        if(!week) {
+            return res.status(401).json({message: 'found workout plan but could not locate week'});
+        }
+
+        const dayObject = week.days.find((d) => d.day === day);
+
+        if(!dayObject) {
+            return res.status(409).json({message: 'found week but not day object'});
+        }
+
+        const exercise = dayObject.exercises.find((e) => e._id.toString() === exerciseId);
+
+        if(!exercise) {
+            return res.status(411).json({message: 'located everything but the correct exercise'});
+        }
+
+        console.log("New Set to be pushed:", newSet);
+        exercise.sets.push(newSet);
+
+        await workoutPlan.save();
+       res.status(201).json({ newSet: {...newSet, id: exercise.sets[exercise.sets.length - 1]._id}});
+
+
+        } catch (error) {
+            console.error('there was an error caught:', error);
+            res.status(500).json({message: 'internal servor error'});
+        }
+    }
+
+
+    export const deleteSet = async (req, res) => {
+
+        try{
+
+            const { workoutId, weekNumber, day, exerciseId, setId } = req.params;
+
+            const workoutPlan = await workoutModel.findById(workoutId);
+            if (!workoutPlan) {
+              return res.status(404).json({ message: 'Workout plan not found' });
+            }
+        
+            const week = workoutPlan.weeks.find(
+              (w) => w.weekNumber === parseInt(weekNumber)
+            );
+            if (!week) {
+              return res.status(404).json({ message: 'Week not found' });
+            }
+        
+            const dayObject = week.days.find((d) => d.day === day);
+            if (!dayObject) {
+              return res.status(404).json({ message: 'Day not found' });
+            }
+        
+            const exercise = dayObject.exercises.find(
+              (e) => e._id.toString() === exerciseId
+            );
+            if (!exercise) {
+              return res.status(404).json({ message: 'Exercise not found' });
+            }
+        
+            // Find and remove the set
+            exercise.sets = exercise.sets.filter((set) => set._id.toString() !== setId);
+        
+            await workoutPlan.save();
+        
+          return res.status(200).json({message: 'set deleted successfully'})
+
+
+        } catch(error) {
+            console.error('could not delete the exercise:', error)
+            res.status(500).json({message: 'uhh ohhh, internal servor error!'});
+        }
+    }
 
 

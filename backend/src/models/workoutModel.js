@@ -2,6 +2,26 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const SetDetails = new Schema({
+    setNumber: {
+        type: Number,
+        required: false
+    },
+    reps: {
+        type: Number,
+        required: false
+    },
+    weight: {
+        type: Number,
+        required: false
+    },
+    rir: {
+        type: Number,
+        required: false
+    }
+});
+
+
 const exerciseSchema = new Schema({
     name: {
         type: String,
@@ -11,14 +31,7 @@ const exerciseSchema = new Schema({
         type: String,
         required: true
     },
-    sets: {
-        type: Number,
-        required: true
-    }, 
-    repsInReserve: {
-        type: Number,
-        required: true
-    },
+    sets: [SetDetails],
 });
 
 const dayPlanSchema = new Schema({

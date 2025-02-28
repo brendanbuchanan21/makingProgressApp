@@ -1,8 +1,8 @@
 import './submitworkoutpg.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from "react";
-import { addWeek, addExerciseToDay, editExercise, deleteExercise, Exercise } from "../../../redux/workoutSlice";
-import { DayPlan, WeekPlan } from "../../../redux/workoutSlice";
+import { addExerciseToDay, editExercise, deleteExercise, Exercise, SetDetails } from "../../../redux/workoutSlice";
+import { DayPlan } from "../../../redux/workoutSlice";
 import { RootState } from "../../../redux/store";
 import EditExercisePopup from './editExercisePopUp';
 import { useAddingExerciseToDayMutation, useDeleteExerciseApiMutation, useEditExerciseApiMutation } from '../../../redux/workoutApi';
@@ -22,13 +22,12 @@ const ExpandedDayView = ({
       // Find the week that matches the weekNumber
   const week = currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
-  console.log(currentPlan);
+
   // If the week is found, find the day and extract exercises
     const exercisesForDay = week?.days.find((day) => day.day === selectedDay.day)?.exercises || [];
     const [exerciseName, setExerciseName] = useState('');
     const [muscleGroup, setMuscleGroup] = useState('Chest');
-    const [sets, setSets] = useState(0);
-    const [repsInReserve, setRepsInReserve] = useState(0);
+    const [sets, setSets] = useState<SetDetails[]>([]);
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const workoutId = currentPlan?.id ?? "";
@@ -53,8 +52,7 @@ const ExpandedDayView = ({
         const newExercise: Exercise = {
             name: exerciseName,
             muscleGroup,
-            sets,
-            repsInReserve,
+            sets: sets,
         };
 
         try {
@@ -79,8 +77,7 @@ const ExpandedDayView = ({
              // Reset the form fields
             setExerciseName('');
             setMuscleGroup('Chest');
-            setSets(0);
-            setRepsInReserve(0);
+            setSets([]);
     
         } catch (error) {
             console.error("failed to add exercise:", error);
@@ -154,14 +151,10 @@ const ExpandedDayView = ({
             } catch (error) {
                 console.error('failed to delete the exercise from db:', error);
             }
-
-           
       }
     }
 
-
       return (
-    
         <>
         {showEditPopup && selectedExercise ? (
             <EditExercisePopup
@@ -181,10 +174,7 @@ const ExpandedDayView = ({
                                     <p className="individual-exercise-name">{exercise.name}</p>
                                     <p className="individual-exercise-muscle-group">{exercise.muscleGroup}</p>
                                     <p className="individual-exercise-sets-and-rir">
-                                        Sets: {exercise.sets}
-                                    </p>
-                                    <p className="individual-exercise-sets-and-rir">
-                                        RIR: {exercise.repsInReserve}
+                                        Sets: {exercise.sets.length}
                                     </p>
                                 </div>
                                 <div className="individual-exercise-edit-btn-div">
@@ -227,11 +217,22 @@ const ExpandedDayView = ({
                             <option value="Back">Back</option>
                             <option value="Shoulders">Shoulders</option>
                             <option value="Legs">Legs</option>
+                            <option value="Abs">Abs</option>
+                            <option value="Calves">Calves</option>
                         </select>
                         <select
                             id="sets"
-                            value={sets || ''}
-                            onChange={(e) => setSets(Number(e.target.value))}
+                            value={sets.length}
+                            onChange={(e) => {
+                                const numSets = Number(e.target.value); // Convert to a number
+                                const newSets = Array.from({ length: numSets }, (_, index) => ({
+                                    setNumber: index + 1,
+                                    reps: null,  // Default reps
+                                    weight: null, // Default weight
+                                    rir: null     // Default RIR
+                                }));
+                                setSets(newSets); // Set the state to an array of set objects
+                            }}
                         >
                             <option value="">Select Sets</option>
                             {[1, 2, 3, 4, 5].map((setValue) => (
@@ -240,23 +241,11 @@ const ExpandedDayView = ({
                                 </option>
                             ))}
                         </select>
-                        <select
-                            id="reps-and-reserve"
-                            value={repsInReserve || ''}
-                            onChange={(e) => setRepsInReserve(Number(e.target.value))}
-                        >
-                            <option value="">Select Reps & Reserve</option>
-                            {[1, 2, 3, 4, 5].map((value) => (
-                                <option key={value} value={value}>
-                                    {value}
-                                </option>
-                            ))}
-                        </select>
                         <div className="AE-btns-div">
                             <button onClick={handleBackDay}>&#x25c0; Back</button>
                             <button
                                 onClick={handleAddExercise}
-                                disabled={sets === 0 || repsInReserve === 0 || !exerciseName.trim()}
+                                disabled={sets.length === 0 || !exerciseName.trim()}
                             >
                                 Add Exercise
                             </button>
