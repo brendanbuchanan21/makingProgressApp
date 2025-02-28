@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
-export interface Set {
+export interface SetDetails {
+  id?: string;
   setNumber: number;
-  reps: number;
-  weight: number;
-  rir: number
+  reps: number | null;
+  weight: number | null;
+  rir: number | null;
 }
 
 export interface Exercise {
   id?: string;
   name: string;
   muscleGroup: string;
-  sets: Set[];
-  repsInReserve: number;
+  sets: SetDetails[];
 }
 
 export interface DayPlan {
@@ -58,6 +58,7 @@ const workoutSlice = createSlice({
         id: action.payload._id, // Ensure `id` is always set from `_id`
       };
     },
+    resetWorkoutState: () => initialState,
   
     //action to set the plan duration
     setPlanDuration(state, action: PayloadAction<string>) {
@@ -147,20 +148,87 @@ const workoutSlice = createSlice({
   
       dayPlan.exercises = dayPlan.exercises.filter((exercise) => exercise.id !== exerciseId);
     
+    },
+
+    addSetToExercise(state, action: PayloadAction<{
+      weekNumber: number,
+      day: string,
+      exerciseId: string,
+      newSet: SetDetails
+    }>) {
+      const { weekNumber, day, exerciseId, newSet } = action.payload;
+
+      const week = state.currentPlan.weeks.find((w) => w.weekNumber === weekNumber);
+
+      if(!week) return;
+
+      const dayPlan = week.days.find((d) => d.day === day);
+      if(!dayPlan) return;
+
+      const exercise = dayPlan.exercises.find((e) => e.id === exerciseId);
+      if(!exercise) return;
+
+      exercise.sets.push(newSet);
+    },
+    removeSetFromExercise(state, action: PayloadAction<{
+      weekNumber: number,
+      day: string,
+      exerciseId: string,
+      setId: string
+    }>) {
+      const { weekNumber, day, exerciseId, setId } = action.payload;
+
+      const week = state.currentPlan.weeks.find((w) => w.weekNumber === weekNumber);
+
+      if(!week) return;
+
+      const dayPlan = week.days.find((d) => d.day === day);
+      if(!dayPlan) return;
+
+      const exercise = dayPlan.exercises.find((e) => e.id === exerciseId);
+      if(!exercise) return;
+
+      exercise.sets = exercise.sets.filter((set) => set.id !== setId)
+
+    },
+    updateSetDetails(state, action: PayloadAction<{
+      weekNumber: number | null,
+      day: string,
+      exerciseId: string | any,
+      setId?: string,
+      updatedSet: any
+    }>) {
+      const { weekNumber, day, exerciseId, setId, updatedSet } = action.payload;
+
+      const week = state.currentPlan?.weeks.find((w) => w.weekNumber === weekNumber);
+      const dayObj = week?.days.find((d) => d.day === day);
+      const exercise = dayObj?.exercises.find((e) => e.id === exerciseId);
+    
+      if (exercise) {
+        const setIndex = exercise.sets.findIndex((s) => s.id === setId);
+        if (setIndex !== -1) {
+          // Merge the existing set with the new values
+          exercise.sets[setIndex] = { 
+            ...exercise.sets[setIndex],  // Keep existing properties
+            ...updatedSet               // Apply updates (e.g., weight, reps, rir)
+          };
+        }
+      }
     }
-
-
-
   }
 })
 
 export const {
   setCurrentPlan,
+  resetWorkoutState,
   setPlanDuration,
   addWeek,
   addExerciseToDay,
   editExercise,
-  deleteExercise
+  deleteExercise,
+  addSetToExercise,
+  removeSetFromExercise,
+  updateSetDetails
 } = workoutSlice.actions;
 
 export const workoutReducer = workoutSlice.reducer;

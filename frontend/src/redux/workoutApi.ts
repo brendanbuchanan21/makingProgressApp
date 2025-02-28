@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { WorkoutPlan, Exercise, WeekPlan} from './workoutSlice';
+import { WorkoutPlan, Exercise, SetDetails} from './workoutSlice';
 
 
 interface DeleteExerciseRequest {
@@ -16,6 +16,32 @@ interface editExerciseRequest {
     weekNumber: number | string,
     day: string | number,
     updatedExercise: Exercise
+}
+
+interface addSetToExerciseRequest {
+    workoutId: string;
+    weekNumber: number;
+    day: string;
+    exerciseId: string;
+    newSet: SetDetails;
+}
+
+interface addSetResponse {
+    newSet: {
+        id: string; // Add the id property
+        setNumber: number;
+        reps: number | null;
+        weight: number | null;
+        rir: number | null;
+        }
+}
+
+interface deleteSetRequest {
+    workoutId: string,
+    exerciseId: string,
+    weekNumber: number | string,
+    day: string | number,
+    setId: string
 }
 
 export const newWorkoutProgramApi = createApi({
@@ -61,8 +87,21 @@ export const newWorkoutProgramApi = createApi({
                 method: "PATCH",
                 body: updatedExercise
             })
+        }),
+        addSetToExerciseApi: builder.mutation<addSetResponse, addSetToExerciseRequest>({
+            query: ({ workoutId, weekNumber, day, exerciseId, newSet }) => ({
+                url: `/${workoutId}/weeks/${weekNumber}/days/${day}/${exerciseId}/sets`,
+                method: "POST",
+                body: { newSet }
+            })
+        }),
+        deleteSetFromExerciseApi: builder.mutation<void, deleteSetRequest>({
+            query: ({workoutId, weekNumber, day, exerciseId, setId }) => ({
+                url: `/${workoutId}/weeks/${weekNumber}/days/${day}/${exerciseId}/sets/${setId}`,
+                method: "DELETE",
+            })
         })
     }),
 });
 
-export const { usePostWorkoutPlanMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation} = newWorkoutProgramApi;
+export const { usePostWorkoutPlanMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation} = newWorkoutProgramApi;

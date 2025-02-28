@@ -1,26 +1,134 @@
+
 .current-workout-page {
     height: 100vh;
     width: 100vw;
     padding: 2rem;
-}
-.current-workout-page-header-div {
+  }
+  
+  .current-workout-page-header-div {
     display: flex;
     justify-content: center;
-    
-}
-.current-workout-page-main-content-div {
-    border: 3px solid purple;
-    height: 70vh;
+  }
+  
+  .current-workout-page-main-content-div {
+    height: auto;
     display: flex;
     justify-content: center;
-}
-.workout-card {
-    border: 2px solid orange;
+  }
+  
+  .workout-card {
     height: 100%;
     width: 50%;
-}
-.workout-card-day-name-div {
-    border: 2px solid pink;
+  }
+  
+  .workout-card-day-name-div {
     margin-top: 2rem;
     text-align: center;
+    display: flex;
+  }
+  
+  .exercise-card {
+    border: 1px solid var(--grey);
+    margin-top: 1.3rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    /* Adjust height or min-height as needed */
+  }
+  .exercise-card-header-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+  }
+
+  .exercise-card h3 {
+    color: var(--blue);
+  }
+
+  .trash-img {
+    cursor: pointer;
+  }
+
+
+ .exercise-card-button-container {
+  display: flex;
+  justify-content: end;
+  gap: .2rem;
+ }
+ .exercise-card-button-container button {
+  border: 1px solid var(--grey);
+  background: none;
+  padding: .5rem;
+  border-radius: 4px;
+ }
+
+ .exercise-card-button-container button:hover {
+  border: 1px solid var(--hover-blue);
+  color: var(--hover-blue);
+  cursor: pointer;
+ }
+  /* Header row styling */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.8rem 0 0.5rem 0;
+    font-weight: bold;
+    border-bottom: 2px solid var(--grey);
+  }
+  
+  .column-header {
+    flex: 1;
+    text-align: center;
+  }
+  
+  /* Give the set number column a fixed width */
+  .set-number-header {
+    flex: 0 0 50px; /* Fixed width for the set number column */
+  }
+  
+  /* Container for all set rows */
+  .sets-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  /* Each set row styling */
+  .set-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Each cell in a row */
+  .set-cell {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .set-number-cell {
+    flex: 0 0 50px; /* Fixed width to match the header */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* New style for the delete marker image */
+.delete-marker {
+  width: 16px;  /* Adjust size as needed */
+  height: 16px;
+  margin-right: 4px;
+  cursor: pointer;
 }
+  
+  /* Optional: styling for input fields within set cells */
+  .set-cell input {
+    width: 40%;
+    margin: 0 auto;
+    display: block;
+    padding: 0.3rem;
+    box-sizing: border-box;
+  }
+  
+
+
