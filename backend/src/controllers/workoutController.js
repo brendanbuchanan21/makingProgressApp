@@ -59,9 +59,31 @@ export const addExerciseToDay = async (req, res) => {
           // Find the newly added exercise (last one in the array)
           const week = updatedWorkout.weeks.find(w => w.weekNumber === parseInt(weekNumber));
           const dayPlan = week?.days.find(d => d.day === day);
-          const addedExercise = dayPlan?.exercises[dayPlan.exercises.length - 1];
-  
-          res.json(addedExercise); 
+          // Replace this
+let addedExercise = dayPlan?.exercises[dayPlan.exercises.length - 1];
+
+if (addedExercise) {
+    // Convert Mongoose document to a plain JavaScript object
+    const plainExercise = addedExercise.toObject();
+
+    // Ensure `sets` exist before mapping
+    plainExercise.sets = plainExercise.sets?.map(set => ({
+        ...set, // Spread existing properties
+        id: set._id.toString(), // Convert `_id` to `id`
+    })) || []; // Default to an empty array if `sets` is undefined
+
+    // Remove `_id` from the exercise object
+    plainExercise.id = plainExercise._id.toString();
+    delete plainExercise._id;
+
+    // Remove `_id` from each set object
+    plainExercise.sets.forEach(set => delete set._id);
+
+    res.json(plainExercise);
+}
+
+
+        
 
     } catch (error) {
         console.error("Error adding exercise:", error);
@@ -222,10 +244,17 @@ export const addExerciseToDay = async (req, res) => {
         }
 
         console.log("New Set to be pushed:", newSet);
-        exercise.sets.push(newSet);
+        const setWithId = { ...newSet, _id: new mongoose.Types.ObjectId() };
+
+        exercise.sets.push(setWithId);
 
         await workoutPlan.save();
-       res.status(201).json({ newSet: {...newSet, id: exercise.sets[exercise.sets.length - 1]._id}});
+       res.status(201).json({ newSet:
+         {
+        ...setWithId, 
+        id: setWithId._id,  // Ensure `id` is explicitly assigned
+        _id: undefined 
+        }});
 
 
         } catch (error) {
@@ -280,3 +309,34 @@ export const addExerciseToDay = async (req, res) => {
     }
 
 
+export const updateWorkoutDay = async (req, res) => {
+    try {
+
+    const { workoutId, weekNumber, day } = req.params;
+    const { isCompleted } = req.body;
+
+    const workoutPlan = await workoutModel.findById(workoutId);
+        if(!workoutPlan) {
+            return res.status(400).json({message: 'could not locate workoutPlan' });
+        }
+        const week = workoutPlan.weeks.find((w) => w.weekNumber === parseInt(weekNumber));
+
+        if(!week) {
+            return res.status(400).json({message: 'could not locate the correct week in DB'});
+        }
+
+        const dayPlan = week.days.find((d) => d.day === day);
+        if(!dayPlan) {
+            return res.status(400).json({message: 'could not locate the correct day in DB'});
+        }
+        dayPlan.isCompleted = isCompleted;
+
+        await workoutPlan.save();
+
+        return res.status(200).json({message: 'wohoooo, we correctly updated completed'});
+
+    } catch (error) {
+        console.error('something was incorrect processing your query:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}

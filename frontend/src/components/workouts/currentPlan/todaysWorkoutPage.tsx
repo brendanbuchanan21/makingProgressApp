@@ -1,16 +1,16 @@
-import React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { RootState } from "../../../redux/store";
 import './todaysWorkoutPage.css'
 import NavBar from "../../dashboard/navbar";
-import { Exercise, resetWorkoutState, SetDetails, removeSetFromExercise, deleteExercise } from "../../../redux/workoutSlice";
+import { Exercise, resetWorkoutState, SetDetails, removeSetFromExercise, deleteExercise, updateDayCompletion } from "../../../redux/workoutSlice";
 import trashImg from '../../../images/deleteTrash.svg'
 import editMarker from '../../../images/editMarker.svg'
 import deleteMarker from '../../../images/deleteMarker.svg'
 import { addSetToExercise, updateSetDetails } from "../../../redux/workoutSlice";
-import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation } from "../../../redux/workoutApi";
-
+import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useUpdateWorkoutCompletionApiMutation } from "../../../redux/workoutApi";
+import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
 
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
@@ -23,20 +23,39 @@ const TodaysWorkoutPage = () => {
 
     const [editMode, setEditMode] = useState(false);
 
-  //first workout day
-  const firstWorkoutDay = currentPlan?.weeks[0]?.days[0];
-
   
+    const firstWorkoutDay = useSelector((state: RootState) =>
+      state.workout.currentPlan?.weeks[0]?.days[0]
+    );
 
-    const handleSetChange = (exerciseId: string | undefined, setId: string | undefined, field: keyof SetDetails, value: number) => {
+    const [completedExercises, setCompletedExercises] = useState<{ [key: string]: boolean }>({});
+    const [postCompletedExercise] = usePostCompletedExerciseMutation(); 
+    const [updateCompletedWorkout] = useUpdateWorkoutCompletionApiMutation();
+
+    const toggleExerciseCompletion = (exerciseId: string) => {
+      setCompletedExercises((prev) => ({
+        ...prev,
+        [exerciseId]: !prev[exerciseId], // Toggle completion state
+      }));
+    };
+
+ 
+
+    const handleSetChange = (exerciseId: string | any, setId: string | any, field: keyof SetDetails, value: string | number) => {
       
+      console.log("Updating Set:", exerciseId, setId, field, value);
+
+
+      
+      const parsedValue = value === "" ? null : Number(value);
+      console.log('handleSetChange:', exerciseId, setId, field, value); // Add logging
       dispatch(
         updateSetDetails({
           weekNumber,
           day: firstWorkoutDay.day,
           exerciseId,
           setId,
-          updatedSet: { [field]: value },
+          updatedSet: { [field]: parsedValue },
         })
       );
     };
@@ -68,14 +87,17 @@ const TodaysWorkoutPage = () => {
 
     const handleAddSet = async (exercise: Exercise) => {
 
+      const exerciseId = exercise.id;
       try {
+        console.log(exercise, 'yoo boi');
+        console.log(exerciseId);
         if (currentPlan && currentPlan.id && weekNumber !== null && firstWorkoutDay && exercise.id) {
           const newSetNumber = exercise.sets.length + 1;
           const newSet: SetDetails = {
             setNumber: newSetNumber,
-            reps: 0,
-            weight: 0,
-            rir: 0,
+            reps: null,
+            weight: null,
+            rir: null,
           };
     
           const result = await addingSetToExercise({
@@ -114,11 +136,6 @@ const TodaysWorkoutPage = () => {
 
 
   const deleteSet = async (set: SetDetails, exercise: Exercise) => {
-    console.log('is this thing working');
-    console.log(set.id);
-    console.log(weekNumber)
-    console.log(currentPlan)
-    console.log(currentPlan.id)
       try { 
         if (currentPlan && currentPlan.id && weekNumber !== null && firstWorkoutDay && exercise.id && set.id) {
           console.log("yeah boiii");
@@ -129,7 +146,6 @@ const TodaysWorkoutPage = () => {
               exerciseId: exercise.id,
               setId: set.id,
             });
-            console.log("hmm whats going on");
             dispatch(
               removeSetFromExercise({
                 weekNumber,
@@ -185,6 +201,65 @@ const TodaysWorkoutPage = () => {
   }
 
 
+  // handle submitting the workout 
+
+  const handleSubmitWorkout = async () => {
+
+    const allComplete = firstWorkoutDay.exercises.every((exercise) => {
+      return exercise.id ? completedExercises[exercise.id] : false;
+    });
+    if (!allComplete) {
+      alert("Please mark all exercises as complete before submitting the workout.");
+      return;
+    }
+    
+    //directly pull data from the currentplan to send to backend
+    if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
+
+      const completedWorkout = {
+        workoutPlanId: currentPlan.id,
+        weekNumber: currentPlan.weeks[0].weekNumber,
+        day: currentPlan.weeks[0].days[0].day,
+        exercises: currentPlan.weeks[0].days[0].exercises
+
+      }
+      sendCompletedExercise(completedWorkout);
+      completedWorkoutUpdate(completedWorkout)
+    } else {
+      console.error('workout plan data is missing');
+    }
+      
+  }
+
+  const sendCompletedExercise = async (completedWorkout: any) => {
+    try {
+      
+      console.log("📨 Sending workout data:", JSON.stringify(completedWorkout, null, 2));
+      const response = await postCompletedExercise(completedWorkout).unwrap();
+      console.log("Workout successfully logged:", response);
+    } catch (error) {
+      console.error("API request failed:", JSON.stringify(error, null, 2));
+    }
+  }
+
+  const completedWorkoutUpdate = async (completedWorkout: any) => {
+    try {
+      console.log(completedWorkout, 'yo why not?')
+      const response = await updateCompletedWorkout(completedWorkout).unwrap();
+      console.log('workout succesfully updated document as completed:', response);
+
+      dispatch(updateDayCompletion({
+        weekNumber: currentPlan.weeks[0].weekNumber,
+        day: currentPlan.weeks[0].days[0].day,
+        isCompleted: true
+      }))
+    } catch (error) {
+      console.error(error, 'we could not update the workout to complete');
+      return;
+    }
+  }
+
+
     return (
         <>
        <NavBar />
@@ -201,8 +276,8 @@ const TodaysWorkoutPage = () => {
         <ul>
         <ul>
   {firstWorkoutDay.exercises.length > 0 ? (
-    firstWorkoutDay.exercises.map((exercise, exerciseIndex) => (
-      <div key={exerciseIndex} className="exercise-card">
+    firstWorkoutDay.exercises.map((exercise) => (
+      <div key={exercise.id} className="exercise-card">
         <div className="exercise-card-header-div">
           <h3>{exercise.name}</h3>
           <img src={trashImg} alt="" className="trash-img" onClick={() => deleteExerciseFromCurrentDay(exercise)} />
@@ -212,6 +287,7 @@ const TodaysWorkoutPage = () => {
           <button onClick={() => handleAddSet(exercise)}>Add Set</button>
           <img src={editMarker} onClick={() => setEditMode((prev) => !prev)} style={{ cursor: "pointer" }} />
         </div>
+
 
         {/* Updated header row with an extra header for the set number */}
         <div className="header-row">
@@ -238,33 +314,49 @@ const TodaysWorkoutPage = () => {
               <div className="set-cell">
                 <input
                   type="number"
-                  value={set.weight}
+                  min="0"
+                  value={set.weight === null ? "" : set.weight}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "weight", Number(e.target.value))
+                    handleSetChange(exercise.id, set.id, "weight", e.target.value)
                   }
                 />
               </div>
               <div className="set-cell">
                 <input
                   type="number"
-                  value={set.reps}
+                  min="0"
+                  value={set.reps === null ? "" : set.reps}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "reps", Number(e.target.value))
+                    handleSetChange(exercise.id, set.id, "reps", e.target.value)
                   }
                 />
               </div>
               <div className="set-cell">
                 <input
                   type="number"
-                  value={set.rir}
+                  min="0"
+                  value={set.rir === null ? "" : set.rir}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "rir", Number(e.target.value))
+                    handleSetChange(exercise.id, set.id, "rir", e.target.value)
                   }
                 />
               </div>
             </div>
           ))}
         </div>
+        <div className="exercise-completion">
+                    <label>Mark as Complete</label>
+                      <input 
+                        className="exercise-complete-checkbox"
+                        type="checkbox" 
+                        checked={exercise.id ? !!completedExercises[exercise.id] : false} 
+                        onChange={() => {
+                          if (exercise.id) {
+                            toggleExerciseCompletion(exercise.id);
+                          }
+                        }} 
+                      />
+                    </div>
       </div>
     ))
   ) : (
@@ -279,6 +371,9 @@ const TodaysWorkoutPage = () => {
     )}
   </div>
   <button onClick={handResetState}>Reset</button>
+  <div className="submit-todays-workout-div">
+    <button onClick={handleSubmitWorkout}>Complete Workout</button>
+  </div>
 </section>
         </>
     )

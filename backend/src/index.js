@@ -7,6 +7,7 @@ import workoutRouter from './routes/workoutRouter.js';
 import cors from 'cors'
 import biometricRouter from './routes/biometricRouter.js';
 import bodyWeightRouter from './routes/bodyWeightRouter.js';
+import completedWorkoutsRouter from './routes/completedWorkoutRouter.js';
 
 const port = 8000;
 const app = express();
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use("/api/workouts", workoutRouter);
 app.use("/api/biometrics", biometricRouter);
 app.use("/api/bodyWeight", bodyWeightRouter);
+app.use("/api/completedWorkout", completedWorkoutsRouter);
 
 
 

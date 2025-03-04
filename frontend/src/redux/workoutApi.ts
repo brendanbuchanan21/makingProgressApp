@@ -44,6 +44,13 @@ interface deleteSetRequest {
     setId: string
 }
 
+interface dayCompletionRequest {
+    workoutId: string, 
+    weekNumber: number,
+    day: string, 
+    isCompleted: boolean
+}
+
 export const newWorkoutProgramApi = createApi({
     reducerPath: 'workoutApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/workouts/'}),
@@ -100,8 +107,15 @@ export const newWorkoutProgramApi = createApi({
                 url: `/${workoutId}/weeks/${weekNumber}/days/${day}/${exerciseId}/sets/${setId}`,
                 method: "DELETE",
             })
+        }),
+        updateWorkoutCompletionApi: builder.mutation<WorkoutPlan, dayCompletionRequest>({
+            query: ({ workoutId, weekNumber, day, isCompleted }) => ({
+                url: `/${workoutId}/weeks/${weekNumber}/days/${day}`,
+                method: "PATCH",
+                body: {isCompleted}
+            })
         })
     }),
 });
 
-export const { usePostWorkoutPlanMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation} = newWorkoutProgramApi;
+export const { usePostWorkoutPlanMutation, useUpdateWorkoutCompletionApiMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation} = newWorkoutProgramApi;

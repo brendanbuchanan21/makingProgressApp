@@ -7,6 +7,7 @@ import { newBioMetricApi } from "./biometricApi";
 import { biometricReducer } from "./biometricSlice";
 import { bodyWeightReducer } from "./bodyWeightSlice";
 import { newBodyWeightApi } from "./bodyWeightApi";
+import { completedWorkoutApi } from "./completedWorkoutApi";
 
 
 // Configuration for Redux Persist
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
   [newBioMetricApi.reducerPath]: newBioMetricApi.reducer,
   [newBodyWeightApi.reducerPath]: newBodyWeightApi.reducer,
+  [completedWorkoutApi.reducerPath]: completedWorkoutApi.reducer
 });
 
 // Create a persisted reducer
@@ -35,7 +37,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, 
-    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware),
+    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware, completedWorkoutApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

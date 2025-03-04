@@ -1,6 +1,6 @@
 import { Router } from "express";
 import workoutModel from "../models/workoutModel.js";
-import { newWorkoutPlan, addExerciseToDay, getWorkoutPlan, deleteAnExercise, editExercise, getExerciseFromPlan, deleteEntireProgram, addSetToExercise, deleteSet } from "../controllers/workoutController.js";
+import { newWorkoutPlan, addExerciseToDay, getWorkoutPlan, deleteAnExercise, editExercise, getExerciseFromPlan, deleteEntireProgram, addSetToExercise, deleteSet, updateWorkoutDay } from "../controllers/workoutController.js";
 
 const workoutRouter = Router();
 
@@ -30,6 +30,7 @@ workoutRouter.post('/:workoutId/weeks/:weekNumber/days/:day/:exerciseId/sets', a
 
 workoutRouter.delete('/:workoutId/weeks/:weekNumber/days/:day/:exerciseId/sets/:setId', deleteSet)
 
+workoutRouter.patch('/:workoutId/weeks/:weekNumber/days/:day', updateWorkoutDay)
 
 export default workoutRouter;
 

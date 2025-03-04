@@ -19,6 +19,7 @@ export interface Exercise {
 export interface DayPlan {
   day: string;
   exercises: Exercise[];
+  isCompleted: boolean;
 }
 
 
@@ -77,26 +78,20 @@ const workoutSlice = createSlice({
       const { weekNumber, day, exercise } = action.payload;
       console.log("Adding exercise to day:", day);  // Debugging line
       const week = state.currentPlan.weeks.find(week => week.weekNumber === weekNumber);
-      if(week) { 
-        const dayIndex = week.days.findIndex(d => d.day === day); 
-       
-        if (dayIndex !== -1) {
-          // If day is found, add the exercise
-          const dayPlan = week.days[dayIndex];
-    
-          
-        if (!dayPlan.exercises) {
-           dayPlan.exercises = []; // Initialize exercises array if undefined
-      }
+      if (!week) return; // Safety check
 
-      // Add the exercise to the dayPlan's exercises
-        dayPlan.exercises.push(exercise);
-        } else {
-          // If the day doesn't exist, create it and add the exercise
-          week.days.push({ day, exercises: [exercise] });
-        }
+      const dayObj = week.days.find(d => d.day === day);
 
-      }
+    if (dayObj) {
+        // Day exists, add the new exercise
+        dayObj.exercises.push(exercise);
+    } else {
+        // Create a new day entry if it doesn't exist
+        week.days.push({ day, exercises: [exercise], isCompleted: false });
+    }
+      
+      
+     
     },
 
     editExercise(state, action: PayloadAction<{
@@ -194,9 +189,9 @@ const workoutSlice = createSlice({
     updateSetDetails(state, action: PayloadAction<{
       weekNumber: number | null,
       day: string,
-      exerciseId: string | any,
-      setId?: string,
-      updatedSet: any
+      exerciseId: string,
+      setId: string,
+      updatedSet: Partial<SetDetails>
     }>) {
       const { weekNumber, day, exerciseId, setId, updatedSet } = action.payload;
 
@@ -214,6 +209,21 @@ const workoutSlice = createSlice({
           };
         }
       }
+    },
+    updateDayCompletion(state, action: PayloadAction<{
+      weekNumber: number | null,
+      day: string,
+      isCompleted: boolean
+    }>) {
+      const { weekNumber, day, isCompleted } = action.payload;
+      const week = state.currentPlan?.weeks.find(w => w.weekNumber === weekNumber);
+
+      if(week) {
+        const dayPlan = week.days.find(d => d.day === day);
+        if(dayPlan) {
+          dayPlan.isCompleted = isCompleted;
+        }
+      }
     }
   }
 })
@@ -228,7 +238,8 @@ export const {
   deleteExercise,
   addSetToExercise,
   removeSetFromExercise,
-  updateSetDetails
+  updateSetDetails,
+  updateDayCompletion
 } = workoutSlice.actions;
 
 export const workoutReducer = workoutSlice.reducer;

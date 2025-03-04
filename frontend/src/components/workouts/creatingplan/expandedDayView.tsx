@@ -64,14 +64,17 @@ const ExpandedDayView = ({
                exercise: newExercise
             }).unwrap();
 
-            const exerciseWithId: Exercise = { ...newExercise, id: response._id };
 
-          
+
+        // Log the response to inspect its structure
+        console.log("Response from API:", response);
+
+       const updatedExercise = response;
             dispatch(
                 addExerciseToDay({
                     weekNumber,
                     day: selectedDay.day,
-                    exercise: exerciseWithId
+                    exercise: updatedExercise
                 })
             );
              // Reset the form fields
@@ -80,11 +83,8 @@ const ExpandedDayView = ({
             setSets([]);
     
         } catch (error) {
-            console.error("failed to add exercise:", error);
-        }
-      
-       
-    };
+        console.error("failed to add exercise:", error);
+     }}
 
      
     const handleSaveExercise = async (updatedExercise: Exercise) => {
