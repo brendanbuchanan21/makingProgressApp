@@ -39,6 +39,10 @@ const dayPlanSchema = new Schema({
         type: String,
         required: true
     },
+    isCompleted: {
+        type: Boolean,
+        required: false
+    },
     exercises: [exerciseSchema],
 })
 

@@ -129,6 +129,32 @@
     padding: 0.3rem;
     box-sizing: border-box;
   }
-  
 
+  .exercise-completion {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+  .submit-todays-workout-div {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: end;
+    height: 3rem;
+  }
+  .submit-todays-workout-div button {
+    border: 1px solid var(--blue);
+    border-radius: .4rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: white;
+    color: var(--blue);
+  }
 
+  .submit-todays-workout-div button:hover {
+    background-color: var(--hover-blue);
+    color: white;
+    border: 1px solid var(--hover-blue);
+    cursor: pointer;
+  }
