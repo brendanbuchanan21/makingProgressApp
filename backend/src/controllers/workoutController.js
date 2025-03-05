@@ -1,3 +1,4 @@
+import { MongoExpiredSessionError } from "mongodb";
 import workoutModel from "../models/workoutModel.js";
 import mongoose, { mongo } from "mongoose";
 
@@ -312,10 +313,13 @@ if (addedExercise) {
 export const updateWorkoutDay = async (req, res) => {
     try {
 
-    const { workoutId, weekNumber, day } = req.params;
+        console.log('debugging request params:', req.params);
+        console.log('debuggin request body:', req.body);
+
+    const { workoutPlanId, weekNumber, day } = req.params;
     const { isCompleted } = req.body;
 
-    const workoutPlan = await workoutModel.findById(workoutId);
+    const workoutPlan = await workoutModel.findById(workoutPlanId);
         if(!workoutPlan) {
             return res.status(400).json({message: 'could not locate workoutPlan' });
         }

@@ -11,7 +11,7 @@ import deleteMarker from '../../../images/deleteMarker.svg'
 import { addSetToExercise, updateSetDetails } from "../../../redux/workoutSlice";
 import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useUpdateWorkoutCompletionApiMutation } from "../../../redux/workoutApi";
 import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
-
+import { useNavigate } from "react-router-dom";
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
 
@@ -23,7 +23,7 @@ const TodaysWorkoutPage = () => {
 
     const [editMode, setEditMode] = useState(false);
 
-  
+   const navigate = useNavigate();
     const firstWorkoutDay = useSelector((state: RootState) =>
       state.workout.currentPlan?.weeks[0]?.days[0]
     );
@@ -223,8 +223,19 @@ const TodaysWorkoutPage = () => {
         exercises: currentPlan.weeks[0].days[0].exercises
 
       }
-      sendCompletedExercise(completedWorkout);
-      completedWorkoutUpdate(completedWorkout)
+      try {
+        sendCompletedExercise(completedWorkout);
+        completedWorkoutUpdate(completedWorkout)
+
+        console.log("✅ Workout submission successful, navigating...");
+        navigate('/workouts');
+      } catch (error) {
+        console.error("❌ Error submitting workout, staying on page:", error);
+      }
+      
+
+      
+      
     } else {
       console.error('workout plan data is missing');
     }
@@ -245,7 +256,12 @@ const TodaysWorkoutPage = () => {
   const completedWorkoutUpdate = async (completedWorkout: any) => {
     try {
       console.log(completedWorkout, 'yo why not?')
-      const response = await updateCompletedWorkout(completedWorkout).unwrap();
+      const response = await updateCompletedWorkout({
+        workoutPlanId: completedWorkout.workoutPlanId,
+        weekNumber: completedWorkout.weekNumber,
+        day: completedWorkout.day,
+        isCompleted: true 
+      }).unwrap();
       console.log('workout succesfully updated document as completed:', response);
 
       dispatch(updateDayCompletion({

@@ -45,7 +45,7 @@ interface deleteSetRequest {
 }
 
 interface dayCompletionRequest {
-    workoutId: string, 
+    workoutPlanId: string, 
     weekNumber: number,
     day: string, 
     isCompleted: boolean
@@ -109,10 +109,10 @@ export const newWorkoutProgramApi = createApi({
             })
         }),
         updateWorkoutCompletionApi: builder.mutation<WorkoutPlan, dayCompletionRequest>({
-            query: ({ workoutId, weekNumber, day, isCompleted }) => ({
-                url: `/${workoutId}/weeks/${weekNumber}/days/${day}`,
+            query: ({ workoutPlanId, weekNumber, day, isCompleted }) => ({
+                url: `/${workoutPlanId}/weeks/${weekNumber}/days/${day}`,
                 method: "PATCH",
-                body: {isCompleted}
+                body: { isCompleted }
             })
         })
     }),

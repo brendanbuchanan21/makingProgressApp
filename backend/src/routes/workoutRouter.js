@@ -30,7 +30,7 @@ workoutRouter.post('/:workoutId/weeks/:weekNumber/days/:day/:exerciseId/sets', a
 
 workoutRouter.delete('/:workoutId/weeks/:weekNumber/days/:day/:exerciseId/sets/:setId', deleteSet)
 
-workoutRouter.patch('/:workoutId/weeks/:weekNumber/days/:day', updateWorkoutDay)
+workoutRouter.patch('/:workoutPlanId/weeks/:weekNumber/days/:day', updateWorkoutDay)
 
 export default workoutRouter;
 
