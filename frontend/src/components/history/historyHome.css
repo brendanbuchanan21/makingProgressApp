@@ -17,7 +17,27 @@
 .bar-graph-main-container {
     border: 1px solid var(--grey);
     height: 70vh;
-    width: 80vw;
+    width: 70vw;
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
+
+
+.line-chart-total-volume-biggest-container {
+    border: 2px solid var(--grey);
+    width: 70vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.week-view-month-line-graph-select-div {
+    display: flex;
+    width: 75%;
+}
+
+
+
+.line-chart-main-container {
+    height: 80%;
+}   

@@ -11,9 +11,14 @@ export const aggregateVolumeApi = createApi({
     endpoints: (builder) => ({
         getTotalMuscleGroupVolume: builder.query<muscleGroupVolume, void>({
             query: () => 'muscle-volume'
+        }),
+        getTotalVolume: builder.query({
+            query: (timescale) => {
+                return `/accumulated-volume?timescale=${timescale}`;
+            }
         })
     })
 })
 
 
-export const { useGetTotalMuscleGroupVolumeQuery } = aggregateVolumeApi;
+export const { useGetTotalMuscleGroupVolumeQuery, useGetTotalVolumeQuery } = aggregateVolumeApi;

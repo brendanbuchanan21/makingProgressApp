@@ -38,9 +38,14 @@ const TotalVolumeMuscleGroup = () => {
             {
                 label: 'Total Volume per Muscle Group',
                 data: allMuscleGroups.map((muscle) => muscleVolumeMap[muscle]),
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
+                borderColor: '#0f0fb8', // Bright blue border for the line
+                backgroundColor: 'rgba(20, 20, 210, 0.2)', // Soft fill with slight transparency
+                borderWidth: 2, // Thicker line for better visibility
+                pointRadius: 5, // Slightly larger points for visibility
+                pointBackgroundColor: '#0f0fb8', // Matches the border color
+                pointBorderColor: '#ffffff', // White outline for contrast
+                fill: true, // Smooth area fill
+                tension: 0.3, // Smooth curve for aesthetics
             },
         ],
     };

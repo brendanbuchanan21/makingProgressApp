@@ -1,6 +1,8 @@
 import NavBar from "../dashboard/navbar"
 import './historyHome.css'
 import TotalVolumeMuscleGroup from "./totalVolumeMuscleGroup";
+import TotalVolumeChart from "./totalVolumeChart";
+
 
 const HistoryHome = () => {
     return (
@@ -12,6 +14,9 @@ const HistoryHome = () => {
         </div>
         <div>
         <TotalVolumeMuscleGroup />
+        </div>
+        <div>
+            <TotalVolumeChart />
         </div>
         </section>
         
