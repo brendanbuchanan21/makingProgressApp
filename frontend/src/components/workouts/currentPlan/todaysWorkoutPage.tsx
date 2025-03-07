@@ -52,12 +52,9 @@ const TodaysWorkoutPage = () => {
 
     const handleSetChange = (exerciseId: string | any, setId: string | any, field: keyof SetDetails, value: string | number) => {
       
-      console.log("Updating Set:", exerciseId, setId, field, value);
-
-
       
       const parsedValue = value === "" ? null : Number(value);
-      console.log('handleSetChange:', exerciseId, setId, field, value); // Add logging
+
       dispatch(
         updateSetDetails({
           weekNumber,
@@ -96,10 +93,8 @@ const TodaysWorkoutPage = () => {
 
     const handleAddSet = async (exercise: Exercise) => {
 
-      const exerciseId = exercise.id;
       try {
-        console.log(exercise, 'yoo boi');
-        console.log(exerciseId);
+
         if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id) {
           const newSetNumber = exercise.sets.length + 1;
           const newSet: SetDetails = {
@@ -237,7 +232,7 @@ const TodaysWorkoutPage = () => {
 
       dispatch(updateDayCompletion({
         weekNumber: completedWorkout.weekNumber,
-        day: currentPlan.weeks[0].days[0].day,
+        day: completedWorkout.day,
         isCompleted: true
       }))
     } catch (error) {
