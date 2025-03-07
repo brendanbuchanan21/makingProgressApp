@@ -21,12 +21,21 @@ const TodaysWorkoutPage = () => {
     const dispatch = useDispatch();
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
 
+
+    console.log("Weeks in currentPlan:", currentPlan.weeks);
+
+    const firstIncompleteWorkout = currentPlan?.weeks.flatMap((week) => week.days)?.find((day) => !day.isCompleted);
+
+    if(!firstIncompleteWorkout) {
+      return;
+    }
+
     const [editMode, setEditMode] = useState(false);
 
    const navigate = useNavigate();
-    const firstWorkoutDay = useSelector((state: RootState) =>
-      state.workout.currentPlan?.weeks[0]?.days[0]
-    );
+    
+
+    
 
     const [completedExercises, setCompletedExercises] = useState<{ [key: string]: boolean }>({});
     const [postCompletedExercise] = usePostCompletedExerciseMutation(); 
@@ -52,7 +61,7 @@ const TodaysWorkoutPage = () => {
       dispatch(
         updateSetDetails({
           weekNumber,
-          day: firstWorkoutDay.day,
+          day: firstIncompleteWorkout.day,
           exerciseId,
           setId,
           updatedSet: { [field]: parsedValue },
@@ -79,7 +88,7 @@ const TodaysWorkoutPage = () => {
 
     //get the week number
     const weekIndex = currentPlan.weeks.findIndex(week =>
-      week.days.some(day => day.day === firstWorkoutDay?.day) // Match based on the day name
+      week.days.some(day => day.day === firstIncompleteWorkout?.day) // Match based on the day name
     );
     
     const weekNumber = weekIndex !== -1 ? weekIndex + 1 : null; // Convert to 1-based index
@@ -91,7 +100,7 @@ const TodaysWorkoutPage = () => {
       try {
         console.log(exercise, 'yoo boi');
         console.log(exerciseId);
-        if (currentPlan && currentPlan.id && weekNumber !== null && firstWorkoutDay && exercise.id) {
+        if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id) {
           const newSetNumber = exercise.sets.length + 1;
           const newSet: SetDetails = {
             setNumber: newSetNumber,
@@ -103,7 +112,7 @@ const TodaysWorkoutPage = () => {
           const result = await addingSetToExercise({
             workoutId: currentPlan.id,
             weekNumber,
-            day: firstWorkoutDay.day,
+            day: firstIncompleteWorkout.day,
             exerciseId: exercise.id,
             newSet,
           });
@@ -118,7 +127,7 @@ const TodaysWorkoutPage = () => {
           dispatch(
             addSetToExercise({
               weekNumber,
-              day: firstWorkoutDay.day,
+              day: firstIncompleteWorkout.day,
               exerciseId: exercise.id,
               newSet: newSetWithId,
             })
@@ -137,19 +146,19 @@ const TodaysWorkoutPage = () => {
 
   const deleteSet = async (set: SetDetails, exercise: Exercise) => {
       try { 
-        if (currentPlan && currentPlan.id && weekNumber !== null && firstWorkoutDay && exercise.id && set.id) {
+        if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id && set.id) {
           console.log("yeah boiii");
             await deleteSetFromExercise({
               workoutId: currentPlan.id,
               weekNumber,
-              day: firstWorkoutDay.day,
+              day: firstIncompleteWorkout.day,
               exerciseId: exercise.id,
               setId: set.id,
             });
             dispatch(
               removeSetFromExercise({
                 weekNumber,
-                day: firstWorkoutDay.day,
+                day: firstIncompleteWorkout.day,
                 exerciseId: exercise.id,
                 setId: set.id,
               })
@@ -172,20 +181,20 @@ const TodaysWorkoutPage = () => {
       if(exercise.id && currentPlan &&
         currentPlan.id &&
         weekNumber !== null &&
-        firstWorkoutDay) {
+        firstIncompleteWorkout) {
 
         await deleteExerciseApi({
           workoutId: currentPlan.id,
           exerciseId: exercise.id,
           weekNumber,
-          day: firstWorkoutDay.day
+          day: firstIncompleteWorkout.day
         }).unwrap();
 
         console.log('exercise deletion api call succeeded');
 
         dispatch(deleteExercise({
           weekNumber,
-          day: firstWorkoutDay.day,
+          day: firstIncompleteWorkout.day,
           exerciseId: exercise.id
         }))
 
@@ -203,44 +212,6 @@ const TodaysWorkoutPage = () => {
 
   // handle submitting the workout 
 
-  const handleSubmitWorkout = async () => {
-
-    const allComplete = firstWorkoutDay.exercises.every((exercise) => {
-      return exercise.id ? completedExercises[exercise.id] : false;
-    });
-    if (!allComplete) {
-      alert("Please mark all exercises as complete before submitting the workout.");
-      return;
-    }
-    
-    //directly pull data from the currentplan to send to backend
-    if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
-
-      const completedWorkout = {
-        workoutPlanId: currentPlan.id,
-        weekNumber: currentPlan.weeks[0].weekNumber,
-        day: currentPlan.weeks[0].days[0].day,
-        exercises: currentPlan.weeks[0].days[0].exercises
-
-      }
-      try {
-        sendCompletedExercise(completedWorkout);
-        completedWorkoutUpdate(completedWorkout)
-
-        console.log("✅ Workout submission successful, navigating...");
-        navigate('/workouts');
-      } catch (error) {
-        console.error("❌ Error submitting workout, staying on page:", error);
-      }
-      
-
-      
-      
-    } else {
-      console.error('workout plan data is missing');
-    }
-      
-  }
 
   const sendCompletedExercise = async (completedWorkout: any) => {
     try {
@@ -265,7 +236,7 @@ const TodaysWorkoutPage = () => {
       console.log('workout succesfully updated document as completed:', response);
 
       dispatch(updateDayCompletion({
-        weekNumber: currentPlan.weeks[0].weekNumber,
+        weekNumber: completedWorkout.weekNumber,
         day: currentPlan.weeks[0].days[0].day,
         isCompleted: true
       }))
@@ -276,6 +247,63 @@ const TodaysWorkoutPage = () => {
   }
 
 
+
+
+
+  const handleSubmitWorkout = async () => {
+
+    const allComplete = firstIncompleteWorkout.exercises.every((exercise) => {
+      return exercise.id ? completedExercises[exercise.id] : false;
+    });
+    if (!allComplete) {
+      alert("Please mark all exercises as complete before submitting the workout.");
+      return;
+    }
+    
+    if(firstIncompleteWorkout) {
+      let weekNumber = null;
+        for (const week of currentPlan.weeks) {
+            const foundDay = week.days.find(day => day._id === firstIncompleteWorkout._id);
+            if (foundDay) {
+                weekNumber = week.weekNumber;
+                break; // Stop iterating once found
+            }
+    }
+  } else {
+    console.error('Workout day _id is missing.');
+    return;
+  }
+
+    //directly pull data from the currentplan to send to backend
+    if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
+
+      const completedWorkout = {
+        workoutPlanId: currentPlan.id,
+        weekNumber: weekNumber,
+        day: firstIncompleteWorkout.day,
+        exercises: firstIncompleteWorkout.exercises
+
+      }
+      try {
+        sendCompletedExercise(completedWorkout);
+        completedWorkoutUpdate(completedWorkout)
+
+        console.log("✅ Workout submission successful, navigating...");
+        navigate('/workouts');
+      } catch (error) {
+        console.error("❌ Error submitting workout, staying on page:", error);
+      }
+      
+
+      
+      
+    } else {
+      console.error('workout plan data is missing');
+    }
+  }
+  
+
+
     return (
         <>
        <NavBar />
@@ -284,15 +312,15 @@ const TodaysWorkoutPage = () => {
     <h1>Current Workout</h1>
   </div>
   <div className="current-workout-page-main-content-div">
-    {firstWorkoutDay ? (
+    {firstIncompleteWorkout ? (
       <div className="workout-card">
         <div className="workout-card-day-name-div">
-          <h2>{firstWorkoutDay.day}</h2>
+          <h2>{firstIncompleteWorkout.day}</h2>
         </div>
         <ul>
         <ul>
-  {firstWorkoutDay.exercises.length > 0 ? (
-    firstWorkoutDay.exercises.map((exercise) => (
+  {firstIncompleteWorkout.exercises.length > 0 ? (
+    firstIncompleteWorkout.exercises.map((exercise) => (
       <div key={exercise.id} className="exercise-card">
         <div className="exercise-card-header-div">
           <h3>{exercise.name}</h3>
