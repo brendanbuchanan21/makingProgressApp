@@ -20,6 +20,7 @@ export interface DayPlan {
   day: string;
   exercises: Exercise[];
   isCompleted: boolean;
+  _id?: string;
 }
 
 

@@ -1,5 +1,6 @@
 import NavBar from "../dashboard/navbar"
 import './historyHome.css'
+import TotalVolumeMuscleGroup from "./totalVolumeMuscleGroup";
 
 const HistoryHome = () => {
     return (
@@ -10,7 +11,7 @@ const HistoryHome = () => {
         <h1>Total Volume Comparison of muscle groups</h1>
         </div>
         <div>
-        
+        <TotalVolumeMuscleGroup />
         </div>
         </section>
         
