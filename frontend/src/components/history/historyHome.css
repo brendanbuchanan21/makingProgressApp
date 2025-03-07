@@ -1,5 +1,4 @@
 .history-main-section {
-    border: 5px solid yellow;
     height: auto;
     width: 100vw;
     display: flex;
@@ -8,7 +7,6 @@
 }
 
 .history-main-title-div {
-    border: 2px solid blue;
     padding-top: 7rem;
     width: 50%;
     margin: 0 auto;
@@ -17,8 +15,9 @@
 }
 
 .bar-graph-main-container {
-    border: 2px solid lime;
+    border: 1px solid var(--grey);
     height: 70vh;
     width: 80vw;
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }

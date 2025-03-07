@@ -5,8 +5,8 @@
     flex-direction: row;
     justify-content: space-between;
     border-top: none;
-    color: #fff;
     background-color: black;
+    color: #fff;
     
 }
 
@@ -41,7 +41,7 @@
     font-size: clamp(1rem, 1.2rem, 1.5rem);
 }
 .dashboard-navbar-directory-div p {
-    color: white;
+    color: #fff;
 }
 .dashboard-navbar-directory-div p:hover {
     color: var(--grey);

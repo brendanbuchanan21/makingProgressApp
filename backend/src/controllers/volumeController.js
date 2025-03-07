@@ -16,7 +16,12 @@ export const aggregateMuscleGroupVolume = async (req, res) => {
           { $sort: { totalVolume: -1 } } // Sort by highest volume
           ]);
 
-          res.status(200).json(muscleGroupVolumes);
+          // Convert _id to id
+        const formattedVolumes = muscleGroupVolumes.map(item => ({
+            id: item._id,
+            totalVolume: item.totalVolume
+        }));
+          res.status(200).json(formattedVolumes);
 
     } catch (error) {
         console.error("Error aggregating muscle group volume:", error);
