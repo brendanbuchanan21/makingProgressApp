@@ -1,5 +1,4 @@
-import { useSelector, UseSelector } from "react-redux"
-import { RootState } from "../../../redux/store";
+
 import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";

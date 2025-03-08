@@ -34,6 +34,8 @@ interface completedWorkoutRequest {
     exercises: Exercise[];
 }
 
+  
+
 
 
 
@@ -50,8 +52,14 @@ export const completedWorkoutApi = createApi({
                     "Content-Type": "application/json",
                 },
             })
+        }),
+        getCompletedWorkoutVolume: builder.query<completedWorkoutResponse, { workoutPlanId: string }>({
+            query: (workoutPlanId) => ({
+                url: `/completedWorkouts?workoutPlanId=${workoutPlanId}`,
+                method: 'GET',
+            })
         })
     })
 })
 
-export const { usePostCompletedExerciseMutation } = completedWorkoutApi;
+export const { usePostCompletedExerciseMutation, useGetCompletedWorkoutVolumeQuery } = completedWorkoutApi;
