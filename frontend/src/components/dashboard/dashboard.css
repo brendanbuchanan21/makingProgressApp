@@ -25,7 +25,7 @@
     color: #fff;
 }
 #dashboard-text-navbar:hover {
-    color: var(--grey);
+    color: hsl(0, 0%, 50%);
     cursor: pointer;
 }
 
@@ -44,7 +44,7 @@
     color: #fff;
 }
 .dashboard-navbar-directory-div p:hover {
-    color: var(--grey);
+    color: hsl(0, 0%, 70%);
     cursor: pointer;
 }
 #db-settings-svg {
@@ -94,10 +94,16 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
-    border-radius: 2px
+    border-radius: 2px;
+    border: 1px solid var(--grey);
+    margin-top: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .preview-card-title {
     margin-bottom: 2%;
+    font-size: 1.2rem;
+    border-bottom: 1px solid black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 .preview-card-img {
     width: 100%;
@@ -111,12 +117,12 @@
     height: 15%;
     width: 35%;
     border-radius: 12px;
-    border: 1px solid var(--blue); /* Remove default border */
-     /* Light blue background */
-    color: black; /* White text for contrast */
-    font-size: 1rem; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    cursor: pointer; /* Show pointer on hover */
+    border: 1px solid var(--blue); 
+    background: none;
+    color: black; 
+    font-size: 1rem; 
+    font-weight: bold;
+    cursor: pointer; 
     transition: background-color 0.3s ease, box-shadow 0.3s ease; 
     text-align: center;
     padding: .5rem;
