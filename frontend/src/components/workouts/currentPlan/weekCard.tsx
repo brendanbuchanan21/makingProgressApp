@@ -1,50 +1,80 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store";
+import { useGetCompletedWorkoutVolumeQuery } from "../../../redux/completedWorkoutApi";
+import dumbbellIcon  from '../../../images/dumbbell-svgrepo-com.svg'
 import './currentPlanPage.css'
+
 
 
 const WeekCard = () => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
+    const workoutPlanId = currentPlan?.id;
+    
+    // Fetch completed workouts for the plan
+    const { data, error, isLoading } = useGetCompletedWorkoutVolumeQuery(workoutPlanId);
+    
+    console.log('heehe', data);
+    // Group the completed workouts by weekNumber and sum totalVolume for each week
+    let volumeByWeek: { [key: number]: number } = {};
 
-
-
-
-
+  // Group the completed workouts by weekNumber and sum totalVolume for each week
+  if (Array.isArray(data)) {
+    volumeByWeek = data.reduce((acc: { [key: number]: number }, workout: any) => {
+      const weekNum = workout.weekNumber;
+  
+      // Only initialize week number if it doesn't already have a value
+      if (acc[weekNum] === undefined) {
+        acc[weekNum] = 0;
+      }
+  
+      // Add the workout volume to the week
+      acc[weekNum] += workout.totalVolume;
+      return acc;
+    }, {});
+  }
+    
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Error loading completed workouts.</p>;
     
     return (
-        <>
-        {weeks.map((week, index) => (
-        <div className="week-card-div" key={index} >
-            <div className="week-card-head-text-div">
-            <h3>Week {week.weekNumber}</h3>
-            <p>{week.days.every(day => day.isCompleted) ? 'Completed ✅' : 'In Progress'}</p>
-            </div>
-            <div className="week-card-exercises-div">
+      <>
+        {weeks.map((week, index) => {
+          const weekVolume = volumeByWeek[week.weekNumber] || 0;
+          const isWeekCompleted = week.days.every(day => day.isCompleted);
+    
+          return (
+            <div className="week-card-div" key={index}>
+              <div className="week-card-head-text-div">
+                <h3>Week {week.weekNumber}</h3>
+                <p>{isWeekCompleted ? 'Completed ✅' : 'In Progress'}</p>
+                {isWeekCompleted && (
+                  <p className="week-card-volume">Total Volume: {weekVolume} lbs <img src={dumbbellIcon} alt="" className="dumbbell-icon"/></p>
+                )}
+              </div>
+              <div className="week-card-exercises-div">
                 <p className="week-card-exercise-text">Exercises:</p>
-            
-            {week.days.map((day, dayIndex) => (
-              <p key={dayIndex} className="exercise-in-week-card-text">
-                <strong>{day.day}:</strong>{' '}
-                {day.exercises && day.exercises.length > 0
-                  ? day.exercises.map((exercise, exIndex) => (
-                      <span key={exIndex}>
-                        {exercise.name}
-                        {exIndex !== day.exercises.length - 1 ? ', ' : ''}
-                      </span>
-                    ))
-                  : 'No exercises'}
-              </p>
-            ))}
-            {}
+                {week.days.map((day, dayIndex) => (
+                  <p key={dayIndex} className="exercise-in-week-card-text">
+                    <strong>{day.day}:</strong>{' '}
+                    {day.exercises && day.exercises.length > 0
+                      ? day.exercises.map((exercise, exIndex) => (
+                          <span key={exIndex}>
+                            {exercise.name}
+                            {exIndex !== day.exercises.length - 1 ? ', ' : ''}
+                          </span>
+                        ))
+                      : 'No exercises'}
+                  </p>
+                ))}
+              </div>
             </div>
-        </div>
-        ))}
-
-
-        </>
-    )
-}
+          );
+        })}
+      </>
+    );
+  };
+  
 
 
 export default WeekCard;

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { logCompletedWorkout } from "../controllers/completedWorkoutController.js";
+import { getCompletedWorkouts, logCompletedWorkout } from "../controllers/completedWorkoutController.js";
 
 const completedWorkoutsRouter = Router();
 
 
 completedWorkoutsRouter.post('/', logCompletedWorkout)
 
-
+completedWorkoutsRouter.get('/completedWorkouts', getCompletedWorkouts);
 
 
 export default completedWorkoutsRouter;

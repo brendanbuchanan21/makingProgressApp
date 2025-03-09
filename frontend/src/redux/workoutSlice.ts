@@ -31,7 +31,7 @@ export interface WeekPlan {
 }
 
 export interface WorkoutPlan {
-  id?: string;
+  id?: string | any;
   weeks: WeekPlan[];
   duration: string;
   startDate: string;

@@ -50,3 +50,21 @@ export const logCompletedWorkout = async (req, res) => {
     }
 }
 
+export const getCompletedWorkouts = async (req, res) => {
+        const { workoutPlanId } = req.query;
+
+        const trimmedId = workoutPlanId.trim();  // Remove any extra whitespace or newlines
+
+        if (!trimmedId) {
+            return res.status(400).json({ message: 'Workout plan ID is required' });
+        }
+
+        try {
+            const completedWorkouts = await completedWorkoutModel.find({ workoutPlanId: trimmedId });
+            console.log('Found completed workouts:', completedWorkouts);
+            res.status(200).json(completedWorkouts);
+        } catch (error) {
+            console.error('Error retrieving completed workouts:', error);
+            return res.status(500).json({ message: 'Error retrieving data' });
+        }
+};

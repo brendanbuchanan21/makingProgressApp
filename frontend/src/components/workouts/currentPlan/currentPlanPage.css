@@ -111,7 +111,14 @@
   text-align: start;
   flex-direction: column;
 }
-
+.week-card-volume {
+  margin-top: 1rem;
+}
+.dumbbell-icon {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
+}
 .week-card-exercises-div {
   display: flex;
   flex-direction: column;
