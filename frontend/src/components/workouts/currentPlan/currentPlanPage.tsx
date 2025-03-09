@@ -3,12 +3,15 @@ import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";
 import { Link } from "react-router-dom";
+import { useState } from 'react';
 
 const CurrentPlanPage = () => {
 
-    
+    const [isEditing, setIsEditing] = useState(false);
 
-
+   const editMode = () => {
+        setIsEditing(!isEditing);
+   }
 
 
     return (
@@ -22,11 +25,11 @@ const CurrentPlanPage = () => {
             <Link to="/workouts" className="currentPlanPage-back-btn">
             Back
             </Link>
-                <button className="currentPlanPage-edit-btn">Edit Plan</button>
+                <button className="currentPlanPage-edit-btn" onClick={editMode}>Edit Plan</button>
             </div>
             <div className="grid-container">
                 {/*we have to map over each week thats in the program for each card*/}
-                <WeekCard />
+                <WeekCard isEditing={isEditing} />
             </div>
         </section>
         </>
