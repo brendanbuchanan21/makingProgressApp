@@ -67,7 +67,28 @@
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
     grid-auto-rows: auto; /* Rows adjust based on content height */
-    
+}
+.add-week-marker-div {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: end;
+  align-items: center;
+  height: 10%;
+}
+.add-week-marker-wrapper {
+  border: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  height: 60%;
+  border-radius: .5rem;
+}
+.add-week-marker-wrapper:hover {
+  border: 1px solid var(--hover-blue);
+  cursor: pointer;
+}
+.add-week-marker {
+  fill: black;
 }
 
 

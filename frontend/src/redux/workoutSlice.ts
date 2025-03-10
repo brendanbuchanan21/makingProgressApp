@@ -70,9 +70,19 @@ const workoutSlice = createSlice({
 
 
     // add a week for the new program to the store
-    addWeek(state, action: PayloadAction<number>) {
-      const newWeek: WeekPlan = { weekNumber: action.payload, days: [] };
-      state.currentPlan.weeks.push(newWeek);
+    addWeek(state, action: PayloadAction<{workoutPlanId: string, weekNumber: number}>) {
+
+      const { workoutPlanId, weekNumber } = action.payload;
+
+      if(state.currentPlan?.id === workoutPlanId) {
+       const newWeek: WeekPlan = { weekNumber, days: [] };
+       state.currentPlan.weeks.push(newWeek);
+      }
+    },
+
+    deleteWeek(state, action: PayloadAction<number>) {
+      state.currentPlan.weeks = state.currentPlan.weeks.filter(week => week.weekNumber !== action.payload);
+
     },
 
 
@@ -235,6 +245,7 @@ export const {
   resetWorkoutState,
   setPlanDuration,
   addWeek,
+  deleteWeek,
   addExerciseToDay,
   editExercise,
   deleteExercise,

@@ -220,7 +220,6 @@ if (addedExercise) {
         const { newSet } = req.body;
 
         const workoutPlan = await workoutModel.findById(workoutId);
-        console.log('Workout Plan:', workoutPlan);
         if(!workoutPlan) {
             return res.status(404).json({message: 'problem retrieving the workoutPlan'});
         }
@@ -244,7 +243,6 @@ if (addedExercise) {
             return res.status(411).json({message: 'located everything but the correct exercise'});
         }
 
-        console.log("New Set to be pushed:", newSet);
         const setWithId = { ...newSet, _id: new mongoose.Types.ObjectId() };
 
         exercise.sets.push(setWithId);
@@ -342,5 +340,65 @@ export const updateWorkoutDay = async (req, res) => {
     } catch (error) {
         console.error('something was incorrect processing your query:', error);
         return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export const deleteWeekFromPlan = async (req, res) => {
+    
+    try {
+        const { workoutPlanId, weekNumber } = req.params;
+
+        console.log(weekNumber);
+
+        if(!workoutPlanId || !weekNumber) {
+            return res.status(404).json({message: 'did not receive id or week number'});
+        }
+
+        const workoutPlan = await workoutModel.findById(workoutPlanId);
+
+        if(!workoutPlan) {
+            return res.status(400).json({message: 'could not locate workout plan in backend'});
+        }
+
+        const weekNumberToDelete = parseInt(weekNumber, 10);
+        workoutPlan.weeks = workoutPlan.weeks.filter(w => w.weekNumber !== weekNumberToDelete);
+
+        await workoutPlan.save();
+        
+        return res.status(200).json({message: 'succesfully deleted week'});
+
+    } catch (error) {
+        console.error('could not process request', error);
+        return res.status(500).json(error);
+    }
+}
+
+export const addWeekToPlan = async (req, res) => {
+    const {workoutPlanId} = req.params;
+    const {weekNumber, days} = req.body;
+    try {
+
+        const workoutPlan = await workoutModel.findById(workoutPlanId);
+        if (!workoutPlan) {
+            return res.status(404).json({message: 'could not locate your workout plan'});
+        }
+
+        const weekNumberToAdd = parseInt(weekNumber, 10);
+
+        const newWeek = {
+            weekNumber: weekNumberToAdd,
+            days: days
+        }
+
+        workoutPlan.weeks.push(newWeek);
+
+        await workoutPlan.save();
+
+        return res.status(200).json(workoutPlan);
+
+
+    } catch (error) {
+        console.error('could not process request', error);
+        return res.status(500).json(error);
     }
 }

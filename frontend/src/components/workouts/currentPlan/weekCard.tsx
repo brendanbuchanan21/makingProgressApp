@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../redux/store";
 import { useGetCompletedWorkoutVolumeQuery } from "../../../redux/completedWorkoutApi";
 import dumbbellIcon  from '../../../images/dumbbell-svgrepo-com.svg';
 import deleteMarker from '../../../images/deleteMarker.svg';
+import { deleteWeek } from "../../../redux/workoutSlice";
 import './currentPlanPage.css'
+import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
 
 interface WeekCardProps {
     isEditing: boolean;
@@ -14,9 +16,13 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
     const workoutPlanId = currentPlan?.id;
+
+    const dispatch = useDispatch();
     
     // Fetch completed workouts for the plan
     const { data, error, isLoading } = useGetCompletedWorkoutVolumeQuery(workoutPlanId);
+    
+    const [deleteWeekApi] = useDeleteWeekApiMutation();
     
     // Group the completed workouts by weekNumber and sum totalVolume for each week
     let volumeByWeek: { [key: number]: number } = {};
@@ -42,7 +48,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
 
 
     // work on adding functionality to the delete marker on each card
-    const deleteWeek = (weekNumber: number) => {
+    const handleDeleteWeek = async (weekNumber: number) => {
        const weekToDelete = weeks.find((w) => w.weekNumber === weekNumber);
 
        const someCompletedWorkouts = weekToDelete?.days.some(d => d.isCompleted);
@@ -53,9 +59,21 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
        }
 
       if(window.confirm('are you sure you want to delete this week?')) {
-       //use dispatch and dispatch the week number with the reducer you are going to make
-      }
+      
+        try {
+          
+        await deleteWeekApi({
+            workoutPlanId: workoutPlanId,
+            weekNumber: weekNumber
+          })
 
+          dispatch(deleteWeek(weekNumber));
+
+        } catch (error) {
+          console.error('could not complete request to delete week', error);
+        }
+      
+      }
 
     }
     
@@ -70,7 +88,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
                 {isEditing && (
                     <div className="week-card-delete-marker-div">
                         <img src={deleteMarker} alt="" className="week-card-delete-marker" onClick={() => {
-                            deleteWeek();
+                            handleDeleteWeek(week.weekNumber);
                         }}/>
                     </div>
                 )}
