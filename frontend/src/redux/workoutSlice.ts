@@ -19,7 +19,7 @@ export interface Exercise {
 export interface DayPlan {
   day: string;
   exercises: Exercise[];
-  isCompleted: boolean;
+  isCompleted?: boolean;
   _id?: string;
 }
 
@@ -70,13 +70,30 @@ const workoutSlice = createSlice({
 
 
     // add a week for the new program to the store
-    addWeek(state, action: PayloadAction<{workoutPlanId: string, weekNumber: number}>) {
+    addWeek(state, action: PayloadAction<{workoutPlanId: string, weekNumber: number, days: DayPlan[]}>) {
 
-      const { workoutPlanId, weekNumber } = action.payload;
+      const { workoutPlanId, weekNumber, days } = action.payload;
 
       if(state.currentPlan?.id === workoutPlanId) {
-       const newWeek: WeekPlan = { weekNumber, days: [] };
-       state.currentPlan.weeks.push(newWeek);
+        const newWeek: WeekPlan = {
+          weekNumber,
+          days: days.map(day => ({
+              day: day.day,
+              exercises: day.exercises.map(exercise => ({
+                  id: exercise.id,
+                  name: exercise.name,
+                  muscleGroup: exercise.muscleGroup,
+                  sets: exercise.sets.map((_, index) => ({
+                      setNumber: index + 1,
+                      reps: null,
+                      weight: null,
+                      rir: null
+                  }))
+              }))
+          }))
+      };
+  
+      state.currentPlan.weeks.push(newWeek)
       }
     },
 

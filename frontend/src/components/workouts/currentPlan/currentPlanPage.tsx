@@ -11,6 +11,7 @@ import { addWeek } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
 
+
 const CurrentPlanPage = () => {
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
@@ -24,11 +25,6 @@ const CurrentPlanPage = () => {
    }
 
    const handleAddWeek = async () => {
-
-        //maybe in here we need to find the currentPlans last week,
-        //and then we can use that plus one to be the value of the 
-        // new week 
-
         
         try{
             if(!currentPlan) {
@@ -38,7 +34,24 @@ const CurrentPlanPage = () => {
 
             const newWeekNumber = lastWeekNumber + 1;
 
-            const daysForNewWeek = currentPlan.weeks.length > 0 ? currentPlan.weeks[0].days : [];
+            // Get the first week's days and reset the 'isCompleted' status
+            const daysForNewWeek = currentPlan.weeks.length > 0
+            ? currentPlan.weeks[0].days.map(day => ({
+                day: day.day,
+                exercises: day.exercises.map(exercise => ({
+                    id: exercise.id,
+                    name: exercise.name,
+                    muscleGroup: exercise.muscleGroup,
+                    sets: exercise.sets.map((_, index) => ({
+                        setNumber: index + 1, // Ensures setNumber starts from 1
+                        reps: null,
+                        weight: null,
+                        rir: null
+                    }))
+                }))
+            }))
+            : [];
+
 
             addWeekApi({
                 workoutPlanId: currentPlan.id,
@@ -48,7 +61,8 @@ const CurrentPlanPage = () => {
 
             dispatch(addWeek({
                 workoutPlanId: currentPlan.id,
-                weekNumber: newWeekNumber
+                weekNumber: newWeekNumber,
+                days: daysForNewWeek
             }))
         } catch (error) {
             console.error(error);
