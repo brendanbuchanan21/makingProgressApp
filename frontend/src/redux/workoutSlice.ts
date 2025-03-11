@@ -68,6 +68,10 @@ const workoutSlice = createSlice({
       state.currentPlan.duration = action.payload;
     },
 
+    duplicateFirstWeek(state, action) {
+      state.currentPlan = action.payload;
+    },
+
 
     // add a week for the new program to the store
     addWeek(state, action: PayloadAction<{workoutPlanId: string, weekNumber: number, days: DayPlan[]}>) {
@@ -269,7 +273,8 @@ export const {
   addSetToExercise,
   removeSetFromExercise,
   updateSetDetails,
-  updateDayCompletion
+  updateDayCompletion,
+  duplicateFirstWeek
 } = workoutSlice.actions;
 
 export const workoutReducer = workoutSlice.reducer;

@@ -7,15 +7,18 @@ import { useState } from "react";
 import { DayPlan } from "../../../redux/workoutSlice";
 import ExpandedDayView from "./expandedDayView";
 import { useDeleteExerciseProgramMutation } from "../../../redux/workoutApi";
+import { duplicateFirstWeek } from "../../../redux/workoutSlice";
+import { useDuplicateFirstWeekApiMutation } from "../../../redux/workoutApi";
+
 
 
 const SubmitWorkoutPg = () => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [selectedDay, setSelectedDay] = useState<DayPlan | null>(null);
     const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
-    
+    const dispatch = useDispatch();
+    const [duplicateFirstWeekApi] = useDuplicateFirstWeekApiMutation();
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const workoutProgramId = currentPlan.id;
@@ -58,7 +61,7 @@ const SubmitWorkoutPg = () => {
            
         }
 
-    const submitWorkoutPlan = () => {
+    const submitWorkoutPlan = async () => {
         
         const isPlanComplete = firstWeekDays.every(day => day.exercises && day.exercises.length > 0);
 
@@ -66,6 +69,36 @@ const SubmitWorkoutPg = () => {
             alert('Please make sure all days have exercises before submitting.');
             return;
         }
+
+
+         // Copy exercises from the first week to the other weeks
+        const updatedWeeks = currentPlan.weeks.map((week, index) => {
+            if (index === 0) return week; // Don't modify the first week
+            const copiedDays = week.days.map((day, dayIndex) => {
+            const firstWeekDayExercises = firstWeekDays[dayIndex]?.exercises || [];
+            return {
+                ...day,
+                exercises: [...firstWeekDayExercises], // Copy exercises from the first week
+            };
+            });
+            return { ...week, days: copiedDays };
+        });
+        const updatedWorkoutPlan = {...currentPlan, weeks: updatedWeeks}
+
+        console.log(updatedWorkoutPlan, "please help");
+        try {
+            const response = await duplicateFirstWeekApi(updatedWorkoutPlan).unwrap();
+
+            console.log('here is the response from the api request:', response);
+            dispatch(duplicateFirstWeek({
+                ...currentPlan,
+                weeks: updatedWeeks
+            }))
+        } catch (error) {
+            console.error(error);
+        }
+       
+
     navigate('/workouts'); // Redirect to another page
     }
 

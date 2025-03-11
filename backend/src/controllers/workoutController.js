@@ -402,3 +402,29 @@ export const addWeekToPlan = async (req, res) => {
         return res.status(500).json(error);
     }
 }
+
+export const addDuplicatedWeeks = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedWorkoutPlan = req.body;
+        console.log("Request Body:", req.body);
+
+
+        const workoutPlan = await workoutModel.findById(id);
+
+        if(!workoutPlan) {
+            return res.status(400).json({message: 'could not locate workout plan by id'});
+
+        }
+        workoutPlan.weeks = updatedWorkoutPlan.weeks;
+
+        await workoutPlan.save();
+
+        return res.status(200).json(workoutPlan);
+
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({message: 'internal server error'});
+    }
+}

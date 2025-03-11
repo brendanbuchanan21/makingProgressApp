@@ -138,8 +138,16 @@ export const newWorkoutProgramApi = createApi({
                 method: "PATCH",
                 body: {weekNumber, days}
             })
+        }),
+        duplicateFirstWeekApi: builder.mutation<WorkoutPlan, WorkoutPlan>({
+            query: (updatedWorkoutPlan) => ({
+                url: `/${updatedWorkoutPlan.id}`,
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: updatedWorkoutPlan,  
+            })
         })
     }),
 });
 
-export const { usePostWorkoutPlanMutation, useUpdateWorkoutCompletionApiMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useDeleteWeekApiMutation, useHandleAddWeekApiMutation} = newWorkoutProgramApi;
+export const { useDuplicateFirstWeekApiMutation, usePostWorkoutPlanMutation, useUpdateWorkoutCompletionApiMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useDeleteWeekApiMutation, useHandleAddWeekApiMutation} = newWorkoutProgramApi;
