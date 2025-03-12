@@ -9,7 +9,7 @@
 .NewPlan-popup-container {
     border: 2px solid var(--grey);
     width: 30vw;
-    height: 60vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     border-radius: .5rem;
@@ -133,6 +133,22 @@ input[type="date"] {
 .Newplan-day-of-week-btn.selected {
  background-color: var(--hover-blue);
  color: white;
+}
+
+.disclaimer-div {
+    width: 90%;                /* Align with other form elements */
+    margin: 0.5rem auto;       /* Center horizontally with some vertical spacing */
+    padding: 0.5rem;           /* Added padding for better inner spacing */
+    border: 1px solid #ccc;    /* A subtler border than lightblue */
+    border-radius: 4px;        /* A slightly smaller radius */
+    background-color: #f9f9f9; /* A very light background to highlight the note without distraction */
+    display: flex;
+    align-items: center;  
+}
+.disclaimer-div p {
+    font-size: 0.9rem;         /* Adjust font size to be consistent with other text */
+    color: #555;               /* Use a neutral grey for a softer look */
+    margin: 0; 
 }
 
 .NewPlan-program-duration-div {

@@ -34,13 +34,13 @@ const EditExercisePopup: React.FC<EditExercisePopupProps> = ({ exercise, onSave,
         onSave(updatedExercise);
     }
 
-    const handleNumberOfSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNumberOfSetsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newSetCount = Number(e.target.value);
         const updatedSets = Array.from({ length: newSetCount }, (_, index) => ({
             setNumber: index + 1,
-            reps: 0,  // Default value, you can adjust as needed
-            weight: 0,  // Default value
-            rir: 0,  // Default value
+            reps: null,  
+            weight: null,  
+            rir: null,  
         }));
 
         setSets(updatedSets); // Update the sets array with the new set count
@@ -54,8 +54,22 @@ const EditExercisePopup: React.FC<EditExercisePopupProps> = ({ exercise, onSave,
         <div className="edit-exercise-popup">
         <p>Edit Exercise</p>
           <input value={name} onChange={(e) => setName(e.target.value)} className="edit-exercise-popup-input"/>
-          <input value={muscleGroup} onChange={(e) => setMuscleGroup(e.target.value)} className="edit-exercise-popup-input" />
-          <input value={sets.length} onChange={handleNumberOfSetsChange} className="edit-exercise-popup-input" />
+          <select value={muscleGroup} onChange={(e) => setMuscleGroup(e.target.value)}>
+            <option value="Chest">Chest</option>
+            <option value="Triceps">Triceps</option>
+            <option value="Biceps">Biceps</option>
+            <option value="Back">Back</option>
+            <option value="Shoulders">Shoulders</option>
+            <option value="Legs">Legs</option>
+            <option value="Abs">Abs</option>
+            <option value="Calves">Calves</option>
+          </select>
+          <select value={sets.length} onChange={handleNumberOfSetsChange} >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
           <button onClick={handleSave}>Save</button>
           <button onClick={onClose}>Cancel</button>
         </div>

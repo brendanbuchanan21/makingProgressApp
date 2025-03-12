@@ -145,7 +145,7 @@ z-index: 1000; /* Ensure overlay stays on top */
     border-radius: 10px; /* Rounded corners */
     background-color: #f8f9fa; /* Light background for contrast */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    width: 60%; /* Slightly wider width */
+    width: 40%; /* Slightly wider width */
     max-width: 800px;
     padding: 20px; /* Inner padding */
     margin: 20px auto; /* Centered with top and bottom spacing */
@@ -159,6 +159,8 @@ z-index: 1000; /* Ensure overlay stays on top */
     font-family: 'Arial', sans-serif; /* Clean font */
     color: #333; /* Darker text for readability */
     z-index: 1001;
+    max-height: 80vh;
+    overflow-y: auto;
   }
   
   .expanded-day-card h2 {
@@ -264,12 +266,14 @@ z-index: 1000; /* Ensure overlay stays on top */
   }
   
   .AE-btns-div button:first-of-type {
-    background-color: var(--blue);
-    color: white;
+    background-color: white;
+    border: 1px solid var(--blue);
+    color: var(--blue);
   }
   
   .AE-btns-div button:first-of-type:hover {
     background-color: #bbb;
+    border: #bbb;
   }
   
   .AE-btns-div button:last-of-type {

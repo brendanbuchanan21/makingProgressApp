@@ -6,7 +6,7 @@ import { setCurrentPlan } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import NavBar from '../../dashboard/navbar';
 import { usePostWorkoutPlanMutation } from '../../../redux/workoutApi';
-
+import disclaimerTag from '../../../images/disclaimerTag.svg'
 interface NewPlanPopupProps {
 
     onClose: () => void;
@@ -127,6 +127,9 @@ return (
                                 {day}
                             </button>
                         ))}
+                        </div>
+                        <div className='disclaimer-div'>
+                            <p>You can complete these workouts on any day, not just the scheduled days</p>
                         </div>
                     </div>
 
