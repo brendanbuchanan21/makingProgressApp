@@ -27,21 +27,63 @@
 .WP-card {
     height: 50vh;
     width: 25vw;
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.WP-card-img {
+
+.WP-current-plan-card {
     width: 75%;
     height: 70%;
     object-fit: cover;
     margin-bottom: 5%;
     margin-top: 5%;
-    
 }
+.WP-new-plan-card {
+    width: 75%;
+    height: 70%;
+    object-fit: cover;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    border: 2px solid var(--grey);
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+
+}
+.WP-current-workout-card {
+    width: 75%;
+    height: 70%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    border: 2px solid var(--grey); 
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 12px; 
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.WP-current-workout-card p {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    margin: 5px 0;
+    margin-bottom: 10px;
+    margin-top: 1rem;
+}
+.muscle-group-preview-text {
+    color: var(--hover-blue);
+}
+
 
 .WP-card-btn {
     width: 50%;
