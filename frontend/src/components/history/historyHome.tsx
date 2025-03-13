@@ -15,7 +15,7 @@ const HistoryHome = () => {
         <div>
         <TotalVolumeMuscleGroup />
         </div>
-        <div>
+        <div className="total-volume-chart-div">
             <TotalVolumeChart />
         </div>
         </section>

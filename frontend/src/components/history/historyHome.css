@@ -30,14 +30,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 10vh;
 }
+
 .week-view-month-line-graph-select-div {
     display: flex;
-    width: 75%;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 8rem;
+}
+.time-scale-select {
+    border: 1px solid var(--blue);
+    width: 20%;
 }
 
 
 
 .line-chart-main-container {
     height: 80%;
+    width: 100%;
 }   
+

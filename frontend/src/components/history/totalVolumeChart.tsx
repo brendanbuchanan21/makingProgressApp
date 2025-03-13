@@ -52,7 +52,7 @@ const TotalVolumeChart = () => {
     <div className='line-chart-total-volume-biggest-container'> 
       {/* Timescale selector */}
       <div className='week-view-month-line-graph-select-div'>
-      <select onChange={handleTimescaleChange} value={timescale}>
+      <select onChange={handleTimescaleChange} value={timescale} className='time-scale-select'>
         <option value="week">Week</option>
         <option value="month">Month</option>
         <option value="year">Year</option>
