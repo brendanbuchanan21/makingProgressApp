@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const biometricSchema = new Schema({
+    userId: { type: String, required: true, unique: true },
     height: String,
     initialWeight: Number,
     age: Number,

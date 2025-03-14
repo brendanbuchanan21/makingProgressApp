@@ -43,6 +43,11 @@ export const newBioMetricApi = createApi({
                 method: "DELETE"
             }),
         }),
+        getBioMetrics: builder.query<bioMetricResponse, void>({
+            query: () => ({
+                url: `/`
+            })
+        })
     })
 })
 

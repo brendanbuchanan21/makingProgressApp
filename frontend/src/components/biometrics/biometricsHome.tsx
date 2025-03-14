@@ -44,5 +44,6 @@ const BiometricsHome = () => {
         </>
     )
 }
+ 
 
 export default BiometricsHome;

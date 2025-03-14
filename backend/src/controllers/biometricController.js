@@ -79,7 +79,7 @@ export const submitBiometrics = async (req, res) => {
             protein: proteinGrams,
             fats: fatGrams,
             carbs: carbGrams
-
+ 
          });
 
          await newBioMetric.save();
@@ -108,3 +108,4 @@ export const deleteBioMetrics = async (req, res) => {
         console.error('error retrieving the data id:', error);
     }
 }
+

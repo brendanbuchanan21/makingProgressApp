@@ -4,6 +4,7 @@
     align-items: center;
     height: 80vh;
     text-align: center;
+  
   }
   
   .biometrics-intro-container {
@@ -103,11 +104,6 @@
     margin-bottom: 1rem;
 }
 
-
-/* this is the body fat percentage pop up form */
-.body-fat-image-section {
-
-}
 
 
 .body-fat-image-section h1 {
