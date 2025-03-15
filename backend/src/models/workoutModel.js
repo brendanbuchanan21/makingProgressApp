@@ -55,7 +55,10 @@ const weekPlanSchema = new Schema({
 })
 
 const workoutSchema = new Schema({
-
+    userId: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true,

@@ -32,6 +32,7 @@ export interface WeekPlan {
 
 export interface WorkoutPlan {
   id?: string | any;
+  userId: string,
   weeks: WeekPlan[];
   duration: string;
   startDate: string;
@@ -44,6 +45,7 @@ interface WorkoutSliceState {
 const initialState: WorkoutSliceState = {
     currentPlan: {
       id: '',
+      userId: '',
       weeks: [],
       duration: '',
       startDate: ''

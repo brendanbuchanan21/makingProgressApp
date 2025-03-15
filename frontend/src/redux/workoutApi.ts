@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { WorkoutPlan, Exercise, SetDetails} from './workoutSlice';
-
+import { getAuth } from 'firebase/auth';
 
 interface DeleteExerciseRequest {
     workoutId: string,
@@ -64,7 +64,15 @@ interface addWeekRequest {
 
 export const newWorkoutProgramApi = createApi({
     reducerPath: 'workoutApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/workouts/'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/workouts/', prepareHeaders: async (headers, { getState }) => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if(user) {
+            const token = await user.getIdToken();
+            headers.set('Authorization', `Bearer ${token}`);
+        }
+        return headers;
+    }}),
     endpoints: (builder) => ({
         postWorkoutPlan: builder.mutation<WorkoutPlan, WorkoutPlan>({
             query: (newPlan) => ({

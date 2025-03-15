@@ -24,8 +24,10 @@ const Login = () => {
         const auth = getAuth();
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            console.log("User logged in succesfully");
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          console.log('hmm what does this look like:', user);
+            console.log("User logged in succesfully", user.uid);
             navigate('/dashboard');
             
         } catch (err: any) {

@@ -6,7 +6,7 @@ import { setCurrentPlan } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import NavBar from '../../dashboard/navbar';
 import { usePostWorkoutPlanMutation } from '../../../redux/workoutApi';
-import disclaimerTag from '../../../images/disclaimerTag.svg'
+
 interface NewPlanPopupProps {
 
     onClose: () => void;
@@ -20,6 +20,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
 
      // Access the current workout plan from the Redux store
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
+    const userId = useSelector((state: RootState) => state.user.userId);
     
     const [workoutDays, setWorkoutDays] = useState<string[]>([]);
     const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
@@ -45,7 +46,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!startDate || workoutDays.length === 0 || !programDuration) {
+        if (!startDate || workoutDays.length === 0 || !programDuration || !userId) {
             console.error("Missing required fields.");
             return;
         }
@@ -62,6 +63,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
 
         // Create a new plan object (in case no plan exists yet)
         const newPlan = {
+            userId: userId,
             name: planName,
             exercises: [], // Will add exercises later
             days: workoutDays,

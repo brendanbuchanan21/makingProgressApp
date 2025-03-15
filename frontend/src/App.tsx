@@ -11,13 +11,28 @@ import BiometricsHome from './components/biometrics/biometricsHome';
 import SettingsPg from './components/dashboard/settingsPg';
 import HistoryHome from './components/history/historyHome';
 import TodaysWorkoutPage from './components/workouts/currentPlan/todaysWorkoutPage';
-
 import './App.css'
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { setUser } from './redux/userSlice';
+import { useDispatch } from 'react-redux';
+import { auth } from './components/welcome/firebase';
 
 function App() {
 
+  const dispatch = useDispatch();
 
-
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(setUser(user.uid));
+      } else {
+        dispatch(setUser(null))
+      }
+    })
+    return () => unsubscribe();
+  }, [dispatch]);
+  
   return (
     <>
     <Router>

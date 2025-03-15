@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { deleteBioMetrics, submitBiometrics, getBiometrics } from "../controllers/biometricController.js";
-
+import { deleteBioMetrics, submitBiometrics } from "../controllers/biometricController.js";
+import { verifyToken } from "../middlewares/authMiddleWare.js";
 
 const biometricRouter = Router();
 
 
-biometricRouter.post("/", submitBiometrics);
-biometricRouter.delete('/:id', deleteBioMetrics);
+biometricRouter.post("/", verifyToken, submitBiometrics);
+biometricRouter.delete('/:id', verifyToken, deleteBioMetrics);
 
 
 
