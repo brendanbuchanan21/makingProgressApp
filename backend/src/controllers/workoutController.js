@@ -23,12 +23,16 @@ export const newWorkoutPlan = async (req, res) => {
 // retrieve entire workout plan 
 
 export const getWorkoutPlan = async (req, res) => {
-    const { id } = req.params
-    if(!mongoose.Types.ObjectId.isValid(id)) {
+    const { userId, workoutPlanId } = req.params
+    if(!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(workoutPlanId)) {
         return res.status(404).json({error: 'Nope'});
     }
 
-    const workoutPlan = await workoutModel.findById(id);
+    const workoutPlan = await workoutModel.findOne({
+        _id: workoutPlanId,
+        userId: userId
+    });
+    
     if(!workoutPlan) {
         return res.status(404).json({error: "no such workout plan"});
     }

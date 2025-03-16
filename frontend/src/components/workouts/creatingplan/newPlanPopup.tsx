@@ -89,6 +89,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         navigate('/workouts');
         
     }
+    
 
 return (
     <>

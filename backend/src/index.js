@@ -9,6 +9,12 @@ import biometricRouter from './routes/biometricRouter.js';
 import bodyWeightRouter from './routes/bodyWeightRouter.js';
 import completedWorkoutsRouter from './routes/completedWorkoutRouter.js';
 import volumeRouter from './routes/volumeRoutes.js';
+import admin from 'firebase-admin'
+dotenv.config();
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const serviceAccount = require('../keys/firebase.json');
 
 const port = 8000;
 const app = express();
@@ -18,8 +24,12 @@ app.use(cors());
 // Get the current directory (__dirname equivalent for ES modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config();
 
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 
 mongoose.connect(process.env.MONG_URI)

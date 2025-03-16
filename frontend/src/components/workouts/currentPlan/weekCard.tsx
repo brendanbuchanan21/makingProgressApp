@@ -3,9 +3,12 @@ import { RootState } from "../../../redux/store";
 import { useGetCompletedWorkoutVolumeQuery } from "../../../redux/completedWorkoutApi";
 import dumbbellIcon  from '../../../images/dumbbell-svgrepo-com.svg';
 import deleteMarker from '../../../images/deleteMarker.svg';
-import { deleteWeek } from "../../../redux/workoutSlice";
+import { deleteWeek, setCurrentPlan } from "../../../redux/workoutSlice";
 import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
+import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
+import { useEffect } from "react";
+
 
 interface WeekCardProps {
     isEditing: boolean;
@@ -16,11 +19,23 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
     const workoutPlanId = currentPlan?.id;
+    const userId = currentPlan?.userId;
 
     const dispatch = useDispatch();
     
+    const { data: workoutPlanData, error: workoutPlanError, isLoading: isLoadingWorkoutPlan } = useGetExerciseProgramQuery({userId, workoutPlanId}, {
+      skip: !!currentPlan,
+    })
+
+    const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(workoutPlanId);
+
+    useEffect(() => {
+      if(workoutPlanData && !currentPlan) {
+        dispatch(setCurrentPlan(workoutPlanData));
+      }
+    }, [workoutPlanData, dispatch, currentPlan])
     // Fetch completed workouts for the plan
-    const { data, error, isLoading } = useGetCompletedWorkoutVolumeQuery(workoutPlanId);
+
     
     const [deleteWeekApi] = useDeleteWeekApiMutation();
     
@@ -28,8 +43,8 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     let volumeByWeek: { [key: number]: number } = {};
 
   // Group the completed workouts by weekNumber and sum totalVolume for each week
-  if (Array.isArray(data)) {
-    volumeByWeek = data.reduce((acc: { [key: number]: number }, workout: any) => {
+  if (Array.isArray(completedWorkoutData)) {
+    volumeByWeek = completedWorkoutData.reduce((acc: { [key: number]: number }, workout: any) => {
       const weekNum = workout.weekNumber;
   
       // Only initialize week number if it doesn't already have a value
@@ -43,8 +58,8 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     }, {});
   }
     
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error loading completed workouts.</p>;
+    if (isLoadingCompletedWorkouts) return <p>Loading...</p>;
+    if (completedWorkoutsError) return <p>Error loading completed workouts.</p>;
 
 
     // work on adding functionality to the delete marker on each card

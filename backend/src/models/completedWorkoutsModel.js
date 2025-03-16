@@ -20,6 +20,7 @@ const Schema = mongoose.Schema;
 
 
     const completedWorkoutSchema = new Schema({
+        userId: { type: String, required: true },
         workoutPlanId: { type: String, required: true },
         weekNumber: { type: Number, required: true },
         day: { type: String, required: true },

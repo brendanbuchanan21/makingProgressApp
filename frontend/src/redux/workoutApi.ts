@@ -80,7 +80,7 @@ export const newWorkoutProgramApi = createApi({
             method: 'POST',
             body: newPlan,
             }),
-        }),
+        }), 
         addingExerciseToDay: builder.mutation<Exercise | any,  { id: string; weekNumber: number; day: string; exercise: Exercise }>({
 
             query: ({ id, weekNumber, day, exercise }) => ({
@@ -95,9 +95,9 @@ export const newWorkoutProgramApi = createApi({
                 method: 'DELETE',
             })
         }),
-        getExerciseProgram: builder.query<WorkoutPlan, string>({
-            query: (id) => ({
-                url: `/${id}`,
+        getExerciseProgram: builder.query<WorkoutPlan, {userId: string, workoutPlanId: string}>({
+            query: ({ userId, workoutPlanId}) => ({
+                url: `/${userId}/${workoutPlanId}`,
                 method: 'GET',
             })
         }),

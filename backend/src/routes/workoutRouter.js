@@ -8,7 +8,7 @@ const workoutRouter = Router();
 
 
 //get workout plan 
-workoutRouter.get('/:id', verifyToken, getWorkoutPlan);
+workoutRouter.get('/:userId/:workoutPlanId', verifyToken, getWorkoutPlan);
 
 workoutRouter.get('/:id/weeks/:weekNumber/days/:day/:exerciseId', verifyToken, getExerciseFromPlan)
 

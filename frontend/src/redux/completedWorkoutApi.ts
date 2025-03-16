@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Exercise } from "./workoutSlice";
-import { NumberSchema } from "firebase/vertexai";
+import { getAuth } from "firebase/auth";
 
 interface completedSet {
     setNumber: number,
@@ -41,7 +41,17 @@ interface completedWorkoutRequest {
 
 export const completedWorkoutApi = createApi({
     reducerPath: 'completedWorkoutApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/completedWorkout'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/completedWorkout',
+        prepareHeaders: async (headers) => {
+            const auth = getAuth();
+            const user = auth.currentUser;
+            if(user) {
+                const token = await user.getIdToken();
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+        }
+    }),
     endpoints: (builder) => ({
         postCompletedExercise: builder.mutation<completedWorkoutResponse, completedWorkoutRequest>({
             query: (completedWorkout) => ({
