@@ -8,6 +8,8 @@ import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
 import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
 import { useEffect } from "react";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useState } from "react";
 
 
 interface WeekCardProps {
@@ -16,10 +18,25 @@ interface WeekCardProps {
 
 
 const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
+
+    
+
+    const [userId, setUserId] = useState<string | null>(null);
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
     const workoutPlanId = currentPlan?.id;
-    const userId = currentPlan?.userId;
+
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUserId(user ? user.uid : null);
+        });
+          
+     return () => unsubscribe();
+  }, []);
+
+
 
     const dispatch = useDispatch();
     
@@ -27,8 +44,9 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
       skip: !!currentPlan,
     })
 
-    const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(workoutPlanId);
+    const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery({workoutPlanId, userId});
 
+    console.log('whats up doc', completedWorkoutData);
     useEffect(() => {
       if(workoutPlanData && !currentPlan) {
         dispatch(setCurrentPlan(workoutPlanData));
@@ -36,6 +54,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     }, [workoutPlanData, dispatch, currentPlan])
     // Fetch completed workouts for the plan
 
+    console.log('logging current plan on refresh', currentPlan);
     
     const [deleteWeekApi] = useDeleteWeekApiMutation();
     
@@ -58,8 +77,8 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     }, {});
   }
     
-    if (isLoadingCompletedWorkouts) return <p>Loading...</p>;
-    if (completedWorkoutsError) return <p>Error loading completed workouts.</p>;
+  if (isLoadingCompletedWorkouts) return <p>Loading...</p>;
+  if (completedWorkoutsError) return <p>Error loading completed workouts.</p>;
 
 
     // work on adding functionality to the delete marker on each card
@@ -97,7 +116,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
         {weeks.map((week, index) => {
           const weekVolume = volumeByWeek[week.weekNumber] || 0;
           const isWeekCompleted = week.days.every(day => day.isCompleted);
-    
+          console.log('hmm lets see', weekVolume);
           return (
             <div className="week-card-div" key={index}>
                 {isEditing && (

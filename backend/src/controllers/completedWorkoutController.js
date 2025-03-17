@@ -7,7 +7,10 @@ export const logCompletedWorkout = async (req, res) => {
     try {
         console.log('Received data:', JSON.stringify(req.body, null, 2));
     const { workoutPlanId, weekNumber, day, exercises } = req.body;
-        if(!workoutPlanId || !weekNumber || !day || !Array.isArray(exercises) || exercises.length === 0) {
+    const userId = req.user?.uid;
+
+    
+        if(!workoutPlanId || !weekNumber || !day || !Array.isArray(exercises) || exercises.length === 0 || !userId) {
             res.status(404).json({message: 'missing data from workout such as the id or week number'});
             return;
         }
@@ -34,6 +37,7 @@ export const logCompletedWorkout = async (req, res) => {
         });
 
         const workoutComplete = new completedWorkoutModel({
+            userId,
             workoutPlanId,
             weekNumber,
             day,
@@ -52,6 +56,7 @@ export const logCompletedWorkout = async (req, res) => {
 
 export const getCompletedWorkouts = async (req, res) => {
         const { workoutPlanId } = req.query;
+        const userId = req.user.id;
 
         const trimmedId = workoutPlanId.trim();  // Remove any extra whitespace or newlines
 
@@ -60,7 +65,9 @@ export const getCompletedWorkouts = async (req, res) => {
         }
 
         try {
-            const completedWorkouts = await completedWorkoutModel.find({ workoutPlanId: trimmedId });
+            const completedWorkouts = await completedWorkoutModel.find({ workoutPlanId: trimmedId,
+                userId: userId
+             });
             console.log('Found completed workouts:', completedWorkouts);
             res.status(200).json(completedWorkouts);
         } catch (error) {

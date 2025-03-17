@@ -45,9 +45,16 @@ export const completedWorkoutApi = createApi({
         prepareHeaders: async (headers) => {
             const auth = getAuth();
             const user = auth.currentUser;
-            if(user) {
-                const token = await user.getIdToken();
-                headers.set('Authorization', `Bearer ${token}`);
+            if (user) {
+                try {
+                    const token = await user.getIdToken();
+                    console.log('ID Token:', token); // Log the token
+                    headers.set('Authorization', `Bearer ${token}`);
+                } catch (error) {
+                    console.error('Error getting ID token:', error); // Log any errors
+                }
+            } else {
+              console.log('No user logged in.');
             }
             return headers;
         }
@@ -63,7 +70,7 @@ export const completedWorkoutApi = createApi({
                 },
             })
         }),
-        getCompletedWorkoutVolume: builder.query<completedWorkoutResponse, { workoutPlanId: string }>({
+        getCompletedWorkoutVolume: builder.query<completedWorkoutResponse, string | any>({
             query: (workoutPlanId) => ({
                 url: `/completedWorkouts?workoutPlanId=${workoutPlanId}`,
                 method: 'GET',

@@ -95,7 +95,7 @@ export const newWorkoutProgramApi = createApi({
                 method: 'DELETE',
             })
         }),
-        getExerciseProgram: builder.query<WorkoutPlan, {userId: string, workoutPlanId: string}>({
+        getExerciseProgram: builder.query<WorkoutPlan, {userId: string | any, workoutPlanId: string}>({
             query: ({ userId, workoutPlanId}) => ({
                 url: `/${userId}/${workoutPlanId}`,
                 method: 'GET',

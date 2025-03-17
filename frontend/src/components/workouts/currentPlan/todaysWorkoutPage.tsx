@@ -22,7 +22,6 @@ const TodaysWorkoutPage = () => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
 
 
-    console.log("Weeks in currentPlan:", currentPlan.weeks);
 
     const firstIncompleteWorkout = currentPlan?.weeks.flatMap((week) => week.days)?.find((day) => !day.isCompleted);
 
