@@ -58,11 +58,13 @@ export const getCompletedWorkouts = async (req, res) => {
         const { workoutPlanId } = req.query;
         const userId = req.user.id;
 
+        console.log('userId??', userId);
         const trimmedId = workoutPlanId.trim();  // Remove any extra whitespace or newlines
 
         if (!trimmedId) {
             return res.status(400).json({ message: 'Workout plan ID is required' });
         }
+        console.log(trimmedId, 'whats this trimmed id??')
 
         try {
             const completedWorkouts = await completedWorkoutModel.find({ workoutPlanId: trimmedId,

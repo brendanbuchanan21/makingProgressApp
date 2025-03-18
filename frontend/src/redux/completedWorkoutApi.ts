@@ -34,6 +34,7 @@ interface completedWorkoutRequest {
     exercises: Exercise[];
 }
 
+
   
 
 
@@ -45,16 +46,16 @@ export const completedWorkoutApi = createApi({
         prepareHeaders: async (headers) => {
             const auth = getAuth();
             const user = auth.currentUser;
-            if (user) {
+
+            if(user) {
                 try {
                     const token = await user.getIdToken();
-                    console.log('ID Token:', token); // Log the token
                     headers.set('Authorization', `Bearer ${token}`);
-                } catch (error) {
-                    console.error('Error getting ID token:', error); // Log any errors
+                } catch(error) {
+                    console.error('error getting id token:', error);
                 }
             } else {
-              console.log('No user logged in.');
+                console.log('no user logged in');
             }
             return headers;
         }
@@ -70,7 +71,7 @@ export const completedWorkoutApi = createApi({
                 },
             })
         }),
-        getCompletedWorkoutVolume: builder.query<completedWorkoutResponse, string | any>({
+        getCompletedWorkoutVolume: builder.query<completedWorkoutResponse, string>({
             query: (workoutPlanId) => ({
                 url: `/completedWorkouts?workoutPlanId=${workoutPlanId}`,
                 method: 'GET',

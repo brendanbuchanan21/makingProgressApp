@@ -8,8 +8,11 @@ import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
 import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
 import { useEffect } from "react";
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { skipToken } from "@reduxjs/toolkit/query";
+import { getAuth } from "firebase/auth";
 import { useState } from "react";
+
+
 
 
 interface WeekCardProps {
@@ -21,31 +24,70 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
 
     
 
-    const [userId, setUserId] = useState<string | null>(null);
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
     const workoutPlanId = currentPlan?.id;
-
-
-    useEffect(() => {
-        const auth = getAuth();
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          setUserId(user ? user.uid : null);
-        });
-          
-     return () => unsubscribe();
-  }, []);
-
-
+    const [authToken, setAuthToken] = useState<string | null>(null);  // Track the auth token
+  const [isTokenReady, setIsTokenReady] = useState(false);  // Flag
+   
 
     const dispatch = useDispatch();
     
-    const { data: workoutPlanData, error: workoutPlanError, isLoading: isLoadingWorkoutPlan } = useGetExerciseProgramQuery({userId, workoutPlanId}, {
-      skip: !!currentPlan,
-    })
 
-    const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery({workoutPlanId, userId});
+     // Fetch auth token and ensure it's ready before running queries
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const user = getAuth().currentUser;
+        if (user) {
+          const token = await user.getIdToken();
+          setAuthToken(token); // Save token to state
+          setIsTokenReady(true); // Mark token as ready
+        } else {
+          console.error("User not logged in.");
+        }
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
 
+    fetchToken();
+  }, []);
+
+  // Ensure the query is only sent when the token is ready
+  const { data: workoutPlanData, error: workoutPlanError, isLoading: isLoadingWorkoutPlan } = useGetExerciseProgramQuery(
+    workoutPlanId ? { workoutPlanId } : skipToken,
+    {
+      skip: !isTokenReady, // Skip the query until token is ready
+      selectFromResult: (result) => {
+        return {
+          ...result,
+          headers: {
+            Authorization: authToken ? `Bearer ${authToken}` : "", // Add token when it's available
+          },
+        };
+      },
+    }
+  );
+    
+    
+
+    
+  // Second query: Get completed workout volume
+  const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(
+    workoutPlanId ?? skipToken,
+    {
+      skip: !isTokenReady || !authToken || !workoutPlanId,// Skip the query until the token is ready
+      selectFromResult: (result) => ({
+        ...result,
+        headers: {
+          Authorization: authToken ? `Bearer ${authToken}` : "", // Add token when ready
+        },
+      }),
+    }
+  );
+
+   
     console.log('whats up doc', completedWorkoutData);
     useEffect(() => {
       if(workoutPlanData && !currentPlan) {
@@ -77,8 +119,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     }, {});
   }
     
-  if (isLoadingCompletedWorkouts) return <p>Loading...</p>;
-  if (completedWorkoutsError) return <p>Error loading completed workouts.</p>;
+  
 
 
     // work on adding functionality to the delete marker on each card
