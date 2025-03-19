@@ -29,6 +29,7 @@ const TodaysWorkoutPage = () => {
       return;
     }
 
+    console.log(firstIncompleteWorkout, 'lool');
     const [editMode, setEditMode] = useState(false);
 
    const navigate = useNavigate();
@@ -102,7 +103,7 @@ const TodaysWorkoutPage = () => {
             weight: null,
             rir: null,
           };
-    
+          console.log(exercise.id, 'ayyy check it')
           const result = await addingSetToExercise({
             workoutId: currentPlan.id,
             weekNumber,
@@ -110,7 +111,8 @@ const TodaysWorkoutPage = () => {
             exerciseId: exercise.id,
             newSet,
           });
-
+            console.log(result, 'wtf man please work');
+          console.log(result.data, 'here is the result data');
           if (result.data && result.data.newSet.id) { // Check if the result and ID exist
             const newSetWithId = {
               ...newSet,

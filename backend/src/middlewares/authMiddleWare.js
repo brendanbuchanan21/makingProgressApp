@@ -2,6 +2,7 @@
 
 import admin from 'firebase-admin';
 
+
 export const verifyToken = async (req, res, next) => {
     console.log('verifyToken middleware called');
     const authHeader = req.headers.authorization;

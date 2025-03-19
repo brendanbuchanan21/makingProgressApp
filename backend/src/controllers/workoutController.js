@@ -244,7 +244,8 @@ if (addedExercise) {
         if(!dayObject) {
             return res.status(409).json({message: 'found week but not day object'});
         }
-
+        console.log('All exercises in this dayObject:', dayObject.exercises);
+        console.log('exerciseId:', exerciseId);
         const exercise = dayObject.exercises.find((e) => e._id.toString() === exerciseId);
 
         if(!exercise) {

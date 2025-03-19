@@ -118,7 +118,7 @@ export const newWorkoutProgramApi = createApi({
             query: ({ workoutId, weekNumber, day, exerciseId, newSet }) => ({
                 url: `/${workoutId}/weeks/${weekNumber}/days/${day}/${exerciseId}/sets`,
                 method: "POST",
-                body: { newSet }
+                body: { newSet } 
             })
         }),
         deleteSetFromExerciseApi: builder.mutation<void, deleteSetRequest>({
