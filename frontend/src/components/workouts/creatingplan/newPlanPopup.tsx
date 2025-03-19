@@ -63,7 +63,6 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
 
         // Create a new plan object (in case no plan exists yet)
         const newPlan = {
-            userId: userId,
             name: planName,
             exercises: [], // Will add exercises later
             days: workoutDays,

@@ -25,11 +25,11 @@ const SetDetails = new Schema({
 const exerciseSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: false
     },
     muscleGroup: {
         type: String,
-        required: true
+        required: false
     },
     sets: [SetDetails],
 });

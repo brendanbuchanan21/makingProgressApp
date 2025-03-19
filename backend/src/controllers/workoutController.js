@@ -9,8 +9,6 @@ import mongoose, { mongo } from "mongoose";
 export const newWorkoutPlan = async (req, res) => {
      const { name, exercises, days, duration, startDate, weeks } = req.body;
      const userId = req.user.uid;
-
-
      try {
      const newPlan = await workoutModel.create({ userId, name, exercises, days, duration, startDate, weeks })
         res.status(200).json(newPlan)
@@ -244,8 +242,7 @@ if (addedExercise) {
         if(!dayObject) {
             return res.status(409).json({message: 'found week but not day object'});
         }
-        console.log('All exercises in this dayObject:', dayObject.exercises);
-        console.log('exerciseId:', exerciseId);
+       
         const exercise = dayObject.exercises.find((e) => e._id.toString() === exerciseId);
 
         if(!exercise) {
@@ -320,9 +317,6 @@ if (addedExercise) {
 export const updateWorkoutDay = async (req, res) => {
     try {
 
-        console.log('debugging request params:', req.params);
-        console.log('debuggin request body:', req.body);
-
     const { workoutPlanId, weekNumber, day } = req.params;
     const { isCompleted } = req.body;
 
@@ -357,7 +351,6 @@ export const deleteWeekFromPlan = async (req, res) => {
     try {
         const { workoutPlanId, weekNumber } = req.params;
 
-        console.log(weekNumber);
 
         if(!workoutPlanId || !weekNumber) {
             return res.status(404).json({message: 'did not receive id or week number'});
@@ -416,7 +409,6 @@ export const addDuplicatedWeeks = async (req, res) => {
     try {
         const { id } = req.params;
         const updatedWorkoutPlan = req.body;
-        console.log("Request Body:", req.body);
 
 
         const workoutPlan = await workoutModel.findById(id);

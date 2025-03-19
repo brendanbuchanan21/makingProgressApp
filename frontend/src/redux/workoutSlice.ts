@@ -32,7 +32,7 @@ export interface WeekPlan {
 
 export interface WorkoutPlan {
   id?: string | any;
-  userId: string,
+  userId?: string,
   weeks: WeekPlan[];
   duration: string;
   startDate: string;

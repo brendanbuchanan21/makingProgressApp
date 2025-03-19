@@ -23,13 +23,17 @@ const TodaysWorkoutPage = () => {
 
 
 
-    const firstIncompleteWorkout = currentPlan?.weeks.flatMap((week) => week.days)?.find((day) => !day.isCompleted);
+    const firstIncompleteWeek = currentPlan?.weeks.find((week) =>
+      week.days.some((day) => !day.isCompleted)
+    );
+    const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
 
     if(!firstIncompleteWorkout) {
       return;
     }
 
-    console.log(firstIncompleteWorkout, 'lool');
+
+    
     const [editMode, setEditMode] = useState(false);
 
    const navigate = useNavigate();
@@ -103,7 +107,6 @@ const TodaysWorkoutPage = () => {
             weight: null,
             rir: null,
           };
-          console.log(exercise.id, 'ayyy check it')
           const result = await addingSetToExercise({
             workoutId: currentPlan.id,
             weekNumber,
@@ -111,8 +114,6 @@ const TodaysWorkoutPage = () => {
             exerciseId: exercise.id,
             newSet,
           });
-            console.log(result, 'wtf man please work');
-          console.log(result.data, 'here is the result data');
           if (result.data && result.data.newSet.id) { // Check if the result and ID exist
             const newSetWithId = {
               ...newSet,
@@ -143,7 +144,6 @@ const TodaysWorkoutPage = () => {
   const deleteSet = async (set: SetDetails, exercise: Exercise) => {
       try { 
         if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id && set.id) {
-          console.log("yeah boiii");
             await deleteSetFromExercise({
               workoutId: currentPlan.id,
               weekNumber,
@@ -186,7 +186,6 @@ const TodaysWorkoutPage = () => {
           day: firstIncompleteWorkout.day
         }).unwrap();
 
-        console.log('exercise deletion api call succeeded');
 
         dispatch(deleteExercise({
           weekNumber,
@@ -212,9 +211,8 @@ const TodaysWorkoutPage = () => {
   const sendCompletedExercise = async (completedWorkout: any) => {
     try {
       
-      console.log("📨 Sending workout data:", JSON.stringify(completedWorkout, null, 2));
+    
       const response = await postCompletedExercise(completedWorkout).unwrap();
-      console.log("Workout successfully logged:", response);
     } catch (error) {
       console.error("API request failed:", JSON.stringify(error, null, 2));
     }
@@ -222,7 +220,6 @@ const TodaysWorkoutPage = () => {
 
   const completedWorkoutUpdate = async (completedWorkout: any) => {
     try {
-      console.log(completedWorkout, 'yo why not?')
       const response = await updateCompletedWorkout({
         workoutPlanId: completedWorkout.workoutPlanId,
         weekNumber: completedWorkout.weekNumber,
