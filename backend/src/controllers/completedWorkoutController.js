@@ -56,7 +56,7 @@ export const logCompletedWorkout = async (req, res) => {
 
 export const getCompletedWorkouts = async (req, res) => {
         const { workoutPlanId } = req.query;
-        const userId = req.user.id;
+        const userId = req.user.uid;
 
         console.log('userId??', userId);
         const trimmedId = workoutPlanId.trim();  // Remove any extra whitespace or newlines

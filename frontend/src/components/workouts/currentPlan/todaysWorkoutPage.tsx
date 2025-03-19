@@ -26,6 +26,7 @@ const TodaysWorkoutPage = () => {
     const firstIncompleteWeek = currentPlan?.weeks.find((week) =>
       week.days.some((day) => !day.isCompleted)
     );
+    console.log(firstIncompleteWeek, 'little rascal');
     const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
 
     if(!firstIncompleteWorkout) {
@@ -87,19 +88,14 @@ const TodaysWorkoutPage = () => {
     const [deleteExerciseApi] = useDeleteExerciseApiMutation();
     
 
-    //get the week number
-    const weekIndex = currentPlan.weeks.findIndex(week =>
-      week.days.some(day => day.day === firstIncompleteWorkout?.day) // Match based on the day name
-    );
-    
-    const weekNumber = weekIndex !== -1 ? weekIndex + 1 : null; // Convert to 1-based index
-    
-
+   const weekNumber = firstIncompleteWeek?.weekNumber;
+  
+   console.log(weekNumber, 'hehehe')
     const handleAddSet = async (exercise: Exercise) => {
 
       try {
 
-        if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id) {
+        if (currentPlan && currentPlan._id && weekNumber !== null && firstIncompleteWorkout && exercise._id) {
           const newSetNumber = exercise.sets.length + 1;
           const newSet: SetDetails = {
             setNumber: newSetNumber,
@@ -107,17 +103,20 @@ const TodaysWorkoutPage = () => {
             weight: null,
             rir: null,
           };
+          console.log(exercise._id, 'here is the exercise id');
+          console.log(weekNumber, 'huh verry interesting week number')
           const result = await addingSetToExercise({
-            workoutId: currentPlan.id,
+            workoutId: currentPlan._id,
             weekNumber,
             day: firstIncompleteWorkout.day,
-            exerciseId: exercise.id,
+            exerciseId: exercise._id,
             newSet,
           });
-          if (result.data && result.data.newSet.id) { // Check if the result and ID exist
+          console.log(result, 'here you go dingus buddy');
+          if (result.data && result.data.newSet._id) { // Check if the result and ID exist
             const newSetWithId = {
               ...newSet,
-              id: result.data.newSet.id, // Add the returned ID
+              _id: result.data.newSet._id, // Add the returned ID
             };
     
     
@@ -125,7 +124,7 @@ const TodaysWorkoutPage = () => {
             addSetToExercise({
               weekNumber,
               day: firstIncompleteWorkout.day,
-              exerciseId: exercise.id,
+              exerciseId: exercise._id,
               newSet: newSetWithId,
             })
           );
@@ -143,20 +142,20 @@ const TodaysWorkoutPage = () => {
 
   const deleteSet = async (set: SetDetails, exercise: Exercise) => {
       try { 
-        if (currentPlan && currentPlan.id && weekNumber !== null && firstIncompleteWorkout && exercise.id && set.id) {
+        if (currentPlan && currentPlan._id && weekNumber !== null && firstIncompleteWorkout && exercise._id && set._id) {
             await deleteSetFromExercise({
-              workoutId: currentPlan.id,
+              workoutId: currentPlan._id,
               weekNumber,
               day: firstIncompleteWorkout.day,
-              exerciseId: exercise.id,
-              setId: set.id,
+              exerciseId: exercise._id,
+              setId: set._id,
             });
             dispatch(
               removeSetFromExercise({
                 weekNumber,
                 day: firstIncompleteWorkout.day,
-                exerciseId: exercise.id,
-                setId: set.id,
+                exerciseId: exercise._id,
+                setId: set._id,
               })
             );
           } else {
@@ -174,14 +173,14 @@ const TodaysWorkoutPage = () => {
     }
 
     try {
-      if(exercise.id && currentPlan &&
-        currentPlan.id &&
+      if(exercise._id && currentPlan &&
+        currentPlan._id &&
         weekNumber !== null &&
         firstIncompleteWorkout) {
 
         await deleteExerciseApi({
-          workoutId: currentPlan.id,
-          exerciseId: exercise.id,
+          workoutId: currentPlan._id,
+          exerciseId: exercise._id,
           weekNumber,
           day: firstIncompleteWorkout.day
         }).unwrap();
@@ -190,7 +189,7 @@ const TodaysWorkoutPage = () => {
         dispatch(deleteExercise({
           weekNumber,
           day: firstIncompleteWorkout.day,
-          exerciseId: exercise.id
+          exerciseId: exercise._id
         }))
 
       } else {
@@ -246,7 +245,7 @@ const TodaysWorkoutPage = () => {
   const handleSubmitWorkout = async () => {
 
     const allComplete = firstIncompleteWorkout.exercises.every((exercise) => {
-      return exercise.id ? completedExercises[exercise.id] : false;
+      return exercise._id ? completedExercises[exercise._id] : false;
     });
     if (!allComplete) {
       alert("Please mark all exercises as complete before submitting the workout.");
@@ -271,7 +270,7 @@ const TodaysWorkoutPage = () => {
     if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
 
       const completedWorkout = {
-        workoutPlanId: currentPlan.id,
+        workoutPlanId: currentPlan._id,
         weekNumber: weekNumber,
         day: firstIncompleteWorkout.day,
         exercises: firstIncompleteWorkout.exercises
@@ -314,7 +313,7 @@ const TodaysWorkoutPage = () => {
         <ul>
   {firstIncompleteWorkout.exercises.length > 0 ? (
     firstIncompleteWorkout.exercises.map((exercise) => (
-      <div key={exercise.id} className="exercise-card">
+      <div key={exercise._id} className="exercise-card">
         <div className="exercise-card-header-div">
           <h3>{exercise.name}</h3>
           <img src={trashImg} alt="" className="trash-img" onClick={() => deleteExerciseFromCurrentDay(exercise)} />
@@ -354,7 +353,7 @@ const TodaysWorkoutPage = () => {
                   min="0"
                   value={set.weight === null ? "" : set.weight}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "weight", e.target.value)
+                    handleSetChange(exercise._id, set._id, "weight", e.target.value)
                   }
                 />
               </div>
@@ -364,7 +363,7 @@ const TodaysWorkoutPage = () => {
                   min="0"
                   value={set.reps === null ? "" : set.reps}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "reps", e.target.value)
+                    handleSetChange(exercise._id, set._id, "reps", e.target.value)
                   }
                 />
               </div>
@@ -374,7 +373,7 @@ const TodaysWorkoutPage = () => {
                   min="0"
                   value={set.rir === null ? "" : set.rir}
                   onChange={(e) =>
-                    handleSetChange(exercise.id, set.id, "rir", e.target.value)
+                    handleSetChange(exercise._id, set._id, "rir", e.target.value)
                   }
                 />
               </div>
@@ -386,10 +385,10 @@ const TodaysWorkoutPage = () => {
                       <input 
                         className="exercise-complete-checkbox"
                         type="checkbox" 
-                        checked={exercise.id ? !!completedExercises[exercise.id] : false} 
+                        checked={exercise._id ? !!completedExercises[exercise._id] : false} 
                         onChange={() => {
-                          if (exercise.id) {
-                            toggleExerciseCompletion(exercise.id);
+                          if (exercise._id) {
+                            toggleExerciseCompletion(exercise._id);
                           }
                         }} 
                       />

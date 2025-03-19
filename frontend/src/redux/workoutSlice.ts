@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 export interface SetDetails {
-  id?: string;
+  _id?: string;
   setNumber: number;
   reps: number | null;
   weight: number | null;
@@ -10,7 +10,7 @@ export interface SetDetails {
 }
 
 export interface Exercise {
-  id?: string;
+  _id?: string;
   name: string;
   muscleGroup: string;
   sets: SetDetails[];
@@ -31,7 +31,7 @@ export interface WeekPlan {
 }
 
 export interface WorkoutPlan {
-  id?: string | any;
+  _id?: string | any;
   userId?: string,
   weeks: WeekPlan[];
   duration: string;
@@ -44,7 +44,7 @@ interface WorkoutSliceState {
 
 const initialState: WorkoutSliceState = {
     currentPlan: {
-      id: '',
+      _id: '',
       userId: '',
       weeks: [],
       duration: '',
@@ -58,10 +58,7 @@ const workoutSlice = createSlice({
   reducers: {
 
     setCurrentPlan: (state, action) => {
-      state.currentPlan = {
-        ...action.payload,
-        id: action.payload._id, // Ensure `id` is always set from `_id`
-      };
+      state.currentPlan = action.payload;
     },
     resetWorkoutState: () => initialState,
   
@@ -80,13 +77,13 @@ const workoutSlice = createSlice({
 
       const { workoutPlanId, weekNumber, days } = action.payload;
 
-      if(state.currentPlan?.id === workoutPlanId) {
+      if(state.currentPlan?._id === workoutPlanId) {
         const newWeek: WeekPlan = {
           weekNumber,
           days: days.map(day => ({
               day: day.day,
               exercises: day.exercises.map(exercise => ({
-                  id: exercise.id,
+                  id: exercise._id,
                   name: exercise.name,
                   muscleGroup: exercise.muscleGroup,
                   sets: exercise.sets.map((_, index) => ({
@@ -144,7 +141,7 @@ const workoutSlice = createSlice({
         const dayPlan = week.days.find(d => d.day === day);
 
         if(dayPlan) {
-         const exerciseIndex = dayPlan.exercises.findIndex((exercise) => exercise.id === exerciseId)
+         const exerciseIndex = dayPlan.exercises.findIndex((exercise) => exercise._id === exerciseId)
 
          if(exerciseIndex !== -1) {
           dayPlan.exercises[exerciseIndex] = {...dayPlan.exercises[exerciseIndex], ...updatedExercise}
@@ -176,7 +173,7 @@ const workoutSlice = createSlice({
           dayPlan.exercises = []; // Initialize as an empty array if it's undefined
       }
   
-      dayPlan.exercises = dayPlan.exercises.filter((exercise) => exercise.id !== exerciseId);
+      dayPlan.exercises = dayPlan.exercises.filter((exercise) => exercise._id !== exerciseId);
     
     },
 
@@ -195,7 +192,7 @@ const workoutSlice = createSlice({
       const dayPlan = week.days.find((d) => d.day === day);
       if(!dayPlan) return;
 
-      const exercise = dayPlan.exercises.find((e) => e.id === exerciseId);
+      const exercise = dayPlan.exercises.find((e) => e._id === exerciseId);
       if(!exercise) return;
 
       exercise.sets.push(newSet);
@@ -215,10 +212,10 @@ const workoutSlice = createSlice({
       const dayPlan = week.days.find((d) => d.day === day);
       if(!dayPlan) return;
 
-      const exercise = dayPlan.exercises.find((e) => e.id === exerciseId);
+      const exercise = dayPlan.exercises.find((e) => e._id === exerciseId);
       if(!exercise) return;
 
-      exercise.sets = exercise.sets.filter((set) => set.id !== setId)
+      exercise.sets = exercise.sets.filter((set) => set._id !== setId)
 
     },
     updateSetDetails(state, action: PayloadAction<{
@@ -232,10 +229,10 @@ const workoutSlice = createSlice({
 
       const week = state.currentPlan?.weeks.find((w) => w.weekNumber === weekNumber);
       const dayObj = week?.days.find((d) => d.day === day);
-      const exercise = dayObj?.exercises.find((e) => e.id === exerciseId);
+      const exercise = dayObj?.exercises.find((e) => e._id === exerciseId);
     
       if (exercise) {
-        const setIndex = exercise.sets.findIndex((s) => s.id === setId);
+        const setIndex = exercise.sets.findIndex((s) => s._id === setId);
         if (setIndex !== -1) {
           // Merge the existing set with the new values
           exercise.sets[setIndex] = { 

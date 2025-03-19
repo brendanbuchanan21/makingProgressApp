@@ -88,7 +88,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
   );
 
    
-    console.log('whats up doc', completedWorkoutData);
+
     useEffect(() => {
       if(workoutPlanData && !currentPlan) {
         dispatch(setCurrentPlan(workoutPlanData));
@@ -96,7 +96,6 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     }, [workoutPlanData, dispatch, currentPlan])
     // Fetch completed workouts for the plan
 
-    console.log('logging current plan on refresh', currentPlan);
     
     const [deleteWeekApi] = useDeleteWeekApiMutation();
     
@@ -157,7 +156,6 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
         {weeks.map((week, index) => {
           const weekVolume = volumeByWeek[week.weekNumber] || 0;
           const isWeekCompleted = week.days.every(day => day.isCompleted);
-          console.log('hmm lets see', weekVolume);
           return (
             <div className="week-card-div" key={index}>
                 {isEditing && (

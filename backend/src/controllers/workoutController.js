@@ -219,7 +219,7 @@ if (addedExercise) {
     }
 
     export const addSetToExercise = async (req, res) => {
-
+            console.log('this is logging when you add a set');
         try {
 
         const { workoutId, weekNumber, day, exerciseId } = req.params;
@@ -233,6 +233,7 @@ if (addedExercise) {
         //finding the week 
         const week = workoutPlan.weeks.find((w) => w.weekNumber === parseInt(weekNumber));
 
+        console.log('sorry cunt what is the week number,', weekNumber);
         if(!week) {
             return res.status(401).json({message: 'found workout plan but could not locate week'});
         }
@@ -242,9 +243,8 @@ if (addedExercise) {
         if(!dayObject) {
             return res.status(409).json({message: 'found week but not day object'});
         }
-       
-        const exercise = dayObject.exercises.find((e) => e._id.toString() === exerciseId);
-
+       console.log(dayObject, 'hmm whats up bro')
+        const exercise = dayObject.exercises.find((e) => e._id.toString() === exerciseId.toString());
         if(!exercise) {
             return res.status(411).json({message: 'located everything but the correct exercise'});
         }
@@ -254,12 +254,7 @@ if (addedExercise) {
         exercise.sets.push(setWithId);
 
         await workoutPlan.save();
-       res.status(201).json({ newSet:
-         {
-        ...setWithId, 
-        id: setWithId._id,  // Ensure `id` is explicitly assigned
-        _id: undefined 
-        }});
+       res.status(201).json({ newSet: setWithId});
 
 
         } catch (error) {

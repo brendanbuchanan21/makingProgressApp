@@ -30,7 +30,7 @@ const ExpandedDayView = ({
     const [sets, setSets] = useState<SetDetails[]>([]);
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const [showEditPopup, setShowEditPopup] = useState(false);
-    const workoutId = currentPlan?.id ?? "";
+    const workoutId = currentPlan?._id ?? "";
     // api functions
     const [addingExerciseToDay] = useAddingExerciseToDayMutation();
     const [deleteExerciseApi] = useDeleteExerciseApiMutation();
@@ -43,7 +43,7 @@ const ExpandedDayView = ({
 
      // Handle adding exercise to store
      const handleAddExercise = async () => {
-        if (!currentPlan.id) {
+        if (!currentPlan._id) {
             console.error("Workout ID is missing!");
             return;
         }
@@ -90,12 +90,12 @@ const ExpandedDayView = ({
     const handleSaveExercise = async (updatedExercise: Exercise) => {
         // Dispatch an action to save the updated exercise
 
-        if(!selectedExercise?.id) {
+        if(!selectedExercise?._id) {
             console.error("Exercise Id is missing");
             return;
         }
 
-        const exerciseId = selectedExercise.id;
+        const exerciseId = selectedExercise._id;
 
         
 
@@ -169,7 +169,7 @@ const ExpandedDayView = ({
                     <h2>{selectedDay.day} Exercises</h2>
                     <div className="exercise-list">
                         {exercisesForDay?.map((exercise) => (
-                            <div key={exercise.id} className="exercise-item">
+                            <div key={exercise._id} className="exercise-item">
                                 <div className="individual-exercise-description-div">
                                     <p className="individual-exercise-name">{exercise.name}</p>
                                     <p className="individual-exercise-muscle-group">{exercise.muscleGroup}</p>
@@ -188,8 +188,8 @@ const ExpandedDayView = ({
                                     </button>
                                     <button onClick={() => {
                                         console.log(exercise)
-                                        if (exercise.id) {
-                                            handleDeleteExercise(exercise.id);  // Only call if id is defined
+                                        if (exercise._id) {
+                                            handleDeleteExercise(exercise._id);  // Only call if id is defined
                                         } else {
                                             console.error("Exercise ID is missing or undefined.");
                                         }

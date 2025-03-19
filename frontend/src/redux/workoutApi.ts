@@ -28,7 +28,7 @@ interface addSetToExerciseRequest {
 
 interface addSetResponse {
     newSet: {
-        id: string; // Add the id property
+        _id: string; // Add the id property
         setNumber: number;
         reps: number | null;
         weight: number | null;
@@ -152,7 +152,7 @@ export const newWorkoutProgramApi = createApi({
         }),
         duplicateFirstWeekApi: builder.mutation<WorkoutPlan, WorkoutPlan>({
             query: (updatedWorkoutPlan) => ({
-                url: `/${updatedWorkoutPlan.id}`,
+                url: `/${updatedWorkoutPlan._id}`,
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: updatedWorkoutPlan,  
