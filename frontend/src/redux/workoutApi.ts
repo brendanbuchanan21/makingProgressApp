@@ -69,7 +69,6 @@ export const newWorkoutProgramApi = createApi({
         const user = auth.currentUser;
         if(user) {
             const token = await user.getIdToken();
-            console.log("🔥 Sending Token in Header:", token); 
             headers.set('Authorization', `Bearer ${token}`);
         } else {
             console.log("❌ No user authenticated");
