@@ -8,6 +8,7 @@ import cors from 'cors'
 import biometricRouter from './routes/biometricRouter.js';
 import bodyWeightRouter from './routes/bodyWeightRouter.js';
 import completedWorkoutsRouter from './routes/completedWorkoutRouter.js';
+import completedProgramsRouter from './routes/completedProgramsRouter.js'
 import volumeRouter from './routes/volumeRoutes.js';
 import admin from 'firebase-admin'
 dotenv.config();
@@ -51,6 +52,7 @@ app.use("/api/biometrics", biometricRouter);
 app.use("/api/bodyWeight", bodyWeightRouter);
 app.use("/api/completedWorkout", completedWorkoutsRouter);
 app.use("/api/volume", volumeRouter);
+app.use("/api/completedPrograms", completedProgramsRouter);
 
 
 

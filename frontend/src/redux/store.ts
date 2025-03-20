@@ -10,6 +10,7 @@ import { newBodyWeightApi } from "./bodyWeightApi";
 import { completedWorkoutApi } from "./completedWorkoutApi";
 import { aggregateVolumeApi } from "./volumeApi";
 import { userReducer } from "./userSlice";
+import { completedWorkoutProgramsReducer } from "./completedProgramsSlice";
 
 // Configuration for Redux Persist
 const persistConfig = {
@@ -20,7 +21,8 @@ const persistConfig = {
 
 // Combine reducers
 const rootReducer = combineReducers({
-  workout: workoutReducer, 
+  workout: workoutReducer,
+  completedPrograms: completedWorkoutProgramsReducer,
   biometric: biometricReducer,
   bodyWeight: bodyWeightReducer,
   user: userReducer,
