@@ -54,13 +54,13 @@ const CurrentPlanPage = () => {
 
 
             addWeekApi({
-                workoutPlanId: currentPlan.id,
+                workoutPlanId: currentPlan._id,
                 weekNumber: newWeekNumber,
                 days: daysForNewWeek
             })
 
             dispatch(addWeek({
-                workoutPlanId: currentPlan.id,
+                workoutPlanId: currentPlan._id,
                 weekNumber: newWeekNumber,
                 days: daysForNewWeek
             }))

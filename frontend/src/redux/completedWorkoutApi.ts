@@ -12,7 +12,7 @@ interface completedSet {
 
 
 interface completedExercise {
-    id: string;
+    _id: string;
     name: string;
     muscleGroup: string;
     muscleGroupVolume: number; 
