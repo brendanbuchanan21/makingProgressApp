@@ -39,7 +39,7 @@ const CurrentPlanPage = () => {
             ? currentPlan.weeks[0].days.map(day => ({
                 day: day.day,
                 exercises: day.exercises.map(exercise => ({
-                    id: exercise.id,
+                    id: exercise._id,
                     name: exercise.name,
                     muscleGroup: exercise.muscleGroup,
                     sets: exercise.sets.map((_, index) => ({

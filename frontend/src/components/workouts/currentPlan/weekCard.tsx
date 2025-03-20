@@ -26,7 +26,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
-    const workoutPlanId = currentPlan?.id;
+    const workoutPlanId = currentPlan?._id;
     const [authToken, setAuthToken] = useState<string | null>(null);  // Track the auth token
   const [isTokenReady, setIsTokenReady] = useState(false);  // Flag
    
@@ -71,7 +71,6 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
   );
     
     
-
     
   // Second query: Get completed workout volume
   const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(

@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
     });
 
     const completedExerciseSchema = new Schema({
-        id: { type: String, required: true },
+        _id: { type: String, required: true },
         name: { type: String, required: true },
         muscleGroup: { type: String, required: true },
         muscleGroupVolume: { type: Number, required: true},
@@ -30,16 +30,7 @@ const Schema = mongoose.Schema;
 
     }, { timestamps: true });
 
-    // Optional: Convert _id to id in JSON output for consistency
-completedWorkoutSchema.set("toJSON", {
-    virtuals: true,
-    transform: (doc, ret) => {
-      ret.id = ret._id.toString();
-      delete ret._id;
-      delete ret.__v;
-      return ret;
-    }
-  });
+  
 
   const completedWorkoutModel = mongoose.model("CompletedWorkoutModel", completedWorkoutSchema);
   export default completedWorkoutModel;

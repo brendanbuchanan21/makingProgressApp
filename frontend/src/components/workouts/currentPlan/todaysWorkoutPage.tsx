@@ -28,6 +28,8 @@ const TodaysWorkoutPage = () => {
     );
     console.log(firstIncompleteWeek, 'little rascal');
     const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
+    
+
 
     if(!firstIncompleteWorkout) {
       return;
@@ -103,8 +105,7 @@ const TodaysWorkoutPage = () => {
             weight: null,
             rir: null,
           };
-          console.log(exercise._id, 'here is the exercise id');
-          console.log(weekNumber, 'huh verry interesting week number')
+         
           const result = await addingSetToExercise({
             workoutId: currentPlan._id,
             weekNumber,
@@ -244,54 +245,56 @@ const TodaysWorkoutPage = () => {
 
   const handleSubmitWorkout = async () => {
 
-    const allComplete = firstIncompleteWorkout.exercises.every((exercise) => {
-      return exercise._id ? completedExercises[exercise._id] : false;
-    });
-    if (!allComplete) {
-      alert("Please mark all exercises as complete before submitting the workout.");
-      return;
-    }
-    
-    if(firstIncompleteWorkout) {
-      let weekNumber = null;
-        for (const week of currentPlan.weeks) {
-            const foundDay = week.days.find(day => day._id === firstIncompleteWorkout._id);
-            if (foundDay) {
-                weekNumber = week.weekNumber;
-                break; // Stop iterating once found
-            }
-    }
-  } else {
-    console.error('Workout day _id is missing.');
-    return;
-  }
-
-    //directly pull data from the currentplan to send to backend
-    if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
-
-      const completedWorkout = {
-        workoutPlanId: currentPlan._id,
-        weekNumber: weekNumber,
-        day: firstIncompleteWorkout.day,
-        exercises: firstIncompleteWorkout.exercises
-
+        const allComplete = firstIncompleteWorkout.exercises.every((exercise) => {
+          return exercise._id ? completedExercises[exercise._id] : false;
+        });
+        if (!allComplete) {
+          alert("Please mark all exercises as complete before submitting the workout.");
+          return;
+        }
+        
+        // this is to extract the week number for the completedworkout below
+        if(firstIncompleteWorkout) {
+          let weekNumber = null;
+            for (const week of currentPlan.weeks) {
+                const foundDay = week.days.find(day => day._id === firstIncompleteWorkout._id);
+                if (foundDay) {
+                    weekNumber = week.weekNumber;
+                    break; // Stop iterating once found
+                }
+        }
+      } else {
+        console.error('Workout day _id is missing.');
+        return;
       }
-      try {
-        sendCompletedExercise(completedWorkout);
-        completedWorkoutUpdate(completedWorkout)
 
-        console.log("✅ Workout submission successful, navigating...");
-        navigate('/workouts');
-      } catch (error) {
-        console.error("❌ Error submitting workout, staying on page:", error);
-      }
-      
+        //directly pull data from the currentplan to send to backend
+        if(currentPlan && currentPlan.weeks && currentPlan.weeks[0] && currentPlan.weeks[0].days[0]) {
 
-      
-      
-    } else {
-      console.error('workout plan data is missing');
-    }
+          const completedWorkout = {
+            workoutPlanId: currentPlan._id,
+            weekNumber: weekNumber,
+            day: firstIncompleteWorkout.day,
+            exercises: firstIncompleteWorkout.exercises
+
+          }
+          try {
+            console.log('ok buttercup, whats up here', completedWorkout);
+            sendCompletedExercise(completedWorkout);
+            completedWorkoutUpdate(completedWorkout)
+
+            console.log("✅ Workout submission successful, navigating...");
+            navigate('/workouts');
+          } catch (error) {
+            console.error("❌ Error submitting workout, staying on page:", error);
+          }
+          
+
+          
+          
+        } else {
+          console.error('workout plan data is missing');
+        }
   }
   
 
