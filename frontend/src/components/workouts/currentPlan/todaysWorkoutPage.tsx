@@ -12,11 +12,12 @@ import { addSetToExercise, updateSetDetails } from "../../../redux/workoutSlice"
 import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useUpdateWorkoutCompletionApiMutation } from "../../../redux/workoutApi";
 import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
 import { useNavigate } from "react-router-dom";
+import { usePostCompletedProgramMutation } from "../../../redux/completedProgramsApi";
+import { current } from "@reduxjs/toolkit";
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
 
 const TodaysWorkoutPage = () => {
-
 
     const dispatch = useDispatch();
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
@@ -26,7 +27,6 @@ const TodaysWorkoutPage = () => {
     const firstIncompleteWeek = currentPlan?.weeks.find((week) =>
       week.days.some((day) => !day.isCompleted)
     );
-    console.log(firstIncompleteWeek, 'little rascal');
     const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
     
 
@@ -47,6 +47,7 @@ const TodaysWorkoutPage = () => {
     const [completedExercises, setCompletedExercises] = useState<{ [key: string]: boolean }>({});
     const [postCompletedExercise] = usePostCompletedExerciseMutation(); 
     const [updateCompletedWorkout] = useUpdateWorkoutCompletionApiMutation();
+    const [postCompletedProgram] = usePostCompletedProgramMutation();
 
     const toggleExerciseCompletion = (exerciseId: string) => {
       setCompletedExercises((prev) => ({
@@ -92,7 +93,6 @@ const TodaysWorkoutPage = () => {
 
    const weekNumber = firstIncompleteWeek?.weekNumber;
   
-   console.log(weekNumber, 'hehehe')
     const handleAddSet = async (exercise: Exercise) => {
 
       try {
@@ -284,7 +284,37 @@ const TodaysWorkoutPage = () => {
             completedWorkoutUpdate(completedWorkout)
 
             console.log("✅ Workout submission successful, navigating...");
+           
+
+            // we need to send the completed program over to the backend 
+            //if last workout is complete, send plan via query to backend 
+            // const completedPlan = { workoutPlanId, name, startDate, duration}
+
+            const lastWeek = currentPlan?.weeks[currentPlan.weeks.length - 1];
+            console.log('lets see lol', lastWeek);
+            const lastDay = lastWeek?.days[lastWeek.days.length - 1];
+
+            const isLastWorkoutCompleted = lastDay?.isCompleted;
+            console.log(isLastWorkoutCompleted, 'is it completed?');
+
+            const completedPlan = {
+              workoutPlanId: currentPlan._id,
+              name: currentPlan.name ?? "Untitled Program",
+              startDate: currentPlan.startDate,
+              duration: currentPlan.duration
+            }
+            
+            if(isLastWorkoutCompleted) {
+              try{
+                const response = await postCompletedProgram(completedPlan).unwrap()
+                console.log('completed program response:', response);
+              } catch (error) {
+                console.error('error posting completed program:', error);
+              }
+             
+            }
             navigate('/workouts');
+
           } catch (error) {
             console.error("❌ Error submitting workout, staying on page:", error);
           }

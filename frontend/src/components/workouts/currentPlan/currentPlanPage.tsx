@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addWeek } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
-
+import { resetWorkoutState } from '../../../redux/workoutSlice';
 
 const CurrentPlanPage = () => {
 
@@ -23,6 +23,10 @@ const CurrentPlanPage = () => {
    const editMode = () => {
         setIsEditing(!isEditing);
    }
+
+    const handResetState = () => {
+           dispatch(resetWorkoutState());
+       }
 
    const handleAddWeek = async () => {
         
@@ -73,6 +77,7 @@ const CurrentPlanPage = () => {
         <>
         <section className="currentPlanPage">
             <NavBar />
+            <button onClick={handResetState}>Reset</button>
             <div className="currentPlanPage-header-div">
                 <h1>Your Plan</h1>
             </div>

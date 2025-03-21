@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getAuth } from "firebase/auth";
-import { CompletedProgram } from "./completedProgramsSlice";
 
 
 export const completedProgramApi = createApi({
     reducerPath: 'completedProgramApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/completedProgram',
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/completedPrograms',
         prepareHeaders: async (headers) => {
             const auth = getAuth();
             const user = auth.currentUser;
@@ -24,7 +23,7 @@ export const completedProgramApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        postCompletedProgram: builder.mutation<void, CompletedProgram>({
+        postCompletedProgram: builder.mutation<any, { workoutPlanId: string, name: string, startDate: string, duration: string}>({
             query: (completedPlan) => ({
                 url: '/', 
                 method: 'POST',
@@ -33,3 +32,5 @@ export const completedProgramApi = createApi({
         })
     })
 })
+
+export const { usePostCompletedProgramMutation } = completedProgramApi
