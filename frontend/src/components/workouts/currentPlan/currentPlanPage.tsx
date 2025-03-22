@@ -5,13 +5,13 @@ import NavBar from "../../dashboard/navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import addMarkerBlue from '../../../images/addMarkerBlue.svg'
-import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { addWeek } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
 import { resetWorkoutState } from '../../../redux/workoutSlice';
 import { usePostCompletedProgramMutation } from '../../../redux/completedProgramsApi';
+import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
 
 const CurrentPlanPage = () => {
 
@@ -19,10 +19,12 @@ const CurrentPlanPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    //use state and rtk queries
     const [isEditing, setIsEditing] = useState(false);
     const [addWeekApi] = useHandleAddWeekApiMutation();
     const [postCompletedProgram] = usePostCompletedProgramMutation();
     const [programComplete, setProgramComplete] = useState(false);
+    const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
 
     //if all days in plan have iscomplete then set programComplete to true 
     const allDaysComplete = currentPlan?.weeks?.every(week => 
@@ -104,10 +106,19 @@ const CurrentPlanPage = () => {
         console.log('completed program response:', response);
 
         navigate('/workouts');
+       
+
       } catch (error) {
         console.error('error posting completed program:', error);
       }
-     
+
+     try {
+        console.log(completedPlan.workoutPlanId, 'should work, right? ');
+        const deleteCurrentPlan = await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
+        console.log(deleteCurrentPlan, 'this is the response from deleting workout plan');
+     } catch (error) {
+        console.error('error caught before making query:', error);
+     }
   }
 
     return (

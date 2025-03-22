@@ -160,4 +160,4 @@ export const newWorkoutProgramApi = createApi({
     }),
 });
 
-export const { useDuplicateFirstWeekApiMutation, usePostWorkoutPlanMutation, useUpdateWorkoutCompletionApiMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useDeleteWeekApiMutation, useHandleAddWeekApiMutation} = newWorkoutProgramApi;
+export const { useDuplicateFirstWeekApiMutation, usePostWorkoutPlanMutation, useUpdateWorkoutCompletionApiMutation, useAddingExerciseToDayMutation, useDeleteExerciseProgramMutation, useGetExerciseProgramQuery, useDeleteExerciseApiMutation, useEditExerciseApiMutation, useAddSetToExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useDeleteWeekApiMutation, useHandleAddWeekApiMutation } = newWorkoutProgramApi;

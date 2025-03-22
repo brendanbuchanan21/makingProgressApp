@@ -10,6 +10,7 @@ const workoutRouter = Router();
 //get workout plan 
 workoutRouter.get('/:workoutPlanId', verifyToken, getWorkoutPlan);
 
+
 workoutRouter.get('/:id/weeks/:weekNumber/days/:day/:exerciseId', verifyToken, getExerciseFromPlan)
 
 //post a single workout
