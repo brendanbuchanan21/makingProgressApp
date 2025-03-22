@@ -2,8 +2,8 @@
 import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";
-import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
 import addMarkerBlue from '../../../images/addMarkerBlue.svg'
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,14 +11,27 @@ import { addWeek } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
 import { resetWorkoutState } from '../../../redux/workoutSlice';
+import { usePostCompletedProgramMutation } from '../../../redux/completedProgramsApi';
 
 const CurrentPlanPage = () => {
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [isEditing, setIsEditing] = useState(false);
     const [addWeekApi] = useHandleAddWeekApiMutation();
+    const [postCompletedProgram] = usePostCompletedProgramMutation();
+    const [programComplete, setProgramComplete] = useState(false);
+
+    //if all days in plan have iscomplete then set programComplete to true 
+    const allDaysComplete = currentPlan?.weeks?.every(week => 
+        week.days.every(day => day.isCompleted)
+    ) ?? false
+
+    useEffect(() => {
+        setProgramComplete(true);
+    }, [allDaysComplete]);
 
    const editMode = () => {
         setIsEditing(!isEditing);
@@ -73,6 +86,30 @@ const CurrentPlanPage = () => {
         }
    }
 
+
+   const handleSubmitPlan = async () => {
+
+
+          
+    const completedPlan = {
+      workoutPlanId: currentPlan._id,
+      name: currentPlan.name ?? "Untitled Program",
+      startDate: currentPlan.startDate,
+      duration: currentPlan.duration
+    }
+    
+    console.log('please run function,', completedPlan);
+    try {
+        const response = await postCompletedProgram(completedPlan).unwrap()
+        console.log('completed program response:', response);
+
+        navigate('/workouts');
+      } catch (error) {
+        console.error('error posting completed program:', error);
+      }
+     
+  }
+
     return (
         <>
         <section className="currentPlanPage">
@@ -85,7 +122,12 @@ const CurrentPlanPage = () => {
             <Link to="/workouts" className="currentPlanPage-back-btn">
             Back
             </Link>
+            {programComplete ? (
+                <button className='currentPlanPage-complete-plan-btn' onClick={handleSubmitPlan}>Complete Program</button>
+            ) : (
                 <button className="currentPlanPage-edit-btn" onClick={editMode}>Edit Plan</button>
+            )}
+               
             </div>
             <div className="grid-container">
                 {/*we have to map over each week thats in the program for each card*/}
@@ -100,6 +142,7 @@ const CurrentPlanPage = () => {
                
             </div>
             }
+
         </section>
         </>
     )

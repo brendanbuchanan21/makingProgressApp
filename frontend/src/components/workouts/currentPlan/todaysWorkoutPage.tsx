@@ -12,8 +12,7 @@ import { addSetToExercise, updateSetDetails } from "../../../redux/workoutSlice"
 import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useUpdateWorkoutCompletionApiMutation } from "../../../redux/workoutApi";
 import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
 import { useNavigate } from "react-router-dom";
-import { usePostCompletedProgramMutation } from "../../../redux/completedProgramsApi";
-import { current } from "@reduxjs/toolkit";
+
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
 
@@ -30,34 +29,21 @@ const TodaysWorkoutPage = () => {
       week.days.some((day) => !day.isCompleted)
     );
     const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
-    
-
-    const lastWeek = currentPlan?.weeks[currentPlan.weeks.length - 1];
-    console.log('lets see lol', lastWeek);
-    const lastDay = lastWeek?.days[lastWeek.days.length - 1];
-
-    const isLastDay = firstIncompleteWorkout.day === lastDay.day;
-
-    console.log(isLastDay, 'is current day the last day?');
 
 
+  
     if(!firstIncompleteWorkout) {
       return;
     }
-
-
     
     const [editMode, setEditMode] = useState(false);
 
    const navigate = useNavigate();
     
 
-    
-    const [completedProgram, setCompletedProgram] = useState(false);
     const [completedExercises, setCompletedExercises] = useState<{ [key: string]: boolean }>({});
     const [postCompletedExercise] = usePostCompletedExerciseMutation(); 
     const [updateCompletedWorkout] = useUpdateWorkoutCompletionApiMutation();
-    const [postCompletedProgram] = usePostCompletedProgramMutation();
 
     const toggleExerciseCompletion = (exerciseId: string) => {
       setCompletedExercises((prev) => ({
@@ -83,7 +69,6 @@ const TodaysWorkoutPage = () => {
         })
       );
     };
-
 
 
 
@@ -123,7 +108,6 @@ const TodaysWorkoutPage = () => {
             exerciseId: exercise._id,
             newSet,
           });
-          console.log(result, 'here you go dingus buddy');
           if (result.data && result.data.newSet._id) { // Check if the result and ID exist
             const newSetWithId = {
               ...newSet,
@@ -220,9 +204,9 @@ const TodaysWorkoutPage = () => {
 
   const sendCompletedExercise = async (completedWorkout: any) => {
     try {
-      
     
       const response = await postCompletedExercise(completedWorkout).unwrap();
+
     } catch (error) {
       console.error("API request failed:", JSON.stringify(error, null, 2));
     }
@@ -236,7 +220,7 @@ const TodaysWorkoutPage = () => {
         day: completedWorkout.day,
         isCompleted: true 
       }).unwrap();
-      console.log('workout succesfully updated document as completed:', response);
+   
 
       dispatch(updateDayCompletion({
         weekNumber: completedWorkout.weekNumber,
@@ -289,28 +273,19 @@ const TodaysWorkoutPage = () => {
 
           }
           try {
-            console.log('ok buttercup, whats up here', completedWorkout);
             sendCompletedExercise(completedWorkout);
             completedWorkoutUpdate(completedWorkout)
 
-            console.log("✅ Workout submission successful, navigating...");
            
-
-            // we need to send the completed program over to the backend 
-            //if last workout is complete, send plan via query to backend 
-            // const completedPlan = { workoutPlanId, name, startDate, duration}
-         
+          
 
           } catch (error) {
             console.error("❌ Error submitting workout, staying on page:", error);
           }
           
-          if(isLastDay) {
-            setCompletedProgram(true);
-            console.log(completedProgram, 'completedProgram');
-          } else {
+         
             navigate('/workouts');
-          }
+          
           
           
         } else {
@@ -318,28 +293,6 @@ const TodaysWorkoutPage = () => {
         }
   }
 
-        const handleSubmitPlan = async () => {
-
-
-          
-          const completedPlan = {
-            workoutPlanId: currentPlan._id,
-            name: currentPlan.name ?? "Untitled Program",
-            startDate: currentPlan.startDate,
-            duration: currentPlan.duration
-          }
-          
-          console.log('please run function,', completedPlan);
-          try {
-              const response = await postCompletedProgram(completedPlan).unwrap()
-              console.log('completed program response:', response);
-
-              navigate('/workouts');
-            } catch (error) {
-              console.error('error posting completed program:', error);
-            }
-           
-        }
   
 
 
@@ -455,11 +408,7 @@ const TodaysWorkoutPage = () => {
   </div>
   <button onClick={handResetState}>Reset</button>
   <div className="submit-todays-workout-div">
-    {completedProgram ? (
-  <button onClick={handleSubmitPlan} className="completed-program-button">Complete program</button>
-    ) : (
       <button onClick={handleSubmitWorkout} className="complete-workout-btn">Complete Workout</button>
-    )}
   </div>
 </section>
         </>

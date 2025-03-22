@@ -25,7 +25,7 @@ export interface DayPlan {
 
 
 export interface WeekPlan {
-  weekNumber: number;
+  weekNumber: number | any;
   days: DayPlan[];
   totalVolume?: number;
 }
