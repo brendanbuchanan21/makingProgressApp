@@ -24,11 +24,21 @@ const TodaysWorkoutPage = () => {
 
 
 
+  
+
     const firstIncompleteWeek = currentPlan?.weeks.find((week) =>
       week.days.some((day) => !day.isCompleted)
     );
     const firstIncompleteWorkout = firstIncompleteWeek?.days.find((day) => !day.isCompleted);
     
+
+    const lastWeek = currentPlan?.weeks[currentPlan.weeks.length - 1];
+    console.log('lets see lol', lastWeek);
+    const lastDay = lastWeek?.days[lastWeek.days.length - 1];
+
+    const isLastDay = firstIncompleteWorkout.day === lastDay.day;
+
+    console.log(isLastDay, 'is current day the last day?');
 
 
     if(!firstIncompleteWorkout) {
@@ -43,7 +53,7 @@ const TodaysWorkoutPage = () => {
     
 
     
-
+    const [completedProgram, setCompletedProgram] = useState(false);
     const [completedExercises, setCompletedExercises] = useState<{ [key: string]: boolean }>({});
     const [postCompletedExercise] = usePostCompletedExerciseMutation(); 
     const [updateCompletedWorkout] = useUpdateWorkoutCompletionApiMutation();
@@ -289,43 +299,47 @@ const TodaysWorkoutPage = () => {
             // we need to send the completed program over to the backend 
             //if last workout is complete, send plan via query to backend 
             // const completedPlan = { workoutPlanId, name, startDate, duration}
-
-            const lastWeek = currentPlan?.weeks[currentPlan.weeks.length - 1];
-            console.log('lets see lol', lastWeek);
-            const lastDay = lastWeek?.days[lastWeek.days.length - 1];
-
-            const isLastWorkoutCompleted = lastDay?.isCompleted;
-            console.log(isLastWorkoutCompleted, 'is it completed?');
-
-            const completedPlan = {
-              workoutPlanId: currentPlan._id,
-              name: currentPlan.name ?? "Untitled Program",
-              startDate: currentPlan.startDate,
-              duration: currentPlan.duration
-            }
-            
-            if(isLastWorkoutCompleted) {
-              try{
-                const response = await postCompletedProgram(completedPlan).unwrap()
-                console.log('completed program response:', response);
-              } catch (error) {
-                console.error('error posting completed program:', error);
-              }
-             
-            }
-            navigate('/workouts');
+         
 
           } catch (error) {
             console.error("❌ Error submitting workout, staying on page:", error);
           }
           
-
+          if(isLastDay) {
+            setCompletedProgram(true);
+            console.log(completedProgram, 'completedProgram');
+          } else {
+            navigate('/workouts');
+          }
           
           
         } else {
           console.error('workout plan data is missing');
         }
   }
+
+        const handleSubmitPlan = async () => {
+
+
+          
+          const completedPlan = {
+            workoutPlanId: currentPlan._id,
+            name: currentPlan.name ?? "Untitled Program",
+            startDate: currentPlan.startDate,
+            duration: currentPlan.duration
+          }
+          
+          console.log('please run function,', completedPlan);
+          try {
+              const response = await postCompletedProgram(completedPlan).unwrap()
+              console.log('completed program response:', response);
+
+              navigate('/workouts');
+            } catch (error) {
+              console.error('error posting completed program:', error);
+            }
+           
+        }
   
 
 
@@ -441,7 +455,11 @@ const TodaysWorkoutPage = () => {
   </div>
   <button onClick={handResetState}>Reset</button>
   <div className="submit-todays-workout-div">
-    <button onClick={handleSubmitWorkout}>Complete Workout</button>
+    {completedProgram ? (
+  <button onClick={handleSubmitPlan} className="completed-program-button">Complete program</button>
+    ) : (
+      <button onClick={handleSubmitWorkout} className="complete-workout-btn">Complete Workout</button>
+    )}
   </div>
 </section>
         </>

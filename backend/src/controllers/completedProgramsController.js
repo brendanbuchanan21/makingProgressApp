@@ -32,7 +32,7 @@ export const postCompletedProgram = async (req, res) => {
 
         await completedPlan.save();
 
-        req.status(201).json({message: 'completed program saved', completedPlan})
+        res.status(201).json({message: 'completed program saved', completedPlan})
 
     } catch(error) {
         console.error('could not post program', error);

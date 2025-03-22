@@ -143,7 +143,7 @@
     justify-content: end;
     height: 3rem;
   }
-  .submit-todays-workout-div button {
+  .complete-workout-btn {
     border: 1px solid var(--blue);
     border-radius: .4rem;
     padding: 1rem;
@@ -152,9 +152,25 @@
     color: var(--blue);
   }
 
-  .submit-todays-workout-div button:hover {
+  .complete-workout-btn:hover {
     background-color: var(--hover-blue);
     color: white;
     border: 1px solid var(--hover-blue);
     cursor: pointer;
   }
+
+  .completed-program-button {
+    border: 1px solid #009c41;
+    border-radius: .4rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: white;
+    color: #009c41;
+  }
+
+.completed-program-button:hover {
+  background-color: #009c41;
+  color: white;
+  border: 1px solid #009c41;
+  cursor: pointer;
+}
