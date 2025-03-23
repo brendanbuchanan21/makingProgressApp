@@ -3,7 +3,7 @@ import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import addMarkerBlue from '../../../images/addMarkerBlue.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { addWeek } from '../../../redux/workoutSlice';

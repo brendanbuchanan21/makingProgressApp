@@ -37,15 +37,17 @@ const WorkoutSection = () => {
     
     useEffect(() => {
         if (currentPlan && currentPlan.weeks) {
-            const allDaysComplete = currentPlan.weeks.every((week) =>
-                week.days.every((day) => day.isCompleted)
-            );
-
-            if (allDaysComplete) {
-                setPlanIsComplete(true);
+            if (currentPlan.weeks.length === 0) {
+                setPlanIsComplete(false); // Explicitly set to false for empty weeks array
             } else {
-              setPlanIsComplete(false);
+                const allDaysComplete = currentPlan.weeks.every((week) =>
+                    week.days.every((day) => day.isCompleted)
+                );
+                console.log(allDaysComplete, 'huh');
+                setPlanIsComplete(allDaysComplete);
             }
+        } else {
+            setPlanIsComplete(false);
         }
     }, [currentPlan]);
     
