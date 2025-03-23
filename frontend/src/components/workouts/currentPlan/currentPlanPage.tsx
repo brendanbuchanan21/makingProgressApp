@@ -129,7 +129,7 @@ const CurrentPlanPage = () => {
             <NavBar />
             <button onClick={handleResetState}>Reset</button>
             <div className="currentPlanPage-header-div">
-                <h1>Your Plan</h1>
+                <h1>Current Plan</h1>
             </div>
             <div className="currentPlanPage-edit-plan-btn-div">
             <Link to="/workouts" className="currentPlanPage-back-btn">
@@ -156,6 +156,20 @@ const CurrentPlanPage = () => {
             </div>
             }
 
+        </section>
+        <section className='previous-plans-section'>
+            <div className='previous-plans-header-div'>
+                <h1>Previous Plans</h1>
+            </div>
+            <div className='grid-container-2'>
+                <div className='previous-plan-card'>
+                    <h3>Plan Name</h3>
+                    <p>Plan completed from:</p>
+                    <p>Lasted:</p>
+                    <p>Total Volume</p>
+                    <p>Average RIR:</p>
+                </div>
+            </div>
         </section>
         </>
     )

@@ -29,6 +29,12 @@ export const completedProgramApi = createApi({
                 method: 'POST',
                 body: completedPlan
             })
+        }),
+        getCompletedProgram: builder.query<any, void>({
+            query: () => ({
+                url: '/',
+                method: 'GET'
+            })
         })
     })
 })

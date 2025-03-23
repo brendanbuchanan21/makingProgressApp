@@ -35,8 +35,8 @@
 }
 .NewPlan-popup-close-btn:hover {
     cursor: pointer;
-    background-color: var(--hover-blue);
-    color: white;
+    border: 1px solid black;
+    color: black;
 }
 .NewPlan-popup-info-div {
     text-align: center;
@@ -201,6 +201,11 @@ input[type="date"] {
     border-radius: .5rem;
     border: 1px solid var(--grey);
     background-color: white;
+}
+.NewPlan-submit-btn:hover {
+    border: 1px solid var(--hover-blue);
+    color: var(--hover-blue);
+    cursor: pointer;
 }
 
 .NewPlan-popup-back-btn-div {

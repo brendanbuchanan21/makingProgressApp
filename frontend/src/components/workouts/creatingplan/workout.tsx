@@ -61,7 +61,7 @@ return (
 
         <div className='WP-cards-container'>
             <div className='WP-card'>
-            <p className='WP-card-text'>Current Plan</p>
+            <p className='WP-card-text'>Workout Plans</p>
               <img src={currentPlanImg} className='WP-current-plan-card' />
               {noPlan ? (
                 <button onClick={() => alert('create a plan to view a plan!')} className='WP-card-btn'>
