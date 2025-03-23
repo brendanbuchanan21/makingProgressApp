@@ -90,6 +90,7 @@
     height: 15%;
     border-radius: 12px;
     border: 1px solid var(--blue); 
+    background-color: white;
     color: #0a0a0a; 
     font-size: 1rem;
     font-weight: bold;

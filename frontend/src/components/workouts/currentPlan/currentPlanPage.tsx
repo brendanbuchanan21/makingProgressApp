@@ -13,6 +13,7 @@ import { resetWorkoutState } from '../../../redux/workoutSlice';
 import { usePostCompletedProgramMutation } from '../../../redux/completedProgramsApi';
 import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
 
+
 const CurrentPlanPage = () => {
 
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
@@ -23,23 +24,22 @@ const CurrentPlanPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [addWeekApi] = useHandleAddWeekApiMutation();
     const [postCompletedProgram] = usePostCompletedProgramMutation();
-    const [programComplete, setProgramComplete] = useState(false);
+    
     const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
 
+    
     //if all days in plan have iscomplete then set programComplete to true 
     const allDaysComplete = currentPlan?.weeks?.every(week => 
         week.days.every(day => day.isCompleted)
     ) ?? false
 
-    useEffect(() => {
-        setProgramComplete(true);
-    }, [allDaysComplete]);
+    const programComplete = allDaysComplete;
 
    const editMode = () => {
         setIsEditing(!isEditing);
    }
 
-    const handResetState = () => {
+    const handleResetState = () => {
            dispatch(resetWorkoutState());
        }
 
@@ -116,6 +116,8 @@ const CurrentPlanPage = () => {
         console.log(completedPlan.workoutPlanId, 'should work, right? ');
         const deleteCurrentPlan = await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
         console.log(deleteCurrentPlan, 'this is the response from deleting workout plan');
+        dispatch(resetWorkoutState());
+
      } catch (error) {
         console.error('error caught before making query:', error);
      }
@@ -125,7 +127,7 @@ const CurrentPlanPage = () => {
         <>
         <section className="currentPlanPage">
             <NavBar />
-            <button onClick={handResetState}>Reset</button>
+            <button onClick={handleResetState}>Reset</button>
             <div className="currentPlanPage-header-div">
                 <h1>Your Plan</h1>
             </div>

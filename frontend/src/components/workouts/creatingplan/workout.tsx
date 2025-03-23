@@ -6,7 +6,7 @@ import planningImg from '../../../images/planningImg.jpg'
 import currentPlanImg from '../../../images/currentPlanImg.jpeg'
 import { Link } from 'react-router-dom';
 import { RootState } from '../../../redux/store';
- 
+import { useEffect, useState } from 'react';
 
 const WorkoutSection = () => {
 
@@ -22,7 +22,33 @@ const WorkoutSection = () => {
     const uniqueMuscleGroups = [...new Set(firstIncompleteWorkout?.exercises.map((exercise) => exercise.muscleGroup))];
     const currentDay = firstIncompleteWorkout?.day;
 
+    const [noPlan, setNoPlan] = useState(false);
+    const [planIsComplete, setPlanIsComplete] = useState(false)
+ 
 
+    useEffect(() => {
+        if(!currentPlan || !currentPlan._id) {
+            setNoPlan(true);
+        } else {
+            setNoPlan(false);
+        }
+    }, [currentPlan]);
+
+    
+    useEffect(() => {
+        if (currentPlan && currentPlan.weeks) {
+            const allDaysComplete = currentPlan.weeks.every((week) =>
+                week.days.every((day) => day.isCompleted)
+            );
+
+            if (allDaysComplete) {
+                setPlanIsComplete(true);
+            } else {
+              setPlanIsComplete(false);
+            }
+        }
+    }, [currentPlan]);
+    
 return (
     <>
     <NavBar />
@@ -34,24 +60,42 @@ return (
         <div className='WP-cards-container'>
             <div className='WP-card'>
             <p className='WP-card-text'>Current Plan</p>
-                <img src={currentPlanImg} className='WP-current-plan-card' />
-                <Link to='/currentPlanPage' className='WP-card-btn'>
-                <p>let's go</p>
+              <img src={currentPlanImg} className='WP-current-plan-card' />
+              {noPlan ? (
+                <button onClick={() => alert('create a plan to view a plan!')} className='WP-card-btn'>
+                    <p>Let's go</p>
+                </button>
+            ) : (
+                <Link to="/currentPlanPage" className="WP-card-btn">
+                    <p>Let's go</p>
                 </Link>
+            )}
             </div>
 
             <div className='WP-card'>
                 <p className='WP-card-text'>Start Workout</p>
-                <div className='WP-current-workout-card'>
-                    <h2>Upcoming Workout🏋️‍♀️</h2>
-                    <p>Week:{weekNumber}</p>
-                    <p>{currentDay}</p>
-                    <p>{numberOfExercises} exercises</p>
-                    <p>Muscle groups: <span className='muscle-group-preview-text'>{uniqueMuscleGroups.join(', ')}</span></p>
-                </div>
-                <Link to='/todaysWorkoutPage' className='WP-card-btn'>
-                <p>let's go</p>
-                </Link>
+                {planIsComplete ? (
+                    <div className='WP-current-workout-card'> 
+                    <p>Navigate to Current Plan page to submit Plan</p>
+                    </div>
+                ) : ( <div className='WP-current-workout-card'>
+                <h2>Upcoming Workout🏋️‍♀️</h2>
+                <p>Week:{weekNumber}</p>
+                <p>{currentDay}</p>
+                <p>{numberOfExercises} exercises</p>
+                <p>Muscle groups: <span className='muscle-group-preview-text'>{uniqueMuscleGroups.join(', ')}</span></p>
+            </div>)}
+               
+                {noPlan ? (
+                     <button onClick={() => alert('create a plan to view a plan!')} className='WP-card-btn'>
+                     <p>Let's go</p>
+                 </button>
+                ) : (
+                    <Link to='/todaysWorkoutPage' className='WP-card-btn'>
+                    <p>let's go</p>
+                    </Link>
+                )}
+               
             </div>
 
             <div className='WP-card'>
