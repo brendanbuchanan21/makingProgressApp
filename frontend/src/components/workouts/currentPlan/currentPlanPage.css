@@ -201,7 +201,7 @@
 .previous-plans-header-div {
   position: relative;
   text-align: center;
-  margin-top: 4rem;
+  margin: 4rem 0 2rem 0;
   padding-top: 2rem;
 }
 
@@ -223,16 +223,14 @@
     width: 80vw;
     height: auto;
     margin: 0 auto;
-    gap: 5%;
-    align-items: center;
-    justify-content: center;
-    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-    grid-auto-rows: auto; 
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-auto-rows: auto;
 }
 
 .previous-plan-card {
   width: 25vw;
-  height: 25vh;
+  min-height: 25vh;
   border: 2px solid var(--grey); /* Matching border color */
   border-radius: 10px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
@@ -240,4 +238,12 @@
 }
 .previous-plan-card h3 {
   margin: 1rem 0;
+}
+.previous-plan-card p {
+  margin: 1rem 0;
+}
+.span-dumbbell {
+  max-width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }

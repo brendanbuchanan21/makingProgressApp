@@ -3,7 +3,7 @@ import './currentPlanPage.css'
 import WeekCard from "./weekCard";
 import NavBar from "../../dashboard/navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import addMarkerBlue from '../../../images/addMarkerBlue.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { addWeek } from '../../../redux/workoutSlice';
@@ -12,6 +12,9 @@ import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
 import { resetWorkoutState } from '../../../redux/workoutSlice';
 import { usePostCompletedProgramMutation, useGetCompletedProgramQuery  } from '../../../redux/completedProgramsApi';
 import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
+import dumbbellImg from '../../../images/dumbbell-svgrepo-com.svg';
+import { ClipLoader } from 'react-spinners';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 const CurrentPlanPage = () => {
@@ -24,11 +27,33 @@ const CurrentPlanPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [addWeekApi] = useHandleAddWeekApiMutation();
     const [postCompletedProgram] = usePostCompletedProgramMutation();
+    const [isUserReady, setIsUserReady] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null)
+
+
     
     const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
 
+    const auth = getAuth();
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if(user) {
+                setUserId(user.uid);
+                setIsUserReady(true)
+            } else {
+                setUserId(null);
+                setIsUserReady(false);
+            }
+        });
+        //clean up on unmount
+        return () => unsubscribe();
+    }, [auth]);
+
     // retrieve all past plans
-    const { data: completedPrograms, error, isLoading } = useGetCompletedProgramQuery();
+    const { data: completedPrograms, error, isLoading } = useGetCompletedProgramQuery(undefined, {
+        skip: !isUserReady,
+        refetchOnMountOrArgChange: true
+    });
 
     console.log({completedPrograms}, 'what does this look like?');
     //if all days in plan have iscomplete then set programComplete to true 
@@ -165,17 +190,28 @@ const CurrentPlanPage = () => {
             <div className='previous-plans-header-div'>
                 <h1>Previous Plans</h1>
             </div>
-            <div className='grid-container-2'>
-                {completedPrograms?.completedPrograms?.map((program: any) => (
-                     <div className='previous-plan-card' key={program._id}>
-                     <h3><u>{program.name}</u></h3>
-                     <p>Plan completed from:{program.startDate}-{program.endDate}</p>
-                     <p>Lasted:{program.duration}</p>
-                     <p>Total Volume:{program.totalVolume}</p>
-                     <p>Average RIR:</p>
-                 </div>
-                ))}
-            </div>
+            {isLoading ? (
+                <div className='spinner-container'>
+                    <ClipLoader size={50} color='#007bff' />
+                </div>
+            ) : error ? (
+                <p>Error loading previous plans. Please try again.</p>
+            ) : completedPrograms?.completedPrograms?.length > 0 ? (
+                <div className='grid-container-2'>
+                    {completedPrograms.completedPrograms.map((program: any) => (
+                         <div className='previous-plan-card' key={program._id}>
+                         <h3><u>{program.name}</u></h3>
+                         <p>Plan completed from:{program.startDate}-{program.endDate}</p>
+                         <p>Lasted: {program.duration}</p>
+                         <p>Total Volume: {program.totalVolume}lbs <span><img src={dumbbellImg} alt="" className='span-dumbbell'/></span></p>
+                         <p>Average RIR:</p>
+                     </div>
+                    ))}
+                </div>
+            ) : (
+                <p>No Previous plans found</p>
+            )}
+           
         </section>
         </>
     )
