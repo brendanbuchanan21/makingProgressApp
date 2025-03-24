@@ -8,8 +8,7 @@ import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
 import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
 import { useEffect } from "react";
-import { skipToken } from "@reduxjs/toolkit/query";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 
 
@@ -27,62 +26,46 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
     const weeks = currentPlan?.weeks ?? [];
     const workoutPlanId = currentPlan?._id;
-    const [authToken, setAuthToken] = useState<string | null>(null);  // Track the auth token
-  const [isTokenReady, setIsTokenReady] = useState(false);  // Flag
+    const [isUserReady, setIsUserReady] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null)
    
 
     const dispatch = useDispatch();
     
 
-     // Fetch auth token and ensure it's ready before running queries
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const user = getAuth().currentUser;
-        if (user) {
-          const token = await user.getIdToken();
-          setAuthToken(token); // Save token to state
-          setIsTokenReady(true); // Mark token as ready
-        } else {
-          console.error("User not logged in.");
-        }
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    };
-
-    fetchToken();
-  }, []);
+     const auth = getAuth();
+        useEffect(() => {
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+                if(user) {
+                    setUserId(user.uid);
+                    setIsUserReady(true)
+                } else {
+                    setUserId(null);
+                    setIsUserReady(false);
+                }
+            });
+            //clean up on unmount
+            return () => unsubscribe();
+        }, [auth]);
 
   // Ensure the query is only sent when the token is ready
   const { data: workoutPlanData, error: workoutPlanError, isLoading: isLoadingWorkoutPlan } = useGetExerciseProgramQuery(
-    workoutPlanId ? { workoutPlanId } : skipToken,
+    { workoutPlanId: workoutPlanId },
     {
-      skip: !isTokenReady, // Skip the query until token is ready
-      selectFromResult: (result) => {
-        return {
-          ...result,
-          headers: {
-            Authorization: authToken ? `Bearer ${authToken}` : "", // Add token when it's available
-          },
-        };
-      },
+      skip: !isUserReady,
+      refetchOnMountOrArgChange: true,
     }
+    
   );
     
     
     
   // Second query: Get completed workout volume
   const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(
-    workoutPlanId ?? skipToken,
+    workoutPlanId,
     {
-      skip: !isTokenReady || !authToken || !workoutPlanId,// Skip the query until the token is ready
-      selectFromResult: (result) => ({
-        ...result,
-        headers: {
-          Authorization: authToken ? `Bearer ${authToken}` : "", // Add token when ready
-        },
-      }),
+      skip: !isUserReady, // Ensure it doesn't run until the user is ready
+    refetchOnMountOrArgChange: true, // Ensure it refetches if workoutPlanId changes
     }
   );
 
