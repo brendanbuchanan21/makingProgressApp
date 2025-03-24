@@ -39,4 +39,4 @@ export const completedProgramApi = createApi({
     })
 })
 
-export const { usePostCompletedProgramMutation } = completedProgramApi
+export const { usePostCompletedProgramMutation, useGetCompletedProgramQuery } = completedProgramApi

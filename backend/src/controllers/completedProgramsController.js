@@ -17,7 +17,7 @@ export const postCompletedProgram = async (req, res) => {
         const totalVolume = completedWorkouts.reduce((acc, workout) => acc + workout.totalVolume, 0);
 
         // safe to use as plans end date because this function will only run when the plan is done and being submitted
-        const endDate = new Date();
+        const endDate = new Date().toISOString().split('T')[0]; 
 
 
         const completedPlan = new completedProgramModel({
@@ -41,4 +41,27 @@ export const postCompletedProgram = async (req, res) => {
     
 
 
+}
+
+export const fetchCompletedPrograms = async (req, res) => {
+
+    try {
+        const userId = req.user.uid;
+
+        if(!userId) {
+            res.status(400).json({message: 'could not find the user id'});
+        }
+        const completedPrograms = await completedProgramModel.find({userId});
+
+        if (completedPrograms.length === 0) {
+            return res.status(200).json({message: 'no completed programs found for this user', completedPrograms: []}); // Or just return []
+        }
+
+        res.status(200).json({message: 'completed programs coming back', completedPrograms});
+
+
+    } catch (error) {
+        console.error('could not process your request', error);
+        res.status(500).json({message: 'could not process request in try block'});
+    }
 }

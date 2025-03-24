@@ -10,7 +10,7 @@ import { addWeek } from '../../../redux/workoutSlice';
 import { RootState } from '../../../redux/store';
 import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
 import { resetWorkoutState } from '../../../redux/workoutSlice';
-import { usePostCompletedProgramMutation } from '../../../redux/completedProgramsApi';
+import { usePostCompletedProgramMutation, useGetCompletedProgramQuery  } from '../../../redux/completedProgramsApi';
 import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
 
 
@@ -27,7 +27,10 @@ const CurrentPlanPage = () => {
     
     const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
 
-    
+    // retrieve all past plans
+    const { data: completedPrograms, error, isLoading } = useGetCompletedProgramQuery();
+
+    console.log({completedPrograms}, 'what does this look like?');
     //if all days in plan have iscomplete then set programComplete to true 
     const allDaysComplete = currentPlan?.weeks?.every(week => 
         week.days.every(day => day.isCompleted)
@@ -123,6 +126,7 @@ const CurrentPlanPage = () => {
      }
   }
 
+
     return (
         <>
         <section className="currentPlanPage">
@@ -162,13 +166,15 @@ const CurrentPlanPage = () => {
                 <h1>Previous Plans</h1>
             </div>
             <div className='grid-container-2'>
-                <div className='previous-plan-card'>
-                    <h3>Plan Name</h3>
-                    <p>Plan completed from:</p>
-                    <p>Lasted:</p>
-                    <p>Total Volume</p>
-                    <p>Average RIR:</p>
-                </div>
+                {completedPrograms?.completedPrograms?.map((program: any) => (
+                     <div className='previous-plan-card' key={program._id}>
+                     <h3><u>{program.name}</u></h3>
+                     <p>Plan completed from:{program.startDate}-{program.endDate}</p>
+                     <p>Lasted:{program.duration}</p>
+                     <p>Total Volume:{program.totalVolume}</p>
+                     <p>Average RIR:</p>
+                 </div>
+                ))}
             </div>
         </section>
         </>
