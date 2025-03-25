@@ -99,18 +99,20 @@ const CurrentPlanPage = () => {
             }))
             : [];
 
-
-            addWeekApi({
+            const response = await addWeekApi({
                 workoutPlanId: currentPlan._id,
                 weekNumber: newWeekNumber,
                 days: daysForNewWeek
-            })
+            }).unwrap();
 
-            dispatch(addWeek({
-                workoutPlanId: currentPlan._id,
-                weekNumber: newWeekNumber,
-                days: daysForNewWeek
-            }))
+            const newWeek = response.weeks.find(week => week.weekNumber === newWeekNumber)
+            if(!newWeek) {
+                console.error('new week not found in response');
+            }
+
+            console.log(newWeek, 'this is the new week from response')
+            console.log(response, 'funny march day bruh');
+            dispatch(addWeek({workoutPlanId: currentPlan._id, newWeek}))
         } catch (error) {
             console.error(error);
         }
@@ -201,7 +203,7 @@ const CurrentPlanPage = () => {
                     {completedPrograms.completedPrograms.map((program: any) => (
                          <div className='previous-plan-card' key={program._id}>
                          <h3><u>{program.name}</u></h3>
-                         <p>Plan completed from:{program.startDate}-{program.endDate}</p>
+                         <p>Plan completed from: {program.startDate}-{program.endDate}</p>
                          <p>Lasted: {program.duration}</p>
                          <p>Total Volume: {program.totalVolume}lbs <span><img src={dumbbellImg} alt="" className='span-dumbbell'/></span></p>
                          <p>Average RIR:</p>

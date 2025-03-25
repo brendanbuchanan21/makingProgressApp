@@ -312,7 +312,6 @@ const TodaysWorkoutPage = () => {
           <h2>{firstIncompleteWorkout.day}</h2>
         </div>
         <ul>
-        <ul>
   {firstIncompleteWorkout.exercises.length > 0 ? (
     firstIncompleteWorkout.exercises.map((exercise) => (
       <div key={exercise._id} className="exercise-card">
@@ -401,8 +400,6 @@ const TodaysWorkoutPage = () => {
     <li>No exercises scheduled.</li>
   )}
 </ul>
-
-        </ul>
       </div>
     ) : (
       <p>No days found brother</p>

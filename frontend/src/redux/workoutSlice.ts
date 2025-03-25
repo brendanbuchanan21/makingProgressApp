@@ -75,31 +75,31 @@ const workoutSlice = createSlice({
 
 
     // add a week for the new program to the store
-    addWeek(state, action: PayloadAction<{workoutPlanId: string, weekNumber: number, days: DayPlan[]}>) {
+    addWeek(state, action: PayloadAction<{workoutPlanId: string, newWeek: WeekPlan}>) {
 
-      const { workoutPlanId, weekNumber, days } = action.payload;
+      const { workoutPlanId, newWeek } = action.payload;
 
-      if(state.currentPlan?._id === workoutPlanId) {
-        const newWeek: WeekPlan = {
-          weekNumber,
-          days: days.map(day => ({
-              day: day.day,
-              exercises: day.exercises.map(exercise => ({
-                  id: exercise._id,
-                  name: exercise.name,
-                  muscleGroup: exercise.muscleGroup,
-                  sets: exercise.sets.map((_, index) => ({
-                      setNumber: index + 1,
-                      reps: null,
-                      weight: null,
-                      rir: null
-                  }))
-              }))
-          }))
-      };
-  
-      state.currentPlan.weeks.push(newWeek)
-      }
+      if (state.currentPlan?._id === workoutPlanId) {
+        state.currentPlan.weeks.push({
+            weekNumber: newWeek.weekNumber,
+            days: newWeek.days.map((day) => ({
+                day: day.day,
+                _id: day._id, // Use the correct _id from response
+                exercises: day.exercises.map((exercise) => ({
+                    _id: exercise._id, // Keep the correct exercise ID
+                    name: exercise.name,
+                    muscleGroup: exercise.muscleGroup,
+                    sets: exercise.sets.map((set) => ({
+                        setNumber: set.setNumber,
+                        reps: set.reps,
+                        weight: set.weight,
+                        rir: set.rir,
+                        _id: set._id, // Keep the correct set ID
+                    })),
+                })),
+            })),
+        });
+    }
     },
 
     deleteWeek(state, action: PayloadAction<number>) {
