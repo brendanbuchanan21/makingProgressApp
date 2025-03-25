@@ -2,7 +2,7 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import React, { useEffect, useState } from 'react'
 import { useGetTotalMuscleGroupVolumeQuery } from '../../redux/volumeApi';
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -10,11 +10,33 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const TotalVolumeMuscleGroup = () => {
 
+    const [isUserReady, setIsUserReady] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null);
+
+
+    const auth = getAuth()
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if(user) {
+                setUserId(user.uid);
+                setIsUserReady(true);
+            } else {
+                setUserId(null);
+                setIsUserReady(false)
+            }
+        });
+        return () => unsubscribe();
+    }, [auth])
+
 
 
     const allMuscleGroups = ['Chest', 'Back', 'Shoulders', 'Triceps', 'Biceps', 'Legs', 'Calves', 'Abs'];
 
-    const { data, isLoading } = useGetTotalMuscleGroupVolumeQuery();
+    const { data, isLoading } = useGetTotalMuscleGroupVolumeQuery(undefined, {
+        skip: !isUserReady,
+        refetchOnMountOrArgChange: true,
+    });
+    console.log('whats this', data);
 
     // Ensure data is an array, or fallback to an empty array
     const muscleGroupVolume = Array.isArray(data) ? data : [];
@@ -26,9 +48,8 @@ const TotalVolumeMuscleGroup = () => {
 
     // Populate map with actual data from API response
     muscleGroupVolume.forEach((group) => {
-        if (muscleVolumeMap.hasOwnProperty(group.id)) {
+        
             muscleVolumeMap[group.id] = group.totalVolume;
-        }
     });
 
     // Data for the chart
@@ -38,7 +59,6 @@ const TotalVolumeMuscleGroup = () => {
             {
                 label: 'Total Volume per Muscle Group',
                 data: allMuscleGroups.map((muscle) => muscleVolumeMap[muscle]),
-                borderColor: '#0f0fb8', // Bright blue border for the line
                 backgroundColor: 'rgba(20, 20, 210, 0.2)', // Soft fill with slight transparency
                 borderWidth: 2, // Thicker line for better visibility
                 pointRadius: 5, // Slightly larger points for visibility

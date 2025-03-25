@@ -15,8 +15,7 @@
 }
 
 .bar-graph-main-container {
-    border: 1px solid var(--grey);
-    height: 70vh;
+    height: 45vh;
     width: 70vw;
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -24,7 +23,6 @@
 
 
 .line-chart-total-volume-biggest-container {
-    border: 2px solid var(--grey);
     width: 70vw;
     height: 70vh;
     display: flex;
@@ -40,8 +38,9 @@
     margin-left: 8rem;
 }
 .time-scale-select {
-    border: 1px solid var(--blue);
-    width: 20%;
+    border: 1px solid var(--grey);
+    width: 15%;
+    margin-bottom: .5rem;
 }
 
 
