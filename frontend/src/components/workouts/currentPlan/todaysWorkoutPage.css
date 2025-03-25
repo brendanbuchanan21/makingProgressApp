@@ -10,10 +10,26 @@
     justify-content: center;
   }
   
+.current-workout-page-back-btn-div {
+  height: 5%;
+}
+.current-workout-page-back-btn-div button {
+  height: 70%;
+  width: 5%;
+  background: none;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+.current-workout-page-back-btn-div button:hover {
+  border: 1px solid hsl(0, 0%, 50%);
+  color: hsl(0, 0%, 50%);
+  cursor: pointer;
+}
   .current-workout-page-main-content-div {
     height: auto;
     display: flex;
     justify-content: center;
+    margin-bottom: 2rem;
   }
   
   .workout-card {

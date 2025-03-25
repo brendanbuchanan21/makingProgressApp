@@ -105,9 +105,8 @@
   }
   
   .WP-card-btn:hover {
-    background-color: var(--hover-blue); /* Change background color slightly on hover */
-    color: white; /* Change text color on hover (optional) */
-    transform: translateY(-4px); /* Pop-out effect */
-    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8); /* Increase shadow for more pop-out feel */
+    border: 1px solid white;
+    transform: translateY(-4px); 
+    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8); 
   }
   

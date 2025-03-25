@@ -12,6 +12,7 @@ import { addSetToExercise, updateSetDetails } from "../../../redux/workoutSlice"
 import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDeleteSetFromExerciseApiMutation, useUpdateWorkoutCompletionApiMutation } from "../../../redux/workoutApi";
 import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
 import { useNavigate } from "react-router-dom";
+import backArrow from '../../../images/backArrow.svg';
 
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
@@ -70,11 +71,6 @@ const TodaysWorkoutPage = () => {
       );
     };
 
-
-
-    const handResetState = () => {
-        dispatch(resetWorkoutState());
-    }
   
     if (!currentPlan || !currentPlan.weeks) {
         return <h1>No active workout plan found.</h1>;
@@ -293,6 +289,9 @@ const TodaysWorkoutPage = () => {
         }
   }
 
+  const handleBackClick = () => {
+    return navigate('/workouts');
+  }
   
 
 
@@ -302,6 +301,9 @@ const TodaysWorkoutPage = () => {
 <section className="current-workout-page">
   <div className="current-workout-page-header-div">
     <h1>Current Workout</h1>
+  </div>
+  <div className="current-workout-page-back-btn-div">
+    <button className="back-btn-current-workout"><img src={backArrow} alt="" onClick={handleBackClick} /></button>
   </div>
   <div className="current-workout-page-main-content-div">
     {firstIncompleteWorkout ? (
@@ -406,7 +408,6 @@ const TodaysWorkoutPage = () => {
       <p>No days found brother</p>
     )}
   </div>
-  <button onClick={handResetState}>Reset</button>
   <div className="submit-todays-workout-div">
       <button onClick={handleSubmitWorkout} className="complete-workout-btn">Complete Workout</button>
   </div>

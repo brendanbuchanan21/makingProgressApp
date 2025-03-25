@@ -24,6 +24,7 @@ const WorkoutSection = () => {
 
     const [noPlan, setNoPlan] = useState(false);
     const [planIsComplete, setPlanIsComplete] = useState(false)
+    const [isCurrentPlan, setIsCurrentPlan] = useState(false);
  
 
     useEffect(() => {
@@ -50,6 +51,21 @@ const WorkoutSection = () => {
             setPlanIsComplete(false);
         }
     }, [currentPlan]);
+
+
+    useEffect(() => {
+        if(currentPlan && currentPlan.weeks.length > 0) {
+            setIsCurrentPlan(true)
+        } else {
+            setIsCurrentPlan(false);
+        }
+    }, [currentPlan])
+
+    const handleAlertMessage = () => {
+
+       return window.alert('you can not make a plan while one is in motion');
+    }
+
     
 return (
     <>
@@ -82,7 +98,7 @@ return (
                     </div>
                 ) : ( <div className='WP-current-workout-card'>
                 <h2>Upcoming Workout🏋️‍♀️</h2>
-                <p>Week:{weekNumber}</p>
+                <p>Week: {weekNumber}</p>
                 <p>{currentDay}</p>
                 <p>{numberOfExercises} exercises</p>
                 <p>Muscle groups: <span className='muscle-group-preview-text'>{uniqueMuscleGroups.join(', ')}</span></p>
@@ -94,7 +110,7 @@ return (
                  </button>
                 ) : (
                     <Link to='/todaysWorkoutPage' className='WP-card-btn'>
-                    <p>let's go</p>
+                    <p>Let's go</p>
                     </Link>
                 )}
                
@@ -103,9 +119,14 @@ return (
             <div className='WP-card'>
                 <p className='WP-card-text'>New Plan</p>
                     <img src={planningImg} alt="" className='WP-new-plan-card' />
-                <Link to='/newPlanPopup' className='WP-card-btn'>
-                <p>let's go</p>
+                    {isCurrentPlan ? (
+                        <p onClick={handleAlertMessage} className='WP-card-btn'>Let's go</p>
+                    ) : (
+                        <Link to='/newPlanPopup' className='WP-card-btn'>
+                <p>Let's go</p>
                 </Link>
+                    )}
+                
             </div>
         </div>
     </section>
