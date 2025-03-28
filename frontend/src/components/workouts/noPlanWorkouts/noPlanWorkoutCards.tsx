@@ -4,38 +4,21 @@ import editMarker from '../../../images/editMarker.svg'
 import deleteMarker from '../../../images/deleteMarker.svg'
 import backArrow from '../../../images/backArrow.svg'
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 
-
-interface Set {
-    setNumber: number, 
-    Weight: number | null,
-    Reps: number | null,
-    RIR: number | null,
-
-}
-
-interface Exercise {
-    name: string,
-    sets: Set[],
-}
 
 
 const NoPlanWorkoutCard = () => {
 
 
 
-    const [exercises, setExercises] = useState<Exercise[]>([]);
-    
-    
-        const handeAddExercise = () => {
-    
-            const newExercise = {
-                name: "",
-                sets: [{Weight: null, Reps: null, RIR: null, setNumber: 1}]
-            }
-            setExercises([...exercises, newExercise]);
-        }
+    const quickWorkoutState = useSelector((state: RootState) => state.quickWorkout);
+
+    const exercises = quickWorkoutState.quickWorkout.exercises;
+
+    const [editMode, setEditMode] = useState(false);
 
 
         return (
@@ -55,44 +38,53 @@ const NoPlanWorkoutCard = () => {
         <h2>Workout Day</h2>
       </div>
       <ul>
-        
-          <div className="exercise-card">
-            <div className="exercise-card-header-div">
-              <input type="text" placeholder='Enter Exercise Name..' className='exercise-input'/>
-              <img src={trashImg} alt="Delete Exercise" className="trash-img" />
-            </div>
-            <div className="exercise-card-button-container">
-              <button>Add Set</button>
-              <img src={editMarker} alt="Edit" />
-            </div>
-            <div className="header-row">
-              <div className="column-header set-number-header">Set</div>
-              <div className="column-header">Weight</div>
-              <div className="column-header">Reps</div>
-              <div className="column-header">RIR</div>
-            </div>
-            <div className="sets-container">
-              <div className="set-row">
-                <div className="set-cell set-number-cell">
+        {exercises.length > 0 ? (
+          exercises.map((exercise) => (
+          <div className="exercise-card" key={exercise.id}>
+          <div className="exercise-card-header-div">
+            <h3>{exercise.name}</h3>
+            <img src={trashImg} alt="Delete Exercise" className="trash-img" />
+          </div>
+          <div className="exercise-card-button-container">
+            <button>Add Set</button>
+            <img src={editMarker} alt="Edit" onClick={() => setEditMode((prev) => !prev)} style={{cursor: 'pointer'}}/>
+          </div>
+          <div className="header-row">
+            <div className="column-header set-number-header">Set</div>
+            <div className="column-header">Weight</div>
+            <div className="column-header">Reps</div>
+            <div className="column-header">RIR</div>
+          </div>
+          <div className="sets-container">
+            {exercise.sets.map((set) => (
+              <div className="set-row" key={set.setNumber}>
+              <div className="set-cell set-number-cell">
+                {editMode && (
                   <img src={deleteMarker} alt="Delete Set" className="delete-marker" />
-                  1
-                </div>
-                <div className="set-cell">
-                  <input type="number" min="0" value="" />
-                </div>
-                <div className="set-cell">
-                  <input type="number" min="0" value="" />
-                </div>
-                <div className="set-cell">
-                  <input type="number" min="0" value="" />
-                </div>
+                )}
+                {set.setNumber}
+              </div>
+              <div className="set-cell">
+                <input type="number" min="0"  />
+              </div>
+              <div className="set-cell">
+                <input type="number" min="0" />
+              </div>
+              <div className="set-cell">
+                <input type="number" min="0" />
               </div>
             </div>
-            <div className="exercise-completion">
-              <label>Mark as Complete</label>
-              <input type="checkbox" className="exercise-complete-checkbox" />
-            </div>
+            ))}
+            
           </div>
+          <div className="exercise-completion">
+            <label>Mark as Complete</label>
+            <input type="checkbox" className="exercise-complete-checkbox" />
+          </div>
+        </div>
+          ))
+        ) : ( <p>Swag</p> 
+        )}
         
       </ul>
     </div>

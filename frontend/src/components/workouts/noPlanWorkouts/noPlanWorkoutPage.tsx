@@ -2,12 +2,15 @@
 import '../../workouts/currentPlan/todaysWorkoutPage.css';
 import NavBar from '../../dashboard/navbar';
 import NoPlanWorkoutCard from './noPlanWorkoutCards';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddExerciseEntry from './addExerciseEntry';
 import './noPlanWorkoutPase.css'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 const WorkoutTemplate = () => {
 
+    const quickWorkout = useSelector((state: RootState) => state.quickWorkout);
     const [exercises, setExercises] = useState(false);
     const [addingExercise, setAddingExercise] = useState(false);
 
@@ -15,6 +18,14 @@ const WorkoutTemplate = () => {
         setAddingExercise(true);
     }
 
+    const Exercises = quickWorkout.quickWorkout.exercises;
+
+    useEffect(() => {
+      if(Exercises.length >= 1) {
+        setExercises(true);
+      }
+    }, [Exercises])
+    
 
   return (
     <>

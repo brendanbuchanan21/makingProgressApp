@@ -42,6 +42,13 @@ const quickWorkoutSlice = createSlice({
     reducers: {
         addExercise(state, action: PayloadAction<noPlanExercise>) {
             state.quickWorkout.exercises.push(action.payload);
+        },
+        addingSetToExercise(state, action: PayloadAction<{exerciseId: string, newSet: noPlanSet}>) {
+            const { exerciseId, newSet } = action.payload;
+            const exercise = state.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
+            if(exercise) {
+                exercise.sets.push(newSet);
+            }
         }
     },
 })
