@@ -55,7 +55,21 @@
     justify-content: space-between;
     margin-bottom: .5rem;
   }
-
+  .exercise-input {
+    border: none;
+    border-bottom: 1px solid var(--blue);
+    border-radius: 2px;
+    height: 2rem;
+    padding: 0 0.5rem;
+    color: var(--blue);
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: border-bottom 0.2s ease-in-out;
+  }
+  .exercise-input:focus {
+    outline: none; /* Prevents full border highlight */
+    border-bottom: 2px solid var(--blue); /* Reinforces only bottom border */
+  }
   .exercise-card h3 {
     color: var(--blue);
   }
@@ -158,6 +172,24 @@
     display: flex;
     justify-content: end;
     height: 3rem;
+  }
+  
+  .add-exercise-button-div {
+    width: 50%;
+    height: 2.2rem;
+    margin: 0 auto;
+  }
+  .add-exercise-button-div button {
+    height: 100%;
+    background: none;
+    border-radius: .4rem;
+    width: 20%;
+    border: 1px solid var(--grey);
+  }
+
+  .add-exercise-button-div button:hover {
+    border: 1px solid black;
+    cursor: pointer;
   }
   .complete-workout-btn {
     border: 1px solid var(--blue);

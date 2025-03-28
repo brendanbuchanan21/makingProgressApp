@@ -17,6 +17,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { setUser } from './redux/userSlice';
 import { useDispatch } from 'react-redux';
 import { auth } from './components/welcome/firebase';
+import QuickWorkoutPage from './components/workouts/noPlanWorkouts/noPlanWorkoutPage';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
        <Route path='/submitworkoutpg' element={<SubmitWorkoutPg />} />
        <Route path='/currentPlanPage' element={<CurrentPlanPage />} />
        <Route path='/biometricsHome' element={<BiometricsHome/>} />
+       <Route path='/quickWorkoutPage' element={<QuickWorkoutPage/>} />
       </Routes>
     </Router>
     </>

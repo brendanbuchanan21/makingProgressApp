@@ -12,6 +12,7 @@ import { aggregateVolumeApi } from "./volumeApi";
 import { userReducer } from "./userSlice";
 import { completedWorkoutProgramsReducer } from "./completedProgramsSlice";
 import { completedProgramApi } from "./completedProgramsApi";
+import { quickWorkoutReducer } from "./noPlanWorkoutSlice";
 
 // Configuration for Redux Persist
 const persistConfig = {
@@ -27,12 +28,14 @@ const rootReducer = combineReducers({
   biometric: biometricReducer,
   bodyWeight: bodyWeightReducer,
   user: userReducer,
+  quickWorkout: quickWorkoutReducer,
   [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
   [newBioMetricApi.reducerPath]: newBioMetricApi.reducer,
   [newBodyWeightApi.reducerPath]: newBodyWeightApi.reducer,
   [completedWorkoutApi.reducerPath]: completedWorkoutApi.reducer,
   [aggregateVolumeApi.reducerPath]: aggregateVolumeApi.reducer,
   [completedProgramApi.reducerPath]: completedProgramApi.reducer,
+  
 
 });
 
