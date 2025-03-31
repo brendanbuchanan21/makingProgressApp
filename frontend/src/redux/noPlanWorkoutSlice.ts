@@ -12,6 +12,7 @@ export interface noPlanExercise {
       id: string;
       name: string;
       muscleGroup: string;
+      isComplete?: boolean;
       sets: noPlanSet[];
 }
 
@@ -76,6 +77,24 @@ const quickWorkoutSlice = createSlice({
                     }
                 }
             },
+            deletingExercise(state, action: PayloadAction<{exerciseId: string}>) {
+                const { exerciseId } = action.payload;
+                
+                    state.quickWorkout.exercises = state.quickWorkout.exercises.filter((exercise) => exercise.id !== exerciseId);
+                
+            },
+            exerciseComplete(state, action: PayloadAction<{exerciseId: string}>) {
+                const { exerciseId } = action.payload;
+
+                const exercise = state.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
+
+                if(exercise) {
+                    exercise.isComplete = !exercise.isComplete;
+                }
+            },
+            resetQuickWorkout(state){
+                return initialState;
+            }
         },
     })
 
@@ -86,4 +105,7 @@ export const {
     addingSetToExercise,
     deletingSetFromExercise,
     updateSetDetails,
+    deletingExercise,
+    exerciseComplete,
+    resetQuickWorkout,
 } = quickWorkoutSlice.actions;

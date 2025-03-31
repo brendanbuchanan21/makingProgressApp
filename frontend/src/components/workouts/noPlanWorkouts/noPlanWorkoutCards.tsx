@@ -6,9 +6,10 @@ import backArrow from '../../../images/backArrow.svg'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { addingSetToExercise, deletingSetFromExercise, noPlanSet, updateSetDetails} from '../../../redux/noPlanWorkoutSlice';
+import { addingSetToExercise, deletingSetFromExercise, noPlanSet, updateSetDetails, deletingExercise, exerciseComplete, resetQuickWorkout} from '../../../redux/noPlanWorkoutSlice';
 import { v4 as uuidv4 } from 'uuid';
 import AddExerciseEntry from './addExerciseEntry';
+import { useNavigate } from 'react-router-dom';
 
 
 const NoPlanWorkoutCard = () => {
@@ -20,7 +21,7 @@ const NoPlanWorkoutCard = () => {
 
     const [addingExercise, setAddingExercise] = useState(false);
 
-
+    const navigate = useNavigate();
 
     const exercises = quickWorkoutState.quickWorkout.exercises;
 
@@ -74,16 +75,52 @@ const NoPlanWorkoutCard = () => {
       
     }
 
+    const handleDeleteExercise = (exerciseId: string) => {
+
+
+      if (window.confirm("Are you sure you want to delete this exercise?")) {
+        if (exercises.length === 1) {
+          // If it's the last exercise, reset the workout and navigate away.
+          dispatch(resetQuickWorkout());
+          navigate("/workouts");
+        } else {
+          // Otherwise, simply delete the exercise.
+          dispatch(deletingExercise({ exerciseId }));
+        }
+      }
+      
+    }
+
 
 
     const handleAddExercise = () => {
         setAddingExercise(true);
     }
 
-    const handleSubmitWorkout = () => {
+   
 
-     
+    const handleSubmitWorkout = async () => {
 
+
+      //check if every exercise is complete
+      const allExercisesComplete = exercises.every((exercise) => exercise.isComplete === true);
+      if(!allExercisesComplete) {
+        alert('need to complete every exercise');
+        return;
+      }
+
+      const completedWorkout = {...quickWorkoutState.quickWorkout, 
+        dateDone: new Date().toISOString(),
+      }
+
+      console.log(completedWorkout, 'wooohooo buddy')
+      
+      //if not all exercises complete, don't allow submission
+
+     // take root state value, store in variable, send in rtk query
+     // remove the value in the store 
+     // we navigate back to workout page
+      //complete date dispatch as well 
     
     }
 
@@ -113,7 +150,7 @@ const NoPlanWorkoutCard = () => {
           <div className="exercise-card" key={exercise.id}>
           <div className="exercise-card-header-div">
             <h3>{exercise.name}</h3>
-            <img src={trashImg} alt="Delete Exercise" className="trash-img" />
+            <img src={trashImg} alt="Delete Exercise" className="trash-img" onClick={() => handleDeleteExercise(exercise.id)}/>
           </div>
           <div className="exercise-card-button-container">
             <button onClick={() => handleAddSet(exercise.id)}>Add Set</button>
@@ -152,7 +189,7 @@ const NoPlanWorkoutCard = () => {
           </div>
           <div className="exercise-completion">
             <label>Mark as Complete</label>
-            <input type="checkbox" className="exercise-complete-checkbox" />
+            <input type="checkbox" className="exercise-complete-checkbox" onChange={() => dispatch(exerciseComplete({exerciseId: exercise.id}))} />
           </div>
         </div>
           ))
