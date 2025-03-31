@@ -136,7 +136,6 @@ const workoutSlice = createSlice({
     }>) {
       const { weekNumber, day, exerciseId, updatedExercise } = action.payload;
 
-      console.log('hmmm very curious trying to figure out:', exerciseId);
       const week = state.currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
       if(week) {

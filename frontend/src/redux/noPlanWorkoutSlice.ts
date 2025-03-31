@@ -49,12 +49,41 @@ const quickWorkoutSlice = createSlice({
             if(exercise) {
                 exercise.sets.push(newSet);
             }
-        }
-    },
-})
+        },
+        deletingSetFromExercise(state, action: PayloadAction<{exerciseId: string, setId: string}>) {
+            const { exerciseId, setId } = action.payload;
+            const exercise = state.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
+
+            if(exercise) {
+                exercise.sets = exercise?.sets.filter((set) => set.id !== setId);
+            }
+           
+
+        },
+        updateSetDetails(state, action: PayloadAction<{
+            exerciseId: string,
+            setId: string,
+            updatedSet: Partial<Pick<noPlanSet, "weight" | "reps" | "rir">>,
+        }>) {
+            const { exerciseId, setId, updatedSet } = action.payload;
+           
+                const exercise = state.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId)
+                if(exercise) {
+                    const set = exercise.sets.find((set) => set.id === setId);
+
+                    if (set) {
+                        Object.assign(set, updatedSet); // Merge the partial update into the existing set
+                    }
+                }
+            },
+        },
+    })
 
 export const quickWorkoutReducer = quickWorkoutSlice.reducer;
 
 export const {
-    addExercise
+    addExercise,
+    addingSetToExercise,
+    deletingSetFromExercise,
+    updateSetDetails,
 } = quickWorkoutSlice.actions;

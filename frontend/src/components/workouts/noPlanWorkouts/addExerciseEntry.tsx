@@ -24,7 +24,6 @@ const AddExerciseEntry: React.FC<addingExerciseProps> = ({ setAddingExercise }) 
     const dispatch = useDispatch();
 
 
-   
 
     // Generate sets array based on number of sets selected
     const generateSets = (numSets: number): noPlanSet[] => {
