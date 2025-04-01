@@ -42,6 +42,10 @@ const noPlanExercise = new Schema({
         type: Boolean,
         required: true
     },
+    muscleGroupVolume: {
+        type: Number,
+        required: true
+    },
     sets: [noPlanSet]
 });
 
@@ -54,7 +58,11 @@ const noPlanWorkout = new Schema({
         type: String,
         required: true
     },
-    exercises: [noPlanExercise]
+    exercises: [noPlanExercise],
+    totalVolume: {
+        type: Number,
+        required: true
+    }
 }, { timestamps: true});
 
 const noPlanWorkoutModel = mongoose.model('noPlanWorkout', noPlanWorkout);
