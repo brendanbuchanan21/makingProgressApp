@@ -10,7 +10,7 @@ import { addingSetToExercise, deletingSetFromExercise, noPlanSet, updateSetDetai
 import { v4 as uuidv4 } from 'uuid';
 import AddExerciseEntry from './addExerciseEntry';
 import { useNavigate } from 'react-router-dom';
-import { csvParse } from 'd3';
+import { usePostNoPlanWorkoutMutation } from '../../../redux/noPlanWorkoutApi';
 
 
 const NoPlanWorkoutCard = () => {
@@ -27,6 +27,8 @@ const NoPlanWorkoutCard = () => {
     const exercises = quickWorkoutState.quickWorkout.exercises;
 
     const [editMode, setEditMode] = useState(false);
+
+    const [postNoPlanWorkout, { data, error, isLoading}] = usePostNoPlanWorkoutMutation();
 
   
 
@@ -114,9 +116,18 @@ const NoPlanWorkoutCard = () => {
         dateDone: new Date().toISOString(),
       }
 
-      console.log('wohooo all done buddy', completedWorkout);
-      dispatch(resetQuickWorkout());
-      navigate('/workouts');
+      try {
+
+        const response = await postNoPlanWorkout(completedWorkout).unwrap();
+         console.log(response, 'hmm was it successfull');
+         dispatch(resetQuickWorkout());
+         navigate('/workouts');
+      } catch (error){
+        console.error(error);
+      }
+
+      
+     
       
       //if not all exercises complete, don't allow submission
 

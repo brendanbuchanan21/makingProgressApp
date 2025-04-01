@@ -54,7 +54,7 @@ app.use("/api/bodyWeight", bodyWeightRouter);
 app.use("/api/completedWorkout", completedWorkoutsRouter);
 app.use("/api/volume", volumeRouter);
 app.use("/api/completedPrograms", completedProgramsRouter);
-app.use("api/noPlanWorkout", noPlanWorkoutRouter);
+app.use("/api/noPlanWorkout", noPlanWorkoutRouter);
 
 
 

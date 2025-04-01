@@ -1,4 +1,4 @@
-import noPlanWorkoutModel from "../models/noPlanWorkoutModel";
+import noPlanWorkoutModel from "../models/noPlanWorkoutModel.js";
 import mongoose from "mongoose";
 
 
@@ -12,6 +12,7 @@ export const newNonPlanWorkout = async (req, res) => {
 
         const { exercises, dateDone } = req.body;
         const userId = req.user.uid;
+        console.log(userId, 'ok?');
 
         if (!exercises || !dateDone || !userId) {
             return res.status(400).json({ error: "Missing required fields." });

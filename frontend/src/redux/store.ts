@@ -13,6 +13,7 @@ import { userReducer } from "./userSlice";
 import { completedWorkoutProgramsReducer } from "./completedProgramsSlice";
 import { completedProgramApi } from "./completedProgramsApi";
 import { quickWorkoutReducer } from "./noPlanWorkoutSlice";
+import { noPlanWorkoutApi } from "./noPlanWorkoutApi";
 
 // Configuration for Redux Persist
 const persistConfig = {
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   [completedWorkoutApi.reducerPath]: completedWorkoutApi.reducer,
   [aggregateVolumeApi.reducerPath]: aggregateVolumeApi.reducer,
   [completedProgramApi.reducerPath]: completedProgramApi.reducer,
+  [noPlanWorkoutApi.reducerPath]: noPlanWorkoutApi.reducer
   
 
 });
@@ -48,7 +50,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, 
-    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware, completedWorkoutApi.middleware, aggregateVolumeApi.middleware, completedProgramApi.middleware),
+    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware, completedWorkoutApi.middleware, aggregateVolumeApi.middleware, completedProgramApi.middleware, noPlanWorkoutApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { verifyToken } from "../middlewares/authMiddleWare";
-import { newNonPlanWorkout } from "../controllers/noPlanWorkoutController";
+import { verifyToken } from "../middlewares/authMiddleWare.js";
+import { newNonPlanWorkout } from "../controllers/noPlanWorkoutController.js";
 
 
 const noPlanWorkoutRouter = Router();

@@ -1,4 +1,4 @@
-import { MongoExpiredSessionError } from "mongodb";
+
 import workoutModel from "../models/workoutModel.js";
 import mongoose, { mongo } from "mongoose";
 
