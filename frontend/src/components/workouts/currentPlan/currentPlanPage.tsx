@@ -170,11 +170,26 @@ const CurrentPlanPage = () => {
         refetchOnMountOrArgChange: true,
     });
 
+    console.log(quickWorkouts, 'investigate')
+
     const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
         if(selectedTab !== tab) {
             setSelectedTab(tab);
         }
     }
+
+
+    const formatDate = (isoString: string) => {
+        const date = new Date(isoString);
+        return date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true
+        }).replace(",", " at"); // Formats date properly
+    };
 
     return (
         <>
@@ -251,8 +266,15 @@ const CurrentPlanPage = () => {
                         <div className='grid-container-2'>
                             {quickWorkouts.map((workout: any) => (
                                 <div className='quick-workout-card' key={workout._id}>
-                                    <h3><u>{workout.name}</u></h3>
-                                    <p>Completed on: {new Date(workout.date).toLocaleDateString()}</p>
+                                    <h3><u>Past Workout</u></h3>
+                                    <p>Completed on: {formatDate(workout.dateDone)}</p>
+                                    {Array.isArray(workout.exercises) ? (
+                                        workout.exercises.map((exercise: any) => (
+                                            <p key={exercise._id}>Muscle Groups: <span className='quick-workout-card-muscle-group'>{exercise.muscleGroup}</span></p>
+                                        ))
+                                    ) : (
+                                        <p>No exercises found</p>
+                                    )}
                                     <p>Total Volume: {workout.totalVolume} lbs</p>
                                 </div>
                             ))}
