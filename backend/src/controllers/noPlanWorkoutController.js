@@ -35,3 +35,21 @@ export const newNonPlanWorkout = async (req, res) => {
     }
 
 }
+
+export const getAllNonPlanWorkouts = async (req, res) => {
+
+    try {
+        const userId = req.user.uid;
+
+        if(!userId) {
+           return res.status(400).json({message: 'could not find user id?'});
+        }
+
+        const completedWorkouts = await noPlanWorkoutModel.find({ userId });
+        
+        res.status(200).json(completedWorkouts);
+    } catch (error) {
+        console.error('error fetching non-plan workouts:', error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+}

@@ -1,7 +1,7 @@
 import './workouts.css'
 import '../../dashboard/dashboard.css'
 import NavBar from '../../dashboard/navbar';
-import { useSelector, UseSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import planningImg from '../../../images/planningImg.jpg'
 import currentPlanImg from '../../../images/currentPlanImg.jpeg'
 import { Link } from 'react-router-dom';
@@ -76,17 +76,11 @@ return (
 
         <div className='WP-cards-container'>
             <div className='WP-card'>
-            <p className='WP-card-text'>Workout Plans</p>
+            <p className='WP-card-text'>Plans & Past Workouts</p>
               <img src={currentPlanImg} className='WP-current-plan-card' />
-              {noPlan ? (
-                <button onClick={() => alert('create a plan to view a plan!')} className='WP-card-btn'>
-                    <p>View Plans</p>
-                </button>
-            ) : (
                 <Link to="/currentPlanPage" className="WP-card-btn">
                     <p>Let's go</p>
                 </Link>
-            )}
             </div>
 
             <div className='WP-card'>

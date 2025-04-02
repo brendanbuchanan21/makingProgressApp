@@ -15,6 +15,7 @@ import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
 import dumbbellImg from '../../../images/dumbbell-svgrepo-com.svg';
 import { ClipLoader } from 'react-spinners';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useGetNoPlanWorkoutsQuery } from '../../../redux/noPlanWorkoutApi';
 
 
 const CurrentPlanPage = () => {
@@ -29,6 +30,8 @@ const CurrentPlanPage = () => {
     const [postCompletedProgram] = usePostCompletedProgramMutation();
     const [isUserReady, setIsUserReady] = useState(false);
     const [userId, setUserId] = useState<string | null>(null)
+    const [noPlan, setNoPlan] = useState(false);
+    const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans");
 
 
     
@@ -70,6 +73,14 @@ const CurrentPlanPage = () => {
     const handleResetState = () => {
            dispatch(resetWorkoutState());
        }
+
+       useEffect(() => {
+        if(!currentPlan || !currentPlan._id) {
+            setNoPlan(true);
+        } else {
+            setNoPlan(false);
+        }
+    }, [currentPlan]);
 
    const handleAddWeek = async () => {
         
@@ -153,70 +164,106 @@ const CurrentPlanPage = () => {
      }
   }
 
+   // Fetch quick workout data
+   const { data: quickWorkouts, error: quickWorkoutsError, isLoading: quickWorkoutsLoading} = useGetNoPlanWorkoutsQuery(undefined, {
+        skip: !isUserReady,
+        refetchOnMountOrArgChange: true,
+    });
+
+    const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
+        if(selectedTab !== tab) {
+            setSelectedTab(tab);
+        }
+    }
 
     return (
         <>
-        <section className="currentPlanPage">
-            <NavBar />
-            <button onClick={handleResetState}>Reset</button>
-            <div className="currentPlanPage-header-div">
-                <h1>Current Plan</h1>
-            </div>
-            <div className="currentPlanPage-edit-plan-btn-div">
-            <Link to="/workouts" className="currentPlanPage-back-btn">
-            Back
-            </Link>
-            {programComplete ? (
-                <button className='currentPlanPage-complete-plan-btn' onClick={handleSubmitPlan}>Complete Program</button>
-            ) : (
-                <button className="currentPlanPage-edit-btn" onClick={editMode}>Edit Plan</button>
-            )}
-               
-            </div>
-            <div className="grid-container">
-                {/*we have to map over each week thats in the program for each card*/}
-                <WeekCard isEditing={isEditing} />
-            </div>
-            {isEditing &&
-            <div className='add-week-marker-div'>
-                <div className='add-week-marker-wrapper' onClick={handleAddWeek}>
-                <img src={addMarkerBlue} alt="" />
-                <p>Add Week</p>
-                </div>
-               
-            </div>
-            }
+            <section className={noPlan ? "currentPlanPageNoPlan" : "currentPlanPage"}>
+                <NavBar />
+                {noPlan ? (
+                    <p className='no-current-plan-text'>No current Plan</p>
+                ) : (
+                    <>
+                        <button onClick={() => dispatch(resetWorkoutState())}>Reset</button>
+                        <div className="currentPlanPage-header-div">
+                            <h1>Current Plan</h1>
+                        </div>
+                        <div className="currentPlanPage-edit-plan-btn-div">
+                            <Link to="/workouts" className="currentPlanPage-back-btn">Back</Link>
+                            <button className="currentPlanPage-edit-btn" onClick={() => setIsEditing(!isEditing)}>Edit Plan</button>
+                        </div>
+                        <div className="grid-container">
+                            <WeekCard isEditing={isEditing} />
+                        </div>
+                        {isEditing && (
+                            <div className='add-week-marker-div'>
+                                <div className='add-week-marker-wrapper' onClick={() => {}}>
+                                    <img src={addMarkerBlue} alt="Add Week" />
+                                    <p>Add Week</p>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+            </section>
 
-        </section>
-        <section className='previous-plans-section'>
-            <div className='previous-plans-header-div'>
-                <h1>Previous Plans</h1>
-            </div>
-            {isLoading ? (
-                <div className='spinner-container'>
-                    <ClipLoader size={50} color='#007bff' />
+            {/* TABS */}
+            <section className='previous-plans-section'>
+                <div className='previous-plans-header-div'>
+                    <h1>Previous Plans</h1>
                 </div>
-            ) : error ? (
-                <p>Error loading previous plans. Please try again.</p>
-            ) : completedPrograms?.completedPrograms?.length > 0 ? (
-                <div className='grid-container-2'>
-                    {completedPrograms.completedPrograms.map((program: any) => (
-                         <div className='previous-plan-card' key={program._id}>
-                         <h3><u>{program.name}</u></h3>
-                         <p>Plan completed from: {program.startDate}-{program.endDate}</p>
-                         <p>Lasted: {program.duration}</p>
-                         <p>Total Volume: {program.totalVolume}lbs <span><img src={dumbbellImg} alt="" className='span-dumbbell'/></span></p>
-                         <p>Average RIR:</p>
-                     </div>
-                    ))}
+                <div className='previous-plans-or-quick-workout-select-div'>
+                    <p className={selectedTab === "plans" ? "active-tab" : ""} onClick={() => handleTabSwitch("plans")}>Previous Plans</p>
+                    <p className={selectedTab === "quickWorkouts" ? "active-tab" : ""} onClick={() => handleTabSwitch("quickWorkouts")}>Previous Quick Workouts</p>
                 </div>
-            ) : (
-                <p>No Previous plans found</p>
-            )}
-           
-        </section>
+
+                {/* RENDER BASED ON TAB SELECTION */}
+                {selectedTab === "plans" ? (
+                    isLoading ? (
+                        <div className='spinner-container'>
+                            <ClipLoader size={50} color='#007bff' />
+                        </div>
+                    ) : error ? (
+                        <p>Error loading previous plans. Please try again.</p>
+                    ) : completedPrograms?.completedPrograms?.length > 0 ? (
+                        <div className='grid-container-2'>
+                            {completedPrograms.completedPrograms.map((program: any) => (
+                                <div className='previous-plan-card' key={program._id}>
+                                    <h3><u>{program.name}</u></h3>
+                                    <p>Plan completed from: {program.startDate} - {program.endDate}</p>
+                                    <p>Lasted: {program.duration}</p>
+                                    <p>Total Volume: {program.totalVolume} lbs <span><img src={dumbbellImg} alt="" className='span-dumbbell'/></span></p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>No Previous Plans Found</p>
+                    )
+                ) : (
+                    // RENDER QUICK WORKOUTS
+                    quickWorkoutsLoading ? (
+                        <div className='spinner-container'>
+                            <ClipLoader size={50} color='#007bff' />
+                        </div>
+                    ) : quickWorkoutsError ? (
+                        <p>Error loading quick workouts. Please try again.</p>
+                    ) : quickWorkouts?.length > 0 ? (
+                        <div className='grid-container-2'>
+                            {quickWorkouts.map((workout: any) => (
+                                <div className='quick-workout-card' key={workout._id}>
+                                    <h3><u>{workout.name}</u></h3>
+                                    <p>Completed on: {new Date(workout.date).toLocaleDateString()}</p>
+                                    <p>Total Volume: {workout.totalVolume} lbs</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>No Quick Workouts Found</p>
+                    )
+                )}
+            </section>
         </>
-    )
+    );
 
 
 
