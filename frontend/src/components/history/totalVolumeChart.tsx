@@ -46,7 +46,6 @@ const TotalVolumeChart = () => {
     refetchOnMountOrArgChange: true,
   }); // Fetch data based on timescale
 
-  console.log(data, 'whats up bro');
   const handleTimescaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTimescale(event.target.value); // Update timescale when user selects a new one
   };
