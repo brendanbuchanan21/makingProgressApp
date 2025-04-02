@@ -3,10 +3,6 @@ import { workoutReducer } from "./workoutSlice";
 import { newWorkoutProgramApi } from "./workoutApi";
 import storage  from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import { newBioMetricApi } from "./biometricApi";
-import { biometricReducer } from "./biometricSlice";
-import { bodyWeightReducer } from "./bodyWeightSlice";
-import { newBodyWeightApi } from "./bodyWeightApi";
 import { completedWorkoutApi } from "./completedWorkoutApi";
 import { aggregateVolumeApi } from "./volumeApi";
 import { userReducer } from "./userSlice";
@@ -14,6 +10,7 @@ import { completedWorkoutProgramsReducer } from "./completedProgramsSlice";
 import { completedProgramApi } from "./completedProgramsApi";
 import { quickWorkoutReducer } from "./noPlanWorkoutSlice";
 import { noPlanWorkoutApi } from "./noPlanWorkoutApi";
+import { userDataApi } from "./userDataApi";
 
 // Configuration for Redux Persist
 const persistConfig = {
@@ -26,17 +23,14 @@ const persistConfig = {
 const rootReducer = combineReducers({
   workout: workoutReducer,
   completedPrograms: completedWorkoutProgramsReducer,
-  biometric: biometricReducer,
-  bodyWeight: bodyWeightReducer,
   user: userReducer,
   quickWorkout: quickWorkoutReducer,
   [newWorkoutProgramApi.reducerPath]: newWorkoutProgramApi.reducer, 
-  [newBioMetricApi.reducerPath]: newBioMetricApi.reducer,
-  [newBodyWeightApi.reducerPath]: newBodyWeightApi.reducer,
   [completedWorkoutApi.reducerPath]: completedWorkoutApi.reducer,
   [aggregateVolumeApi.reducerPath]: aggregateVolumeApi.reducer,
   [completedProgramApi.reducerPath]: completedProgramApi.reducer,
-  [noPlanWorkoutApi.reducerPath]: noPlanWorkoutApi.reducer
+  [noPlanWorkoutApi.reducerPath]: noPlanWorkoutApi.reducer,
+  [userDataApi.reducerPath]: userDataApi.reducer,
   
 
 });
@@ -50,7 +44,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, 
-    }).concat(newWorkoutProgramApi.middleware, newBioMetricApi.middleware, newBodyWeightApi.middleware, completedWorkoutApi.middleware, aggregateVolumeApi.middleware, completedProgramApi.middleware, noPlanWorkoutApi.middleware),
+    }).concat(newWorkoutProgramApi.middleware, completedWorkoutApi.middleware, aggregateVolumeApi.middleware, completedProgramApi.middleware, noPlanWorkoutApi.middleware, userDataApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

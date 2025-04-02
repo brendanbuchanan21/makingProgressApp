@@ -9,6 +9,7 @@ import completedWorkoutsRouter from './routes/completedWorkoutRouter.js';
 import completedProgramsRouter from './routes/completedProgramsRouter.js'
 import volumeRouter from './routes/volumeRoutes.js';
 import noPlanWorkoutRouter from './routes/noPlanWorkoutRouter.js';
+import userRouter from './routes/userRoute.js'
 import admin from 'firebase-admin'
 dotenv.config();
 import { createRequire } from 'module';
@@ -51,6 +52,7 @@ app.use("/api/completedWorkout", completedWorkoutsRouter);
 app.use("/api/volume", volumeRouter);
 app.use("/api/completedPrograms", completedProgramsRouter);
 app.use("/api/noPlanWorkout", noPlanWorkoutRouter);
+app.use("/api/userData", userRouter);
 
 
 
