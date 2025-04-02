@@ -57,9 +57,15 @@ const TotalVolumeChart = () => {
   if (error) {
     return <div>Error loading data</div>; // Show error if the request fails
   }
+  
   const formatWeekLabel = (weekId: string) => {
-    const [year, week] = weekId.split('-').map(Number);
-    
+    const parts = weekId.split('-W');
+    if (parts.length !== 2) {
+        return 'Invalid Week ID'; // Handle invalid format
+    }
+    const year = parseInt(parts[0], 10);
+    const week = parseInt(parts[1], 10);
+
     const firstDayOfYear = new Date(year, 0, 1);
     const daysOffset = (week - 1) * 7;
     const firstDayOfWeek = new Date(firstDayOfYear.setDate(firstDayOfYear.getDate() + daysOffset));
@@ -68,7 +74,7 @@ const TotalVolumeChart = () => {
     lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
 
     return `${firstDayOfWeek.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} - ${lastDayOfWeek.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
-  };
+};
 
   const chartData = {
     labels: data?.map((item: volumeData) => timescale === 'week' ? formatWeekLabel(item.id) : item.id), // Use timescale (week/month/year) as labels
