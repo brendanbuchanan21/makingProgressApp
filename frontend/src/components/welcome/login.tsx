@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, Navigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import visibilityOn from '../../images/visibilityOnEye.svg';
 import visibilityOff from '../../images/visibilityOffEye.svg'
 import '../../styles/login.css';;
@@ -28,7 +27,7 @@ const Login = () => {
           const user = userCredential.user;
           console.log('hmm what does this look like:', user);
             console.log("User logged in succesfully", user.uid);
-            navigate('/dashboard');
+            navigate('/workouts');
             
         } catch (err: any) {
             setError(err.message);

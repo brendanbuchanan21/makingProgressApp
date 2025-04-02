@@ -7,9 +7,7 @@ const NavBar = () => {
         <>
         <nav id="dashboard-nav-bar">
         <div className="dashboard-navbar-text-div">
-        <Link to="/dashboard">
-        <p id="dashboard-text-navbar">Dashboard</p>
-        </Link>
+        <p id="dashboard-text-navbar">makingProgress</p>
         </div>
 
         <div className="dashboard-navbar-directory-div">
@@ -18,9 +16,6 @@ const NavBar = () => {
             </Link>
             <Link to="/workouts">
             <p>Workouts</p>
-            </Link>
-            <Link to="/biometricsHome">
-            <p>BioMetrics</p>
             </Link>
             <Link to="/settingsPg">
             <img src={settingsIcon2} id='db-settings-svg' />

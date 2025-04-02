@@ -1,6 +1,5 @@
 import '../../styles/login.css';
 import Login from './login';
-import { Link } from 'react-router-dom';
 
 const Welcome = () => {
 
