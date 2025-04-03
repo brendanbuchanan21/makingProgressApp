@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { resetQuickWorkout } from '../../redux/noPlanWorkoutSlice'
 import ConfirmModal from './settingsDeletePopUp';
 import { useState } from 'react';
+import backArrow from '../../images/backArrow.svg'
 
 const SettingsPg = () => {
 
@@ -90,6 +91,9 @@ const SettingsPg = () => {
         }
     }
 
+    const handleBackClick = () => {
+        navigate('/workouts');
+    }
 
     return (
 
@@ -98,6 +102,9 @@ const SettingsPg = () => {
         <NavBar />
 
         <div className='settings-main-section-wrapper'>
+            <div className='back-click-settings-page-div' onClick={handleBackClick}>
+                <p><img src={backArrow} alt="back-arrow" className='back-arrow-icon'/>Go back</p>
+            </div>
          <div className='settings-main-container'>
             <div className="settings-page-header-div">
             <h1>Settings</h1>  

@@ -280,7 +280,9 @@
   height: 20px;
   vertical-align: middle;
 }
-
+.previous-plans-text {
+  text-align: center;
+}
 .quick-workout-card {
   border: 2px solid var(--grey);
   border-radius: 2px;

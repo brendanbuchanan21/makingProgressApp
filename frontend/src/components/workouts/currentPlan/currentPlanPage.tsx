@@ -252,7 +252,7 @@ const CurrentPlanPage = () => {
                             ))}
                         </div>
                     ) : (
-                        <p>No Previous Plans Found</p>
+                        <p className='previous-plans-text'>No Previous Plans Found</p>
                     )
                 ) : (
                     // RENDER QUICK WORKOUTS

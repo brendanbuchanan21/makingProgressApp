@@ -6,12 +6,46 @@
 }
 .settings-main-section-wrapper {
     width: 100vw;
-    height: 70vh;
+    min-height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.back-click-settings-page-div {
+    width: 8%;
+    height: 4%;
+    display: flex;
+    justify-content: flex-start; /* Align text to the left */
+    position: absolute; /* Stays in place while allowing other content below */
+    top: 14rem;
+    left: 12rem;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    justify-content: start;
+    align-items: center;
     
 }
+.back-click-settings-page-div:hover {
+    border: 1px solid var(--hover-blue);
+    cursor: pointer;
+}
+.back-click-settings-page-div p {
+    display: flex; /* Makes sure text aligns with the icon */
+    align-items: center;
+}
+.back-click-settings-page-div p:hover {
+    color: var(--hover-blue);
+}
+.back-arrow-icon {
+    width: 20px; /* Adjust size as needed */
+    height: auto;
+    display: inline-block; /* Ensures it behaves like text */
+    vertical-align: middle; /* Aligns with text properly */
+}
+
+
 .settings-main-container {
     border: 2px solid var(--grey);
     width: 25vw;
