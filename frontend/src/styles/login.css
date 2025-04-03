@@ -192,3 +192,32 @@ a {
     flex-direction: column;
     align-items: center;
 }
+
+.sign-up-verification-message {
+    border: 1px solid #28a745; /* Green border */
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Darker green text */
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.sign-up-verification-message {
+    /* Optional: subtle fade-in effect */
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+/* Keyframe animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+

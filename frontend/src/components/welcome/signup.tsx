@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from './firebase';
 import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
 
@@ -29,9 +30,13 @@ const SignUp = () => {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            console.log("User signed up successfully");
-            navigate('/workouts');
+         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+         const user = userCredential.user;
+
+         await sendEmailVerification(user);
+
+         setMessage("A verification email has been sent to your inbox. Once verified, login below.")
+
         } catch (err: any) {
             setError("User credentials not valid. Please use a valid email address");
             console.error("sign up failed", err.message);
@@ -74,6 +79,7 @@ const SignUp = () => {
             </form>
 
             {error && <div className='login-error-message'>{error}</div>}
+            {message && <div className='sign-up-verification-message'>{message}</div>}
             <p id='sign-up-text'>Already have an account? <Link to="/welcome"><span id='sign-up-login-text'>Login</span></Link></p> 
         </div>
         </section>

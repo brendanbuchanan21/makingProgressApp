@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
 import visibilityOn from '../../images/visibilityOnEye.svg';
 import visibilityOff from '../../images/visibilityOffEye.svg'
@@ -25,12 +25,18 @@ const Login = () => {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
+
+          if(!user.emailVerified) {
+            setError("Please verify your email before logging in");
+            await signOut(auth);
+            return;
+          }
           console.log('hmm what does this look like:', user);
             console.log("User logged in succesfully", user.uid);
             navigate('/workouts');
             
         } catch (err: any) {
-            setError("Users credentials are not valid. Please check your information");
+            setError("Users credentials are not valid. Please check your information or sign up below");
             console.error("Login failed:", err.message);
         }
 
