@@ -30,7 +30,7 @@ const Login = () => {
             navigate('/workouts');
             
         } catch (err: any) {
-            setError(err.message);
+            setError("Users credentials are not valid. Please check your information");
             console.error("Login failed:", err.message);
         }
 

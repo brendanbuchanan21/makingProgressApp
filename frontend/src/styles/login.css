@@ -32,10 +32,10 @@
 
 
 .login-container {
-    height: 50vh;
+    height: auto;
     width: 30vw;
-    border: 2px solid lightblue;
-    box-shadow: 0px 4px 8px rgba(173, 216, 230, 0.5);
+    border: 2px solid var(--blue);
+    box-shadow: 0px 4px 8px rgba(46, 47, 48, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,7 +48,7 @@
 }
 
 .shaded-login-area {
-    height: 35vh;
+    height: 30vh;
     width: 25vw;
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@
 }
 #email, #password {
     height: 5vh;
-    width: 15vw;
+    width: 80%;
     border: none; /* Remove default border */
     outline: none;
     background-color: #f9f9f9da; /* Light background for contrast */
@@ -85,7 +85,7 @@
     width: 40%;
     border-radius: 12px;
     border: none; /* Remove default border */
-    background-color: lightblue; /* Light blue background */
+    background-color: var(--blue); /* Light blue background */
     color: #ffffff; /* White text for contrast */
     font-size: 1rem; /* Adjust font size */
     font-weight: bold; /* Make the text bold */
@@ -104,8 +104,42 @@ a {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+
+.login-error-message {
+    border: 1px solid #e63946; /* Soft red border */
+    background-color: #f8d7da; /* Light coral background */
+    color: #721c24; /* Darker red text */
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.login-error-message {
+    /* Optional: subtle fade-in effect */
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+/* Keyframe animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.login-error-message p {
+    margin: 0;
+}
+
+
 .sign-up-section {
-    border: 2px solid red;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -132,4 +166,29 @@ a {
 
 #login-signup-text {
     color: #004080;
+}
+.shaded-login-area-sign-up {
+    height: 35vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.input-sign-up {
+    height: 5vh;
+    width: 80%;
+    border: none; /* Remove default border */
+    outline: none;
+    background-color: #f9f9f9da; /* Light background for contrast */
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle shadow */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: .5rem;
+}
+#sign-up-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

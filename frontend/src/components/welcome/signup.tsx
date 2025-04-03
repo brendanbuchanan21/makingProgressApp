@@ -3,8 +3,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from './firebase';
 import '../../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Welcome from './welcome';
-import DashBoard from '../dashboard/dashboard';
 
 const SignUp = () => {
 
@@ -18,8 +16,15 @@ const SignUp = () => {
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const passwordRegex = /^(?=.*[A-Z])[A-Za-z\d@$!%*?&]{6,}$/;
+
         if(password !== confirmPassword) {
             setError("Passwords do not match");
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            setError("Password must be at least 6 characters long, contain at least one uppercase letter, and have no spaces.");
             return;
         }
 
@@ -28,8 +33,8 @@ const SignUp = () => {
             console.log("User signed up successfully");
             navigate('/workouts');
         } catch (err: any) {
-            setError(err.message);
-            console.error("sign up failed", err.message)
+            setError("User credentials not valid. Please use a valid email address");
+            console.error("sign up failed", err.message);
         }
     };
 
@@ -38,10 +43,10 @@ const SignUp = () => {
         <div className='login-container'>
             <p className='form-login-text'>Sign Up</p>
             <form onSubmit={handleSignUp}>
-                <div className='shaded-login-area'>
+                <div className='shaded-login-area-sign-up'>
                     <input 
                         type="email"
-                        id="email"
+                        className='input-sign-up'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -49,7 +54,7 @@ const SignUp = () => {
                         />
                     <input 
                         type="password"
-                        id="password"
+                        className='input-sign-up'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -57,7 +62,7 @@ const SignUp = () => {
                         />
                      <input 
                         type="password"
-                        id="confirmPassword"
+                        className='input-sign-up'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
