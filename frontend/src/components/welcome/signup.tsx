@@ -26,7 +26,7 @@ const SignUp = () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             console.log("User signed up successfully");
-            navigate('/dashboard');
+            navigate('/workouts');
         } catch (err: any) {
             setError(err.message);
             console.error("sign up failed", err.message)

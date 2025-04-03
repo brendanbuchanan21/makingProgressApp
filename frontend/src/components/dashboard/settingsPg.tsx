@@ -1,5 +1,5 @@
 import './settingsPg.css'
-import { signOut } from 'firebase/auth'
+import { signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { auth } from '../welcome/firebase'
 import { useNavigate } from 'react-router-dom'
 import NavBar from './navbar'
@@ -7,12 +7,15 @@ import { useResetUserDataMutation } from '../../redux/userDataApi'
 import { resetWorkoutState } from '../../redux/workoutSlice'
 import { useDispatch } from 'react-redux'
 import { resetQuickWorkout } from '../../redux/noPlanWorkoutSlice'
+import ConfirmModal from './settingsDeletePopUp';
+import { useState } from 'react';
 
 const SettingsPg = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [resetUserData, { isLoading, isSuccess, isError, error}] = useResetUserDataMutation();
+    const [resetUserData] = useResetUserDataMutation();
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
 
     const logout = async () => {
@@ -41,15 +44,49 @@ const SettingsPg = () => {
         if(window.confirm('are you sure you want to reset your account? all workout data will be lost')) {
             // query deletion of all workout collection data 
             // no plan quick workout documents
-            // planned 
+        
+
+
             try {
                 await resetUserData({});
                 dispatch(resetWorkoutState());
                 dispatch(resetQuickWorkout());
 
+
             } catch (error) {
                 console.error(error);
             }
+        }
+    }
+
+
+    const deleteAccount = async (password: string) => {
+
+        const user = auth.currentUser;
+
+        if(!user) {
+            console.error("No user authenticated");
+            return;
+        }
+        try {
+           
+            const credential = EmailAuthProvider.credential(user.email!, password);
+            await reauthenticateWithCredential(user, credential);
+
+            await resetUserData({});
+            dispatch(resetWorkoutState());
+            dispatch(resetQuickWorkout());
+
+            await deleteUser(user); // Delete the user from Firebase
+
+            setDeleteModalOpen(false); // Close the modal
+            navigate("/welcome"); // Redirect to welcome page
+
+            
+
+        } catch(error) {
+            console.error("error deleting account:", error);
+            alert("Failed to delete account. Please try again.");
         }
     }
 
@@ -74,7 +111,7 @@ const SettingsPg = () => {
                 <p onClick={resetAccount}>Reset Account</p>
             </div>
             <div className='settings-description-container'>
-                <p>Delete Account</p>
+                <p onClick={() => setDeleteModalOpen(true)}>Delete Account</p>
             </div>
             </div>
             <div className='sign-out-div'>
@@ -83,12 +120,18 @@ const SettingsPg = () => {
          </div>
          </div>
 
-        
-
-
-
+    
 
         </div>
+        {deleteModalOpen && (
+            <ConfirmModal isOpen={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            onConfirm={deleteAccount}
+            title="Confirm Account Deletion"
+            message="Are you sure you want to delete your account? This action cannot be undone. All data related to this account will forever be lost."
+            />
+        )}
+        
         </>
     )
 }
