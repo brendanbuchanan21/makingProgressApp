@@ -11,6 +11,7 @@ import ConfirmModal from './settingsDeletePopUp';
 import { useState } from 'react';
 import backArrow from '../../images/backArrow.svg'
 import SignOutModal from './settingsLogoutPopUp';
+import ResetAccountPopUp from './settingsResetAccountPopUp';
 
 const SettingsPg = () => {
 
@@ -19,7 +20,7 @@ const SettingsPg = () => {
     const [resetUserData] = useResetUserDataMutation();
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [logoutPopUp, setLogOutPopUp] = useState(false);
-
+    const [resetPopUp, setResetPopUp] = useState(false);
 
     const logout = async () => {
         
@@ -108,7 +109,7 @@ const SettingsPg = () => {
                 <p>Know more</p>
             </div>
             <div className='settings-description-container'>
-                <p onClick={resetAccount}>Reset Account</p>
+                <p onClick={() => setResetPopUp(true)}>Reset Account</p>
             </div>
             <div className='settings-description-container'>
                 <p onClick={() => setDeleteModalOpen(true)}>Delete Account</p>
@@ -137,6 +138,16 @@ const SettingsPg = () => {
             onConfirm={logout}
             title="Sign Out"
             message="Are you sure you want to sign out?"
+            />
+        )}
+        {resetPopUp && (
+            <ResetAccountPopUp 
+            isOpen={resetPopUp}
+            onClose={() => setResetPopUp(false)}
+            onConfirm={resetAccount}
+            title="Reset Account"
+            message="Are you sure you want to reset your account? All associated data will be lost and cannot be recovered"
+
             />
         )}
         
