@@ -10,60 +10,59 @@ import { useEffect, useState } from 'react';
 
 const WorkoutSection = () => {
 
-    const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
+  const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
 
-    const firstIncompleteWorkout = currentPlan?.weeks
+  const firstIncompleteWorkout = currentPlan?.weeks
   .flatMap((week, index) => week.days.map((day) => ({ ...day, weekNumber: index + 1 }))) // Attach weekNumber to each day
   .find((day) => !day.isCompleted); // Find the first incomplete day
 
-    console.log(firstIncompleteWorkout);
-    const weekNumber = firstIncompleteWorkout?.weekNumber;
-    const numberOfExercises = firstIncompleteWorkout?.exercises.length;
-    const uniqueMuscleGroups = [...new Set(firstIncompleteWorkout?.exercises.map((exercise) => exercise.muscleGroup))];
-    const currentDay = firstIncompleteWorkout?.day;
+  const weekNumber = firstIncompleteWorkout?.weekNumber;
+  const numberOfExercises = firstIncompleteWorkout?.exercises.length;
+  const uniqueMuscleGroups = [...new Set(firstIncompleteWorkout?.exercises.map((exercise) => exercise.muscleGroup))];
+  const currentDay = firstIncompleteWorkout?.day;
 
-    const [noPlan, setNoPlan] = useState(false);
-    const [planIsComplete, setPlanIsComplete] = useState(false)
-    const [isCurrentPlan, setIsCurrentPlan] = useState(false);
+  const [noPlan, setNoPlan] = useState(false);
+  const [planIsComplete, setPlanIsComplete] = useState(false)
+  const [isCurrentPlan, setIsCurrentPlan] = useState(false);
+  const [showPlanMessage, setShowPlanMessage] = useState(false);
    
-    useEffect(() => {
+useEffect(() => {
         if(!currentPlan || !currentPlan._id) {
             setNoPlan(true);
         } else {
             setNoPlan(false);
         }
-    }, [currentPlan]);
+}, [currentPlan]);
 
     
-    useEffect(() => {
-        if (currentPlan && currentPlan.weeks) {
-            if (currentPlan.weeks.length === 0) {
-                setPlanIsComplete(false); // Explicitly set to false for empty weeks array
-            } else {
-                const allDaysComplete = currentPlan.weeks.every((week) =>
-                    week.days.every((day) => day.isCompleted)
-                );
-                console.log(allDaysComplete, 'huh');
-                setPlanIsComplete(allDaysComplete);
-            }
-        } else {
-            setPlanIsComplete(false);
-        }
-    }, [currentPlan]);
+useEffect(() => {
+  if (currentPlan && currentPlan.weeks) {
+  if (currentPlan.weeks.length === 0) {
+  setPlanIsComplete(false); // Explicitly set to false for empty weeks array
+  } else {
+  const allDaysComplete = currentPlan.weeks.every((week) =>
+  week.days.every((day) => day.isCompleted)
+  );
+  setPlanIsComplete(allDaysComplete);
+  }
+  } else {
+  setPlanIsComplete(false);
+  }
+}, [currentPlan]);
 
 
-    useEffect(() => {
-        if(currentPlan && currentPlan.weeks.length > 0) {
-            setIsCurrentPlan(true)
-        } else {
-            setIsCurrentPlan(false);
-        }
-    }, [currentPlan])
+useEffect(() => {
+  if(currentPlan && currentPlan.weeks.length > 0) {
+  setIsCurrentPlan(true)
+  } else {
+  setIsCurrentPlan(false);
+  }
+}, [currentPlan])
 
-    const handleAlertMessage = () => {
-
-       return window.alert('you can not make a plan while one is in motion');
-    }
+const handleClosePopUp = () => {
+        setShowPlanMessage(false)
+       return 
+}
 
     
 return (
@@ -127,7 +126,7 @@ return (
                 <p className='WP-card-text'>New Plan</p>
                     <img src={planningImg} alt="" className='WP-new-plan-card' />
                     {isCurrentPlan ? (
-                        <p onClick={handleAlertMessage} className='WP-card-btn'>Let's go</p>
+                        <p onClick={() => setShowPlanMessage(true)} className='WP-card-btn'>Let's go</p>
                     ) : (
                         <Link to='/newPlanPopup' className='WP-card-btn'>
                 <p>Let's go</p>
@@ -135,6 +134,16 @@ return (
                     )}
                 
             </div>
+            {showPlanMessage && (
+                <>
+                <div className="WP-overlay">
+                    <div className="WP-modal">
+                        <p>You can't create a new plan while one is active!</p>
+                            <button onClick={handleClosePopUp} className="WP-modal-close-btn">Close</button>
+                    </div>
+                </div>
+                </>
+            )}
         </div>
     </section>
    
