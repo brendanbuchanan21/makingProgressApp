@@ -26,6 +26,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
     const [programDuration, setProgramDuration] = useState<string>(currentPlan?.duration || '');
     const [planName, setPlanName] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
+    const [error, setError] = useState(false);
 
     //using the RTK mutation hook
     const [postWorkoutPlan] = usePostWorkoutPlanMutation();
@@ -47,6 +48,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
         e.preventDefault();
 
         if (!startDate || workoutDays.length === 0 || !programDuration || !userId) {
+            setError(true);
             console.error("Missing required fields.");
             return;
         }
@@ -162,6 +164,11 @@ return (
                         <button type="submit" className="NewPlan-submit-btn" disabled={workoutDays.length === 0 || !programDuration }>Next</button>
                     </div>
                 </form>
+                {error && (
+                    <div className='error-div'>
+                        <p>Please fill out all fields before proceeding</p>
+                    </div>
+                )}
             </div>
         </div>
     </div>

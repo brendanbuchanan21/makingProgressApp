@@ -66,8 +66,7 @@ const ExpandedDayView = ({
 
 
 
-        // Log the response to inspect its structure
-        console.log("Response from API:", response);
+        
 
        const updatedExercise = response;
             dispatch(
@@ -108,8 +107,6 @@ const ExpandedDayView = ({
                 updatedExercise
             }).unwrap()
 
-            console.log('exercise submitted to backend:', response);
-
             dispatch(
                 editExercise({
                   weekNumber,
@@ -138,7 +135,7 @@ const ExpandedDayView = ({
                     weekNumber,
                     day: selectedDay.day
                 }).unwrap()
-                console.log('exercise deleted successfully', response);
+                
 
                     dispatch(
                         deleteExercise({

@@ -11,7 +11,6 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const navigate = useNavigate();
 
 
     const handleSignUp = async (e: React.FormEvent) => {

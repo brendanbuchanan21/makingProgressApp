@@ -31,8 +31,7 @@ const Login = () => {
             await signOut(auth);
             return;
           }
-          console.log('hmm what does this look like:', user);
-            console.log("User logged in succesfully", user.uid);
+          
             navigate('/workouts');
             
         } catch (err: any) {
