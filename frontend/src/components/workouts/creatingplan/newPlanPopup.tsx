@@ -72,7 +72,7 @@ const NewPlanPopup = ({ onClose }: NewPlanPopupProps): JSX.Element => {
             startDate: startDate,
             weeks,
         };
-        console.log("workout plan before sending to server:", newPlan);
+       
 
         try {
             const returnedPlan = await postWorkoutPlan(newPlan).unwrap();

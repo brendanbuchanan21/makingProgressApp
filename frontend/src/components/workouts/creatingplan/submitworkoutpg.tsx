@@ -9,100 +9,101 @@ import ExpandedDayView from "./expandedDayView";
 import { useDeleteExerciseProgramMutation } from "../../../redux/workoutApi";
 import { duplicateFirstWeek } from "../../../redux/workoutSlice";
 import { useDuplicateFirstWeekApiMutation } from "../../../redux/workoutApi";
+import BackClickPopUp from "./submitWorkoutPgPopUp";
+import { resetWorkoutState } from "../../../redux/workoutSlice";
+import EarlySubmissionPopUp from "./earlySubmissionPopUp";
 
 
 
 const SubmitWorkoutPg = () => {
 
-    const navigate = useNavigate();
-    const [selectedDay, setSelectedDay] = useState<DayPlan | null>(null);
-    const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
-    const dispatch = useDispatch();
-    const [duplicateFirstWeekApi] = useDuplicateFirstWeekApiMutation();
+  const navigate = useNavigate();
+  const [selectedDay, setSelectedDay] = useState<DayPlan | null>(null);
+  const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
+  const dispatch = useDispatch();
+  const [duplicateFirstWeekApi] = useDuplicateFirstWeekApiMutation();
+  const [backClick, setBackClick] = useState(false);
+  const [earlySubmission, setEarlySubmission] = useState(false);
 
-    const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
-    const workoutProgramId = currentPlan._id;
+  const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
+  const workoutProgramId = currentPlan._id;
 
 
-    const firstWeekDays: DayPlan[] = currentPlan?.weeks?.[0]?.days ?? [];
+  const firstWeekDays: DayPlan[] = currentPlan?.weeks?.[0]?.days ?? [];
 
 
-    const getWeekNumber = (selectedDay: DayPlan | null): number | undefined => {
-        if (!selectedDay) return undefined;
+const getWeekNumber = (selectedDay: DayPlan | null): number | undefined => {
 
-        for (const week of currentPlan.weeks) {
-            if (week.days.some((day) => day.day === selectedDay.day)) {
-                return week.weekNumber;
-            }
-        }
-        return undefined;
-    };
-    const currentWeekNumber = getWeekNumber(selectedDay) ?? 0;
+  if (!selectedDay) return undefined;
 
-    const resetSelectedDay = () => {
-        setSelectedDay(null);
-    };
+  for (const week of currentPlan.weeks) {
+  if (week.days.some((day) => day.day === selectedDay.day)) {
+  return week.weekNumber;
+  }
+  }
+  return undefined;
+};
+  
+  const currentWeekNumber = getWeekNumber(selectedDay) ?? 0;
+
+const resetSelectedDay = () => {
+  setSelectedDay(null);
+
+};
     
-        const handleBackClick: () => Promise<void> = async () => {
+const handleBackClick: () => Promise<void> = async () => {
 
-            if(window.confirm("Are you sure you want to abandon this plan?")) {
-                if(!workoutProgramId) {
-                }
-                try {
-                     await deleteExerciseProgram({ id: workoutProgramId as string })
-                     navigate('/workouts');
+               
+  try {
+  await deleteExerciseProgram({ id: workoutProgramId as string })
+  dispatch(resetWorkoutState());
+  navigate('/workouts');
 
-                } catch (error) {
-                    console.error('unsuccessful deletion of program', error);
-                }
+  } catch (error) {
+  console.error('unsuccessful deletion of program', error);
+  }
+          
+}
 
+const submitWorkoutPlan = async () => {
+        
+  const isPlanComplete = firstWeekDays.every(day => day.exercises && day.exercises.length > 0);
+
+  if (!isPlanComplete) {
+  setEarlySubmission(true);
+  return;
             
-            }
-           
-        }
-
-    const submitWorkoutPlan = async () => {
+  }
+  const updatedWeeks = currentPlan.weeks.map((week, index) => {
+  if (index === 0) return week; // Don't modify the first week
         
-        const isPlanComplete = firstWeekDays.every(day => day.exercises && day.exercises.length > 0);
-
-        if (!isPlanComplete) {
-            alert('Please make sure all days have exercises before submitting.');
-            return;
-        }
-        const updatedWeeks = currentPlan.weeks.map((week, index) => {
-            if (index === 0) return week; // Don't modify the first week
+  const copiedDays = week.days.map((day, dayIndex) => {
+  const firstWeekDayExercises = firstWeekDays[dayIndex]?.exercises || [];
         
-            const copiedDays = week.days.map((day, dayIndex) => {
-                const firstWeekDayExercises = firstWeekDays[dayIndex]?.exercises || [];
+  return {
+  ...day,
+  exercises: firstWeekDayExercises.map(({ _id, ...exerciseWithoutId }) => ({
+  ...exerciseWithoutId, // Copy all other fields but remove `_id`
+  })),
+  };
+  });
         
-                return {
-                    ...day,
-                    exercises: firstWeekDayExercises.map(({ _id, ...exerciseWithoutId }) => ({
-                        ...exerciseWithoutId, // Copy all other fields but remove `_id`
-                    })),
-                };
-            });
+  return { ...week, days: copiedDays };
+  });
         
-            return { ...week, days: copiedDays };
-        });
+  const updatedWorkoutPlan = { ...currentPlan, weeks: updatedWeeks };
         
-        const updatedWorkoutPlan = { ...currentPlan, weeks: updatedWeeks };
+  try {
+  const response = await duplicateFirstWeekApi(updatedWorkoutPlan).unwrap();
         
-        console.log(updatedWorkoutPlan, "please help");
+  dispatch(duplicateFirstWeek(response)); // Ensure Redux gets the correct new data
+  } catch (error) {
+  console.error(error);
+  }
         
-        try {
-            const response = await duplicateFirstWeekApi(updatedWorkoutPlan).unwrap();
+  navigate('/workouts'); // Redirect to another page
         
-            console.log('here is the response from the API request:', response);
-        
-            dispatch(duplicateFirstWeek(response)); // Ensure Redux gets the correct new data
-        } catch (error) {
-            console.error(error);
-        }
-        
-        navigate('/workouts'); // Redirect to another page
-        
-    }
+}
 
     // JSX 
     return (
@@ -125,7 +126,7 @@ const SubmitWorkoutPg = () => {
             ))}
                 </div>
                 <div className="AE-back-and-forward-btns-div">
-            <button id="AE-back-btn" onClick={handleBackClick}>&lt; Back</button>
+            <button id="AE-back-btn" onClick={() => setBackClick(true)}>&lt; Back</button>
             <button onClick={submitWorkoutPlan}>Submit Plan</button>
                 </div>
             </div>
@@ -134,6 +135,24 @@ const SubmitWorkoutPg = () => {
             {/* Expanded Day View */}
             {selectedDay && (
                    <ExpandedDayView selectedDay={selectedDay}  resetSelectedDay={resetSelectedDay} weekNumber={currentWeekNumber} />
+            )}
+            {backClick && (
+                <BackClickPopUp 
+                onOpen={backClick}
+                onConfirm={handleBackClick}
+                onClose={() => setBackClick(false)}
+                title= "Abandon plan"
+                message= "Are you sure you want to abandon this plan?"
+                />
+            )}
+            {earlySubmission && (
+                <EarlySubmissionPopUp 
+                onOpen={earlySubmission}
+                onClose={() => setEarlySubmission(false)}
+                title= "Not Complete"
+                message= "Fill out all days before submitting plan"
+                
+                />
             )}
             </section>
             </>
