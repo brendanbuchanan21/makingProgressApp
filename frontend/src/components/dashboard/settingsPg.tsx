@@ -10,6 +10,7 @@ import { resetQuickWorkout } from '../../redux/noPlanWorkoutSlice'
 import ConfirmModal from './settingsDeletePopUp';
 import { useState } from 'react';
 import backArrow from '../../images/backArrow.svg'
+import SignOutModal from './settingsLogoutPopUp';
 
 const SettingsPg = () => {
 
@@ -17,18 +18,11 @@ const SettingsPg = () => {
     const dispatch = useDispatch();
     const [resetUserData] = useResetUserDataMutation();
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [logoutPopUp, setLogOutPopUp] = useState(false);
 
 
     const logout = async () => {
-        //if someone clicks the button, we want to send an alert
-        // are you sure you want to sign out? 
-        //if confirmed, through firebase, sign out user
-        const confirmSignOut = window.confirm('Are you sure you want to logout?');
-
-        if(!confirmSignOut) {
-            return;
-        }
-    
+        
 
         try {
             await signOut(auth);
@@ -42,11 +36,10 @@ const SettingsPg = () => {
     }
 
     const resetAccount = async () => {
-        if(window.confirm('are you sure you want to reset your account? all workout data will be lost')) {
-            // query deletion of all workout collection data 
-            // no plan quick workout documents
+      
+            
         
-
+            //wrap the try catch in a conditional for 
 
             try {
                 await resetUserData({});
@@ -57,7 +50,7 @@ const SettingsPg = () => {
             } catch (error) {
                 console.error(error);
             }
-        }
+        
     }
 
 
@@ -122,7 +115,7 @@ const SettingsPg = () => {
             </div>
             </div>
             <div className='sign-out-div'>
-            <button onClick={logout}>Sign Out</button>
+            <button onClick={() => setLogOutPopUp(true)}>Sign Out</button>
             </div>
          </div>
          </div>
@@ -136,6 +129,14 @@ const SettingsPg = () => {
             onConfirm={deleteAccount}
             title="Confirm Account Deletion"
             message="Are you sure you want to delete your account? This action cannot be undone. All data related to this account will forever be lost."
+            />
+        )}
+        {logoutPopUp && (
+            <SignOutModal isOpen={logoutPopUp} 
+            onClose={() => setLogOutPopUp(false)}
+            onConfirm={logout}
+            title="Sign Out"
+            message="Are you sure you want to sign out?"
             />
         )}
         
