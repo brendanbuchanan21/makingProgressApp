@@ -11,132 +11,114 @@ import { v4 as uuidv4 } from 'uuid';
 import AddExerciseEntry from './addExerciseEntry';
 import { useNavigate } from 'react-router-dom';
 import { usePostNoPlanWorkoutMutation } from '../../../redux/noPlanWorkoutApi';
+import DeleteExercisePopUp from './noPlanDeleteExercisePopUp';
 
 
 const NoPlanWorkoutCard = () => {
 
     
+  //redux
+  const quickWorkoutState = useSelector((state: RootState) => state.quickWorkout);
+  const exercises = quickWorkoutState.quickWorkout.exercises;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const quickWorkoutState = useSelector((state: RootState) => state.quickWorkout);
-    const dispatch = useDispatch();
+  //usestate
+  const [addingExercise, setAddingExercise] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [confirmDeleteExercise, setConfirmDeleteExercise] = useState(false);
+  const [exerciseToDelete, setExerciseToDelete] = useState<string | null>(null);
 
-    const [addingExercise, setAddingExercise] = useState(false);
-
-    const navigate = useNavigate();
-
-    const exercises = quickWorkoutState.quickWorkout.exercises;
-
-    const [editMode, setEditMode] = useState(false);
-
-    const [postNoPlanWorkout, { data, error, isLoading}] = usePostNoPlanWorkoutMutation();
+  //api queries
+  const [postNoPlanWorkout] = usePostNoPlanWorkoutMutation();
 
   
 
-    const handleAddSet = (exerciseId: string) => {
+const handleAddSet = (exerciseId: string) => {
 
-      const exercise = quickWorkoutState.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
+  const exercise = quickWorkoutState.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
 
-      if (!exercise) {
-        console.error("Exercise not found");
-        return; 
-      }
+  if (!exercise) {
+    console.error("Exercise not found");
+    return; 
+  }
 
-      const newSetNumber = exercise?.sets.length + 1;
+  const newSetNumber = exercise?.sets.length + 1;
 
-      const newSet = {
-        setNumber: newSetNumber,
-        id: uuidv4(),
-        reps: null,
-        weight: null,
-        rir: null
-      }
+  const newSet = {
+  setNumber: newSetNumber,
+  id: uuidv4(),
+  reps: null,
+  weight: null,
+  rir: null
+  }
       
-      dispatch(addingSetToExercise({exerciseId, newSet}))
+  dispatch(addingSetToExercise({exerciseId, newSet}))
+
+}
 
 
-    }
-
-
-    const handleInputChange = (exerciseId: string | any, setId: string | any, field: keyof noPlanSet, value: string | number) => {
+const handleInputChange = (exerciseId: string | any, setId: string | any, field: keyof noPlanSet, value: string | number) => {
       
-      const parsedValue = value === "" ? null : Number(value);
-
-        dispatch(updateSetDetails({exerciseId, setId, updatedSet: { [field]: parsedValue },}))
-    };
-
-    const handleDeleteSet = (exerciseId: string, setId: string) => {
-
-      const exercise = quickWorkoutState.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
-
-      if (!exercise) {
-        console.error("Exercise not found");
-        return; 
-      }
-      dispatch(deletingSetFromExercise({exerciseId, setId}))
-      
-
-      
-    }
-
-    const handleDeleteExercise = (exerciseId: string) => {
+  const parsedValue = value === "" ? null : Number(value);
+  dispatch(updateSetDetails({exerciseId, setId, updatedSet: { [field]: parsedValue },}))
+};
 
 
-      if (window.confirm("Are you sure you want to delete this exercise?")) {
-        if (exercises.length === 1) {
+const handleDeleteSet = (exerciseId: string, setId: string) => {
+
+  const exercise = quickWorkoutState.quickWorkout.exercises.find((exercise) => exercise.id === exerciseId);
+
+  if (!exercise) {
+    console.error("Exercise not found");
+    return; 
+  }
+  dispatch(deletingSetFromExercise({exerciseId, setId}))
+}
+
+
+const handleDeleteExercise = (exerciseId: string) => {
+
+  if (exercises.length === 1) {
           // If it's the last exercise, reset the workout and navigate away.
-          dispatch(resetQuickWorkout());
-          navigate("/workouts");
-        } else {
+  dispatch(resetQuickWorkout());
+  navigate("/workouts");
+  } else {
           // Otherwise, simply delete the exercise.
-          dispatch(deletingExercise({ exerciseId }));
-        }
-      }
+  dispatch(deletingExercise({ exerciseId }));
+   }
+   setConfirmDeleteExercise(false);
+  
       
-    }
+}
 
 
-
-    const handleAddExercise = () => {
-        setAddingExercise(true);
-    }
+const handleAddExercise = () => {
+  setAddingExercise(true);
+}
 
    
+const handleSubmitWorkout = async () => {
 
-    const handleSubmitWorkout = async () => {
+  //check if every exercise is complete
+  const allExercisesComplete = exercises.every((exercise) => exercise.isComplete === true);
+  if(!allExercisesComplete) {
+  alert('need to complete every exercise');
+  return;
+  }
+  const completedWorkout = {...quickWorkoutState.quickWorkout, 
+  dateDone: new Date().toISOString(),
+  }
 
-
-      //check if every exercise is complete
-      const allExercisesComplete = exercises.every((exercise) => exercise.isComplete === true);
-      if(!allExercisesComplete) {
-        alert('need to complete every exercise');
-        return;
-      }
-
-      const completedWorkout = {...quickWorkoutState.quickWorkout, 
-        dateDone: new Date().toISOString(),
-      }
-
-      try {
-
-        const response = await postNoPlanWorkout(completedWorkout).unwrap();
-         console.log(response, 'hmm was it successfull');
-         dispatch(resetQuickWorkout());
-         navigate('/workouts');
-      } catch (error){
-        console.error(error);
-      }
-
-      
-     
-      
-      //if not all exercises complete, don't allow submission
-
-     // take root state value, store in variable, send in rtk query
-     // remove the value in the store 
-     // we navigate back to workout page
-      //complete date dispatch as well 
+  try {
+    const response = await postNoPlanWorkout(completedWorkout).unwrap();
+    dispatch(resetQuickWorkout());
+    navigate('/workouts');
+  } catch (error){
+    console.error(error);
+  }
     
-    }
+}
 
 
         return (
@@ -164,7 +146,10 @@ const NoPlanWorkoutCard = () => {
           <div className="exercise-card" key={exercise.id}>
           <div className="exercise-card-header-div">
             <h3>{exercise.name}</h3>
-            <img src={trashImg} alt="Delete Exercise" className="trash-img" onClick={() => handleDeleteExercise(exercise.id)}/>
+            <img src={trashImg} alt="Delete Exercise" className="trash-img" onClick={() => {
+              setConfirmDeleteExercise(true)
+              setExerciseToDelete(exercise.id);
+            }}/>
           </div>
           <div className="exercise-card-button-container">
             <button onClick={() => handleAddSet(exercise.id)}>Add Set</button>
@@ -221,6 +206,13 @@ const NoPlanWorkoutCard = () => {
     <button className="complete-workout-btn" onClick={handleSubmitWorkout}>Complete Workout</button>
   </div>
 </section>
+            )}
+            {confirmDeleteExercise && (
+              <DeleteExercisePopUp 
+                onConfirm={handleDeleteExercise}
+                onCancel={() => setConfirmDeleteExercise(false)}
+                conditional={confirmDeleteExercise}
+              />
             )}
     
             </>

@@ -13,50 +13,49 @@ const AddExerciseEntry: React.FC<addingExerciseProps> = ({ setAddingExercise }) 
 
 
 
-    const handleBackClick = () => {
-        setAddingExercise(false);
-    }
+const handleBackClick = () => {
+  setAddingExercise(false);
+}
 
-    const [exerciseName, setExerciseName] = useState("");
-    const [muscleGroup, setMuscleGroup] = useState("Chest");
-    const [numberofSets, setNumberOfSets] = useState<number | null>(null);
-    const dispatch = useDispatch();
+  const [exerciseName, setExerciseName] = useState("");
+  const [muscleGroup, setMuscleGroup] = useState("Chest");
+  const [numberofSets, setNumberOfSets] = useState<number | null>(null);
+  const dispatch = useDispatch();
 
 
 
     // Generate sets array based on number of sets selected
-    const generateSets = (numSets: number): noPlanSet[] => {
-        return Array.from({ length: numSets }, (_, index) => ({
-            setNumber: index + 1,
-            id: uuidv4(),
-            reps: null,  // Default reps
-            weight: null, // Default weight
-            rir: null     // Default RIR
-        }));
-    };
+const generateSets = (numSets: number): noPlanSet[] => {
+  return Array.from({ length: numSets }, (_, index) => ({
+  setNumber: index + 1,
+  id: uuidv4(),
+  reps: null,  // Default reps
+  weight: null, // Default weight
+  rir: null     // Default RIR
+  }));
+};
 
 
 
-    const handleAddExercise = () => {
+const handleAddExercise = () => {
 
-        if(exerciseName && numberofSets) {
+  if(exerciseName && numberofSets) {
              // ill have to dispatch the add exercise
-        const newExercise = {
-            id: uuidv4(),
-            name: exerciseName,
-            muscleGroup: muscleGroup,
-            sets: generateSets(numberofSets),
-        }
-
-        dispatch(addExercise(newExercise));
-
-        setExerciseName("");
-        setMuscleGroup("Chest");
-        setNumberOfSets(null);
-        setAddingExercise(false);
-        }
-        
+    const newExercise = {
+    id: uuidv4(),
+    name: exerciseName,
+    muscleGroup: muscleGroup,
+    sets: generateSets(numberofSets),
     }
+    
+    dispatch(addExercise(newExercise));
+    setExerciseName("");
+    setMuscleGroup("Chest");
+    setNumberOfSets(null);
+    setAddingExercise(false);
+  }
+        
+}
    
 
     return (

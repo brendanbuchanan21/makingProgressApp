@@ -107,35 +107,35 @@ useEffect(() => {
 
 
 
-  const checkIfWeekInProgress = (weekNumber: number | null) => {
+const checkIfWeekInProgress = (weekNumber: number | null) => {
 
-    const weekToDelete = weeks.find((w) => w.weekNumber === weekNumber);
-    const someCompletedWorkouts = weekToDelete?.days.some(d => d.isCompleted);
+  const weekToDelete = weeks.find((w) => w.weekNumber === weekNumber);
+  const someCompletedWorkouts = weekToDelete?.days.some(d => d.isCompleted);
 
-    if (someCompletedWorkouts) {
-      setWarningMessage(true);
-      return;
-    }
-
-    setWeekToDelete(weekNumber)
-    setDeleteWeekPopUp(true);
+  if (someCompletedWorkouts) {
+    setWarningMessage(true);
+    return;
   }
+
+  setWeekToDelete(weekNumber)
+  setDeleteWeekPopUp(true);
+}
 
  
 
-  const handleDeleteWeek = async (weekToDelete: number | null) => {
-    if (weekToDelete === null || !workoutPlanId) return;
+const handleDeleteWeek = async (weekToDelete: number | null) => {
+  if (weekToDelete === null || !workoutPlanId) return;
   
-    try {
-      await deleteWeekApi({ workoutPlanId, weekNumber: weekToDelete });
-      dispatch(deleteWeek(weekToDelete));
-    } catch (error) {
-      console.error('Could not delete week:', error);
-    } finally {
-      setDeleteWeekPopUp(false);
-      setWeekToDelete(null);
-    }
-  };
+  try {
+    await deleteWeekApi({ workoutPlanId, weekNumber: weekToDelete });
+    dispatch(deleteWeek(weekToDelete));
+  } catch (error) {
+    console.error('Could not delete week:', error);
+  } finally {
+    setDeleteWeekPopUp(false);
+    setWeekToDelete(null);
+  }
+};
   
 
   
