@@ -36,7 +36,6 @@ const TotalVolumeMuscleGroup = () => {
         skip: !isUserReady,
         refetchOnMountOrArgChange: true,
     });
-    console.log('whats this', data);
 
     // Ensure data is an array, or fallback to an empty array
     const muscleGroupVolume = Array.isArray(data) ? data : [];

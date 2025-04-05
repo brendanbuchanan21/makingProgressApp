@@ -25,15 +25,13 @@
 
 .login-section {
     width: 100vw;
-    height: 60vh;
+    height: auto;
     display: flex;
     justify-content: center;
 }
-
-
 .login-container {
     height: auto;
-    width: 30vw;
+    width: auto;
     border: 2px solid var(--blue);
     box-shadow: 0px 4px 8px rgba(46, 47, 48, 0.5);
     display: flex;
@@ -42,29 +40,30 @@
     padding: 2rem;
 }
 .form-login-text {
-    font-size: clamp(1.2rem, 1.5rem, 2rem);
+    font-size: clamp(2rem, 1.8vw, 2.8rem);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
 }
 
 .shaded-login-area {
-    height: 30vh;
-    width: 25vw;
+    height: auto;
+    width: auto;
     display: flex;
     flex-direction: column;
    
 }
 .input-div {
-    width: 25vw;
-    height: 8vh;
+    width: auto;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    margin-bottom: 1rem;
 }
 #email, #password {
-    height: 5vh;
-    width: 80%;
+    height: 3rem;
+    width: 15rem;
     border: none; /* Remove default border */
     outline: none;
     background-color: #f9f9f9da; /* Light background for contrast */
@@ -81,8 +80,8 @@
 }
 #login-btn {
     margin: 0 auto;
-    height: 15%;
-    width: 40%;
+    height: 2.5rem;
+    width: 8rem;
     border-radius: 12px;
     border: none; /* Remove default border */
     background-color: var(--blue); /* Light blue background */
@@ -93,7 +92,11 @@
     box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /
 }
-
+#login-btn:hover {
+    background: none;
+    color: black;
+    border: 1px solid black;
+}
 a {
     text-decoration: none;
     color: hsl(0, 0%, 40%);
@@ -111,11 +114,12 @@ a {
     background-color: #f8d7da; /* Light coral background */
     color: #721c24; /* Darker red text */
     padding: 10px 15px;
-    margin-top: 15px;
+    margin-top: 1rem;
     border-radius: 5px;
     font-size: 14px;
     text-align: center;
     transition: all 0.3s ease;
+    max-width: 15rem;
 }
 
 .login-error-message {
@@ -221,3 +225,32 @@ a {
     }
 }
 
+
+@media (min-height: 1000px) and (min-width: 1000px) {
+
+    #email, #password {
+        height: 5rem;
+        width: 22rem;
+        font-size: 1.7rem;
+    }
+    #login-btn {
+        height: 4rem;
+        width: 10rem;
+        font-size: 1.5rem;
+    }
+
+    .login-error-message {
+        font-size: 1.5rem;
+        max-width: 15rem;
+    }
+    #sign-up-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 450px) and (max-height: 950px) {
+    .login-section {
+        box-sizing: border-box;
+        padding: 2rem;
+    }
+}
