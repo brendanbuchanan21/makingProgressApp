@@ -10,21 +10,24 @@ import { RootState } from '../../../redux/store';
 
 const WorkoutTemplate = () => {
 
-    const quickWorkout = useSelector((state: RootState) => state.quickWorkout);
-    const [exercises, setExercises] = useState(false);
-    const [addingExercise, setAddingExercise] = useState(false);
+  //redux
+  const quickWorkout = useSelector((state: RootState) => state.quickWorkout);
 
-    const handleAddingExercise = () => {
-        setAddingExercise(true);
-    }
+  //usestate
+  const [exercises, setExercises] = useState(false);
+  const [addingExercise, setAddingExercise] = useState(false);
 
-    const Exercises = quickWorkout.quickWorkout.exercises;
+const handleAddingExercise = () => {
+  setAddingExercise(true);
+}
 
-    useEffect(() => {
-      if(Exercises.length >= 1) {
-        setExercises(true);
-      }
-    }, [Exercises])
+  const Exercises = quickWorkout.quickWorkout.exercises;
+
+useEffect(() => {
+  if(Exercises.length >= 1) {
+     setExercises(true);
+     }
+}, [Exercises])
     
 
   return (
