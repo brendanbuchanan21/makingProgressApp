@@ -97,9 +97,7 @@ return (
     <NavBar />
     <section className='NewPlan-popup-section'>
 
-    <div className='NewPlan-popup-back-btn-div'>
-
-    </div>
+    
     <div className='NewPlan-popup-container'>
         <div className='NewPlan-popup-content'>
             <div className='NewPlan-popup-close-btn-div'>
