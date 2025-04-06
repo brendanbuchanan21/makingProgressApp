@@ -11,11 +11,11 @@ const NavBar = () => {
         </div>
 
         <div className="dashboard-navbar-directory-div">
-            <Link to='/history'>
-            <p>History</p>
-            </Link>
             <Link to="/workouts">
             <p>Workouts</p>
+            </Link>
+            <Link to='/history'>
+            <p>History</p>
             </Link>
             <Link to="/settingsPg">
             <img src={settingsIcon2} id='db-settings-svg' />

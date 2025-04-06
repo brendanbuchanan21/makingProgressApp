@@ -7,7 +7,7 @@
     border-top: none;
     background-color: black;
     color: #fff;
-    
+    position: static;
 }
 
 .dashboard-navbar-text-div {
@@ -134,3 +134,51 @@
     transform: scale(1.05); /* Slightly enlarge the button */
     color: white;
 }
+
+@media (max-width: 700px) {
+    #dashboard-nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        justify-content: center;
+        
+    }
+    #dashboard-navbar-text-div {
+        display: none;
+        width: 2px;
+    }
+    #dashboard-text-navbar {
+        display: none;
+        width: 2px;
+    }
+    .dashboard-navbar-directory-div {
+        border: 2px solid lime;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 75%; 
+        display: flex;
+        align-items: center;
+        padding: 0;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .dashboard-navbar-directory-div p {
+        font-size: clamp(1.3, 1.2vw, 1.5rem);
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    
+      #db-settings-svg {
+        margin-top: .5rem;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        filter: invert(90%);
+       
+      }
+}
+
