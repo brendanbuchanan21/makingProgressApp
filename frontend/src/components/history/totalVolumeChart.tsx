@@ -92,6 +92,15 @@ const TotalVolumeChart = () => {
       }
     ]
   };
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: {
+            beginAtZero: true,
+        },
+    },
+};
   return (
     <div className='line-chart-total-volume-biggest-container'> 
       {/* Timescale selector */}
@@ -105,7 +114,7 @@ const TotalVolumeChart = () => {
         <h1>Total Volume Comparison</h1>
       {/* Bar chart */}
       <div className="line-chart-main-container">
-      <Line data={chartData} options={{ responsive: true }} />
+      <Line data={chartData} options={options} />
       </div>
     </div>
   );

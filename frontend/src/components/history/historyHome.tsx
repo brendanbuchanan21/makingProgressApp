@@ -10,9 +10,9 @@ const HistoryHome = () => {
         <NavBar />
         <section className="history-main-section">
         <div className="history-main-title-div">
-        <h1>Total Volume Comparison of muscle groups</h1>
+        <h2>Total Volume Comparison of muscle groups</h2>
         </div>
-        <div>
+        <div className="total-volume-mg-div">
         <TotalVolumeMuscleGroup />
         </div>
         <div className="total-volume-chart-div">
