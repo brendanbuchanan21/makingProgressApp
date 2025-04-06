@@ -52,7 +52,7 @@ const Login = () => {
                     <div className='input-div'>
                     <input 
                         type="email"
-                        id="email"
+                        className='sign-in-input'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -63,7 +63,7 @@ const Login = () => {
                         <div className='input-div'>
                     <input 
                         type={showPassword ? "text" : "password"}
-                        id="password"
+                        className='sign-in-input'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -73,7 +73,7 @@ const Login = () => {
                     className='password-toggle-icon' onClick={togglePasswordVisbility} />
                         </div>
 
-                        <button type="submit" id="login-btn">Login</button>
+                        <button type="submit" className='login-btn'>Login</button>
                 </div>
 
             </form>

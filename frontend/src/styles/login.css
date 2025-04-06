@@ -39,6 +39,9 @@
     align-items: center;
     padding: 2rem;
 }
+#sign-up-container {
+    margin-top: 10rem;
+}
 .form-login-text {
     font-size: clamp(2rem, 1.8vw, 2.8rem);
     font-family: Arial, Helvetica, sans-serif;
@@ -61,7 +64,7 @@
     position: relative;
     margin-bottom: 1rem;
 }
-#email, #password {
+.sign-in-input {
     height: 3rem;
     width: 15rem;
     border: none; /* Remove default border */
@@ -78,7 +81,7 @@
     position: absolute;
     right: 10%;
 }
-#login-btn {
+.login-btn {
     margin: 0 auto;
     height: 2.5rem;
     width: 8rem;
@@ -92,7 +95,7 @@
     box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /
 }
-#login-btn:hover {
+.login-btn:hover {
     background: none;
     color: black;
     border: 1px solid black;
@@ -228,12 +231,12 @@ a {
 
 @media (min-height: 1000px) and (min-width: 1000px) {
 
-    #email, #password {
+    .sign-in-input {
         height: 5rem;
         width: 22rem;
         font-size: 1.7rem;
     }
-    #login-btn {
+    .login-btn {
         height: 4rem;
         width: 10rem;
         font-size: 1.5rem;

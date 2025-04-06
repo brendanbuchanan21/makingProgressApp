@@ -43,36 +43,42 @@ const SignUp = () => {
     };
 
     return (
-        <section className='sign-up-section'>
-        <div className='login-container'>
+        <section className='login-section'>
+        <div className='login-container' id='sign-up-container'>
             <p className='form-login-text'>Sign Up</p>
             <form onSubmit={handleSignUp}>
-                <div className='shaded-login-area-sign-up'>
+                <div className='shaded-login-area'>
+                    <div className='input-div'>
                     <input 
                         type="email"
-                        className='input-sign-up'
+                        className='sign-in-input'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder='email address'
                         />
+                        </div>
+                        <div className='input-div'>
                     <input 
                         type="password"
-                        className='input-sign-up'
+                        className='sign-in-input'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         placeholder='password'
                         />
+                        </div>
+                        <div className='input-div'>
                      <input 
                         type="password"
-                        className='input-sign-up'
+                        className='sign-in-input'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                         placeholder='confirm password'
                         />
-                        <button type="submit" id="login-btn">Sign Up</button>
+                        </div>
+                        <button type="submit" className='login-btn'>Sign Up</button>
                 </div>
 
             </form>
