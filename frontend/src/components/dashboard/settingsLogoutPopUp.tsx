@@ -1,6 +1,5 @@
 import React from "react";
 import './settingsPg.css'
-import { useState } from "react";
 
 
 interface SignOutModalProps {

@@ -15,79 +15,66 @@ import ResetAccountPopUp from './settingsResetAccountPopUp';
 
 const SettingsPg = () => {
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [resetUserData] = useResetUserDataMutation();
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-    const [logoutPopUp, setLogOutPopUp] = useState(false);
-    const [resetPopUp, setResetPopUp] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [resetUserData] = useResetUserDataMutation();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [logoutPopUp, setLogOutPopUp] = useState(false);
+  const [resetPopUp, setResetPopUp] = useState(false);
 
-    const logout = async () => {
+
+const logout = async () => {
         
+  try {
+    await signOut(auth);
 
-        try {
-            await signOut(auth);
-            console.log("successfully signed out");
+  } catch (error) {
+    console.error('error signing out:', error);
+    return;
+  }
+  navigate('/welcome');
+}
 
-        } catch (error) {
-            console.error('error signing out:', error);
-            return;
-        }
-        navigate('/welcome');
-    }
+const resetAccount = async () => {
 
-    const resetAccount = async () => {
-      
-            
-        
-            //wrap the try catch in a conditional for 
-
-            try {
-                await resetUserData({});
-                dispatch(resetWorkoutState());
-                dispatch(resetQuickWorkout());
-
-
-            } catch (error) {
-                console.error(error);
-            }
-        
-    }
+  try {
+    await resetUserData({});
+    dispatch(resetWorkoutState());
+    dispatch(resetQuickWorkout());
+  
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 
-    const deleteAccount = async (password: string) => {
+const deleteAccount = async (password: string) => {
 
-        const user = auth.currentUser;
+  const user = auth.currentUser;
 
-        if(!user) {
-            console.error("No user authenticated");
-            return;
-        }
-        try {
-           
-            const credential = EmailAuthProvider.credential(user.email!, password);
-            await reauthenticateWithCredential(user, credential);
+  if(!user) {
+    console.error("No user authenticated");
+    return;
+  }
+  try {
+    const credential = EmailAuthProvider.credential(user.email!, password);
+    await reauthenticateWithCredential(user, credential);
+    await resetUserData({});
+    dispatch(resetWorkoutState());
+    dispatch(resetQuickWorkout());
+    await deleteUser(user); // Delete the user from Firebase
+    setDeleteModalOpen(false); // Close the modal
+    navigate("/welcome"); // Redirect to welcome page
 
-            await resetUserData({});
-            dispatch(resetWorkoutState());
-            dispatch(resetQuickWorkout());
+  } catch(error) {
+    console.error("error deleting account:", error);
+    alert("Failed to delete account. Please try again.");
+  }
+}
 
-            await deleteUser(user); // Delete the user from Firebase
-
-            setDeleteModalOpen(false); // Close the modal
-            navigate("/welcome"); // Redirect to welcome page
-
-            
-
-        } catch(error) {
-            console.error("error deleting account:", error);
-            alert("Failed to delete account. Please try again.");
-        }
-    }
-
-    const handleBackClick = () => {
-        navigate('/workouts');
-    }
+const handleBackClick = () => {
+  navigate('/workouts');
+}
 
     return (
 
@@ -97,7 +84,9 @@ const SettingsPg = () => {
 
         <div className='settings-main-section-wrapper'>
             <div className='back-click-settings-page-div' onClick={handleBackClick}>
-                <p><img src={backArrow} alt="back-arrow" className='back-arrow-icon'/>Go back</p>
+                <div className='back-arrow-smaller-div'>
+                <img src={backArrow} alt="back-arrow" className='back-arrow-icon'/>
+                </div>
             </div>
          <div className='settings-main-container'>
             <div className="settings-page-header-div">
