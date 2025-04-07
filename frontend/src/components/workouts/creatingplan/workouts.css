@@ -22,41 +22,26 @@
     justify-content: center;
     gap: 5%;
     padding: 2rem;
-   
 }
-.WP-card {
-    height: 50vh;
+ #WP-card {
+    height: 30rem;
     width: 25vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
-
-.WP-current-plan-card {
-    width: 75%;
-    height: 70%;
-    object-fit: cover;
-    margin-bottom: 5%;
-    margin-top: 5%;
+.WP-card {
+  height: 30rem;
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  padding-top: .7rem;
 }
-.WP-new-plan-card {
-    width: 75%;
-    height: 70%;
-    object-fit: cover;
-    margin-bottom: 5%;
-    margin-top: 5%;
-    border: 2px solid var(--grey);
-    background-color: rgba(255, 255, 255, 0.1); 
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
 
-}
+
 .WP-current-workout-card {
     width: 75%;
     height: 70%;
@@ -86,12 +71,12 @@
 
 
 .WP-card-btn {
-    width: 50%;
-    height: 15%;
-    border-radius: 12px;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 7px;
     border: 1px solid var(--blue); 
     background-color: white;
-    color: #0a0a0a; 
+    color: var(--blue); 
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer; 
@@ -101,15 +86,63 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 0 auto;
+    
   }
   
   .WP-card-btn:hover {
-    border: 1px solid white;
+    border: none;
     transform: translateY(-4px); 
-    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8); 
+    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8);
+    background-color: var(--blue);
+    color: white;
   }
-  
+  #WP-card-new-plan {
+    display: flex;
+    align-items: center;
+  }
+
+
+  #WP-new-plan-text {
+    margin: 1rem 0;
+  }
+  #WP-card-text-past-plans {
+    margin: 1rem 0;
+  }
+
+  #WP-past-plans-view-btn {
+    background: none;
+    width: 8rem;
+    height: 3rem;
+    border: 1px solid var(--blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue);
+    border-radius: 3px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  #WP-past-plans-view-btn:hover {
+    background-color: var(--hover-blue);
+    color: white;
+    transform: translateY(-4px);
+  }
+  .add-new-plan-btn {
+    background: none;
+    width: 8rem;
+    height: 3rem;
+    border: 1px dashed var(--blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue);
+  }
+  .add-new-plan-btn:hover {
+    border: none;
+    cursor: pointer;
+    border: 1px solid var(--hover-blue);
+    color: var(--hover-blue);
+    border-radius: 4px;
+  }
   .WP-overlay {
     position: fixed;
     top: 0;
@@ -164,6 +197,48 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+
+  @media (max-width: 700px) {
+    .WP-header-div {
+      background-color: hsl(0, 0%, 95%);
+      width: 100%;
+    }
+    .WP-cards-container {
+    flex-direction: column;
+    align-items: center;
+    }
+    #WP-card-past-plans {
+      height: 10rem;
+      display: flex;
+      
+    }
+    .WP-card-text {
+      margin-top: 2rem;
+    }
+    #WP-card-text-past-plans {
+      text-align: center;
+    }
+    #WP-card {
+      height: 28rem;
+      width: 80%;
+      border-bottom: 2px solid var(--grey);
+    }
+    .WP-card {
+      border-bottom: 2px solid var(--grey);
+      width: 100%;
+      height: 10rem;
+    }
+    #WP-card-new-plan {
+      margin: 3rem 0;
+    }
+    .WP-card-btn {
+      margin-bottom: 2rem;
+      width: 8rem;
+      height: 3rem;
+      border-radius: 2px;
     }
   }
   

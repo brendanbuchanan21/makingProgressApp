@@ -213,10 +213,6 @@ z-index: 1000; /* Ensure overlay stays on top */
     transform: scale(1.05); /* Slight hover effect */
     color: var(--hover-blue);
   }
-  .expanded-day-view-delete-btn:hover {
-    border: 1px solid red;
-    color: red;
-  }
 
   .individual-exercise-name {
     font-weight: 600;
@@ -278,8 +274,8 @@ z-index: 1000; /* Ensure overlay stays on top */
   }
   
   .AE-btns-div button:first-of-type:hover {
-    background-color: #bbb;
-    border: #bbb;
+    background-color: var(--hover-blue);
+    color: white;
   }
   
   .AE-btns-div button:last-of-type {

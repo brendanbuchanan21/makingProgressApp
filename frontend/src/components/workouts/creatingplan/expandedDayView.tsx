@@ -8,152 +8,137 @@ import EditExercisePopup from './editExercisePopUp';
 import { useAddingExerciseToDayMutation, useDeleteExerciseApiMutation, useEditExerciseApiMutation } from '../../../redux/workoutApi';
 
 const ExpandedDayView = ({
-    selectedDay,
-    weekNumber,
-    resetSelectedDay,
+  selectedDay,
+  weekNumber,
+  resetSelectedDay,
   }: {
-    selectedDay: DayPlan;
-    weekNumber: number;
-    resetSelectedDay: () => void;
+  selectedDay: DayPlan;
+  weekNumber: number;
+  resetSelectedDay: () => void;
   }) => {
-    const dispatch = useDispatch();
 
-    const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
-      // Find the week that matches the weekNumber
+  const dispatch = useDispatch();
+  const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
   const week = currentPlan.weeks.find(week => week.weekNumber === weekNumber);
 
 
   // If the week is found, find the day and extract exercises
-    const exercisesForDay = week?.days.find((day) => day.day === selectedDay.day)?.exercises || [];
-    const [exerciseName, setExerciseName] = useState('');
-    const [muscleGroup, setMuscleGroup] = useState('Chest');
-    const [sets, setSets] = useState<SetDetails[]>([]);
-    const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
-    const [showEditPopup, setShowEditPopup] = useState(false);
-    const workoutId = currentPlan?._id ?? "";
+  const exercisesForDay = week?.days.find((day) => day.day === selectedDay.day)?.exercises || [];
+  const [exerciseName, setExerciseName] = useState('');
+  const [muscleGroup, setMuscleGroup] = useState('Chest');
+  const [sets, setSets] = useState<SetDetails[]>([]);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const workoutId = currentPlan?._id ?? "";
     // api functions
-    const [addingExerciseToDay] = useAddingExerciseToDayMutation();
-    const [deleteExerciseApi] = useDeleteExerciseApiMutation();
-    const [editExerciseApi] = useEditExerciseApiMutation();
+  const [addingExerciseToDay] = useAddingExerciseToDayMutation();
+  const [deleteExerciseApi] = useDeleteExerciseApiMutation();
+  const [editExerciseApi] = useEditExerciseApiMutation();
 
-    const handleBackDay = () => {
-        resetSelectedDay(); // Reset the selected day in the parent component
-    };
+const handleBackDay = () => {
+  resetSelectedDay(); // Reset the selected day in the parent component
+};
 
 
      // Handle adding exercise to store
-     const handleAddExercise = async () => {
-        if (!currentPlan._id) {
-            console.error("Workout ID is missing!");
-            return;
-        }
+const handleAddExercise = async () => {
+  if (!currentPlan._id) {
+    console.error("Workout ID is missing!");
+    return;
+  }
        
 
-        const newExercise: Exercise = {
-            name: exerciseName,
-            muscleGroup,
-            sets: sets,
-        };
+  const newExercise: Exercise = {
+  name: exerciseName,
+  muscleGroup,
+  sets: sets,
+  };
 
-        try {
+  try {
+    const response = await addingExerciseToDay({
+    id: workoutId,
+    weekNumber,
+    day: selectedDay.day,
+    exercise: newExercise
+    }).unwrap();
 
-            const response = await addingExerciseToDay({
-                id: workoutId,
-                weekNumber,
-                day: selectedDay.day,
-               exercise: newExercise
-            }).unwrap();
-
-            console.log(response, 'lets investigate the id in repsonse');
         
-        
+    const updatedExercise = response;
+    dispatch(
+    addExerciseToDay({
+    weekNumber,
+    day: selectedDay.day,
+    exercise: updatedExercise
+    }));
 
-       const updatedExercise = response;
-            dispatch(
-                addExerciseToDay({
-                    weekNumber,
-                    day: selectedDay.day,
-                    exercise: updatedExercise
-                })
-            );
-             // Reset the form fields
-            setExerciseName('');
-            setMuscleGroup('Chest');
-            setSets([]);
+    // Reset the form fields
+    setExerciseName('');
+    setMuscleGroup('Chest');
+    setSets([]);
     
-        } catch (error) {
-        console.error("failed to add exercise:", error);
-     }}
+    } catch (error) {
+      console.error("failed to add exercise:", error);
+    }}
 
      
-    const handleSaveExercise = async (updatedExercise: Exercise) => {
+const handleSaveExercise = async (updatedExercise: Exercise) => {
         // Dispatch an action to save the updated exercise
+  if(!selectedExercise?._id) {
+    console.error("Exercise Id is missing");
+    return;
+  }
 
-        if(!selectedExercise?._id) {
-            console.error("Exercise Id is missing");
-            return;
-        }
+  const exerciseId = selectedExercise._id;
 
-        const exerciseId = selectedExercise._id;
+  try {
+    const response = await editExerciseApi({
+    workoutId,
+    weekNumber,
+    day: selectedDay.day,
+    exerciseId,
+    updatedExercise
+    }).unwrap()
 
-        
-
-        try {
-            const response = await editExerciseApi({
-                workoutId,
-                weekNumber,
-                day: selectedDay.day,
-                exerciseId,
-                updatedExercise
-            }).unwrap()
-
-            dispatch(
-                editExercise({
-                  weekNumber,
-                  day: selectedDay.day,
-                  exerciseId,
-                  updatedExercise,
-                })
-              );
-              setShowEditPopup(false); // Close the popup after saving
-
-        } catch (error) {
-            console.error("not able to update exercise", error);
-        }
-
+    dispatch(
+    editExercise({
+    weekNumber,
+    day: selectedDay.day,
+    exerciseId,
+    updatedExercise,
+    }));
+    
+    setShowEditPopup(false); // Close the popup after saving
+  } catch (error) {
+    console.error("not able to update exercise", error);
+  }
+};
        
-      };
-       
+
 const handleDeleteExercise = async (exerciseId: string) => {
-        if (window.confirm("Are you sure you want to delete this exercise?")) {
 
-            try {
-
-                const response = await deleteExerciseApi({
-                    workoutId,
-                    exerciseId,
-                    weekNumber,
-                    day: selectedDay.day
-                }).unwrap()
+  try {
+    const response = await deleteExerciseApi({
+    workoutId,
+    exerciseId,
+    weekNumber,
+    day: selectedDay.day
+    }).unwrap()
                 
-
-                    dispatch(
-                        deleteExercise({
-                            weekNumber,
-                            day: selectedDay.day,
-                            exerciseId,
-                        })
-                    );
+    dispatch(
+    deleteExercise({
+    weekNumber,
+    day: selectedDay.day,
+    exerciseId,
+    }));
             
-            } catch (error) {
-                console.error('failed to delete the exercise from db:', error);
-            }
-      }
-}
+  } catch (error) {
+    console.error('failed to delete the exercise from db:', error);
+  } 
+};
 
 const handleFinishDayEntry = () => {
-    resetSelectedDay();
-}
+  resetSelectedDay();
+};
 
       return (
         <>

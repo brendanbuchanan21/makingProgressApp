@@ -7,6 +7,7 @@ import currentPlanImg from '../../../images/currentPlanImg.jpeg'
 import { Link } from 'react-router-dom';
 import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
+import addMarkerBlue from '../../../images/addMarkerBlue.svg';
 
 const WorkoutSection = () => {
 
@@ -70,19 +71,18 @@ return (
     <NavBar />
     <section className='WP-section-1'>
         <div className='WP-header-div'>
-        <h1>Workouts</h1>
+        <h1>Workout page</h1>
         </div>
 
         <div className='WP-cards-container'>
-            <div className='WP-card'>
-            <p className='WP-card-text'>Plans & Past Workouts</p>
-              <img src={currentPlanImg} className='WP-current-plan-card' />
-                <Link to="/currentPlanPage" className="WP-card-btn">
-                    <p>Let's go</p>
+            <div className='WP-card' id='WP-card-past-plans'>
+            <p className='WP-card-text' id='WP-card-text-past-plans'>Plans & Past Workouts</p>
+                <Link to="/currentPlanPage" id='WP-past-plans-view-btn'>
+                    <p>View</p>
                 </Link>
             </div>
 
-            <div className='WP-card'>
+            <div id='WP-card'>
     <p className='WP-card-text'>Start Workout</p>
     {noPlan ? (
         <div className='WP-current-workout-card'>
@@ -108,32 +108,36 @@ return (
             </Link>
         ) : planIsComplete ? (
             <button onClick={() => alert('Create a plan to view a plan!')} className='WP-card-btn'>
-                <p>Let's go</p>
+                <p>Begin Workout</p>
             </button>
         ) : (
             <Link to='/todaysWorkoutPage' className='WP-card-btn'>
-                <p>Let's go</p>
+                <p>Begin Workout</p>
             </Link>
         )}
 </div>
 
 
-               
-               
-              
-
-            <div className='WP-card'>
-                <p className='WP-card-text'>New Plan</p>
-                    <img src={planningImg} alt="" className='WP-new-plan-card' />
-                    {isCurrentPlan ? (
-                        <p onClick={() => setShowPlanMessage(true)} className='WP-card-btn'>Let's go</p>
-                    ) : (
-                        <Link to='/newPlanPopup' className='WP-card-btn'>
-                <p>Let's go</p>
+            <div className="WP-card" id='WP-card-new-plan'>
+            <p className="WP-card-text" id='WP-new-plan-text'>New Plan</p>
+            {isCurrentPlan ? (
+                <button 
+                className="add-new-plan-btn" 
+                onClick={() => setShowPlanMessage(true)}
+                >
+                <img src={addMarkerBlue} alt="Add" className="add-icon" />
+                <span>Add</span>
+                </button>
+            ) : (
+                <Link to="/newPlanPopup" className="add-new-plan-btn">
+                <img src={addMarkerBlue} alt="Add" className="add-icon" />
+                <span>Add</span>
                 </Link>
-                    )}
-                
+            )}
             </div>
+
+
+            
             {showPlanMessage && (
                 <>
                 <div className="WP-overlay">
