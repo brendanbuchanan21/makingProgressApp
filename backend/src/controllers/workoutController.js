@@ -79,9 +79,7 @@ if (addedExercise) {
         id: set._id.toString(), // Convert `_id` to `id`
     })) || []; // Default to an empty array if `sets` is undefined
 
-    // Remove `_id` from the exercise object
-    plainExercise.id = plainExercise._id.toString();
-    delete plainExercise._id;
+   
 
     // Remove `_id` from each set object
     plainExercise.sets.forEach(set => delete set._id);

@@ -193,7 +193,7 @@ z-index: 1000; /* Ensure overlay stays on top */
   }
   
   .individual-exercise-edit-btn-div button {
-    background-color: #ccc;
+    background: none;
     color: black;
     border: none;
     border-radius: 5px;
@@ -203,12 +203,19 @@ z-index: 1000; /* Ensure overlay stays on top */
     transition: background-color 0.3s, transform 0.2s;
     display: flex;
     margin-bottom: 10%;
+    border: 1px solid var(--grey);
+    width: 3rem;
+  
   }
   
   .individual-exercise-edit-btn-div button:hover {
-    background-color: #1414d2;
+    border: 1px solid var(--hover-blue);
     transform: scale(1.05); /* Slight hover effect */
-    color: white;
+    color: var(--hover-blue);
+  }
+  .expanded-day-view-delete-btn:hover {
+    border: 1px solid red;
+    color: red;
   }
 
   .individual-exercise-name {

@@ -64,8 +64,8 @@ const ExpandedDayView = ({
                exercise: newExercise
             }).unwrap();
 
-
-
+            console.log(response, 'lets investigate the id in repsonse');
+        
         
 
        const updatedExercise = response;
