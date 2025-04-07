@@ -236,16 +236,16 @@
   cursor: pointer;
   padding: 0.75rem 1rem;
   margin: 0.5rem;
-  border: 1px solid var(--blue);
+  border: 1px solid black;
   border-radius: 5px;
   background-color: #fff;
-  color: var(--blue);
+  color: black;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .previous-plans-or-quick-workout-select-div p:hover {
-  background-color: var(--hover-blue);
-  color: #fff;
+  border: 1px solid var(--hover-blue);
+  color: var(--hover-blue)
 }
 
 

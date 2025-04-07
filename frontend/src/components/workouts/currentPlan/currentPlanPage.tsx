@@ -169,10 +169,12 @@ const formatDate = (isoString: string) => {
   }).replace(",", " at"); // Formats date properly
 };
 
-const handleAbandonPlan = () => {
-    dispatch(resetWorkoutState());
-    setShowAbandonPlan(false);
-    setIsEditing(false);
+const handleAbandonPlan = async () => {
+
+  const deleteCurrentPlan = await deleteExerciseProgram({id: currentPlan._id})
+  dispatch(resetWorkoutState());
+  setShowAbandonPlan(false);
+  setIsEditing(false);
 }
 
     return (
