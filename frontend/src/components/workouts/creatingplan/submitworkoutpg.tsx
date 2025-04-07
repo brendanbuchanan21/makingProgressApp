@@ -108,7 +108,7 @@ const submitWorkoutPlan = async () => {
     // JSX 
     return (
         <>
-        <NavBar />
+        
         <section id='add-exercises-popup-section'>
             <div id='add-exercises-popup-outer-container'>
 

@@ -124,7 +124,7 @@ const ExpandedDayView = ({
        
       };
        
-      const handleDeleteExercise = async (exerciseId: string) => {
+const handleDeleteExercise = async (exerciseId: string) => {
         if (window.confirm("Are you sure you want to delete this exercise?")) {
 
             try {
@@ -149,7 +149,11 @@ const ExpandedDayView = ({
                 console.error('failed to delete the exercise from db:', error);
             }
       }
-    }
+}
+
+const handleFinishDayEntry = () => {
+    resetSelectedDay();
+}
 
       return (
         <>
@@ -246,6 +250,9 @@ const ExpandedDayView = ({
                             >
                                 Add Exercise
                             </button>
+                        </div>
+                        <div className='finish-btn-div'>
+                            <button disabled={exercisesForDay.length < 1} onClick={handleFinishDayEntry}>Finish</button>
                         </div>
                     </div>
                 </div>
