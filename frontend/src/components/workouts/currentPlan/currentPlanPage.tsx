@@ -16,6 +16,7 @@ import dumbbellImg from '../../../images/dumbbell-svgrepo-com.svg';
 import { ClipLoader } from 'react-spinners';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useGetNoPlanWorkoutsQuery } from '../../../redux/noPlanWorkoutApi';
+import AbandonPlanPopUp from './abandonPlanPopUp';
 
 
 const CurrentPlanPage = () => {
@@ -32,6 +33,7 @@ const CurrentPlanPage = () => {
   const [userId, setUserId] = useState<string | null>(null)
   const [noPlan, setNoPlan] = useState(false);
   const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans");
+  const [showAbandonPlan, setShowAbandonPlan] = useState(false);
 
 
     
@@ -167,15 +169,27 @@ const formatDate = (isoString: string) => {
   }).replace(",", " at"); // Formats date properly
 };
 
+const handleAbandonPlan = () => {
+    dispatch(resetWorkoutState());
+    setShowAbandonPlan(false);
+    setIsEditing(false);
+}
+
     return (
         <>
+        {showAbandonPlan && (
+            <AbandonPlanPopUp 
+            boolean={showAbandonPlan}
+            onConfirm={handleAbandonPlan}
+            onCancel={() => setShowAbandonPlan(false)}
+            />
+        )}
             <section className={noPlan ? "currentPlanPageNoPlan" : "currentPlanPage"}>
                 <NavBar />
                 {noPlan ? (
                     <p className='no-current-plan-text'>No current Plan</p>
                 ) : (
                     <>
-                        <button onClick={() => dispatch(resetWorkoutState())}>Reset</button>
                         <div className="currentPlanPage-header-div">
                             <h1>Current Plan</h1>
                         </div>
@@ -188,17 +202,25 @@ const formatDate = (isoString: string) => {
                             )}
                            
                         </div>
-                        <div className="grid-container">
-                            <WeekCard isEditing={isEditing} />
-                        </div>
                         {isEditing && (
+                            <>
                             <div className='add-week-marker-div'>
                                 <div className='add-week-marker-wrapper' onClick={() => {}}>
                                     <img src={addMarkerBlue} alt="Add Week" />
                                     <p onClick={handleAddWeek}>Add Week</p>
                                 </div>
                             </div>
+                            <div className='add-week-marker-div'>
+                                <div className='abandon-plan-button-div'>
+                                    <p onClick={() => setShowAbandonPlan(true)}>Abandon plan</p>
+                                </div>
+                            </div>
+                            </>
                         )}
+                        <div className="grid-container">
+                            <WeekCard isEditing={isEditing} />
+                        </div>
+                        
                     </>
                 )}
             </section>
