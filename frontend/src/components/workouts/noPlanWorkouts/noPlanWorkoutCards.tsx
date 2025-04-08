@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePostNoPlanWorkoutMutation } from '../../../redux/noPlanWorkoutApi';
 import DeleteExercisePopUp from './noPlanDeleteExercisePopUp';
 import IncompleteWorkoutPopUp from '../currentPlan/incompleteWorkoutPopUp';
+import BackArrowPopUp from './backArrowPopUp';
 
 
 const NoPlanWorkoutCard = () => {
@@ -30,7 +31,7 @@ const NoPlanWorkoutCard = () => {
   const [confirmDeleteExercise, setConfirmDeleteExercise] = useState(false);
   const [exerciseToDelete, setExerciseToDelete] = useState<string | null>(null);
   const [showMessagePopUp, setShowMessagePopUp] = useState(false);
-
+  const [backMessage, setBackMessage] = useState(false);
   //api queries
   const [postNoPlanWorkout] = usePostNoPlanWorkoutMutation();
 
@@ -122,6 +123,11 @@ const handleSubmitWorkout = async () => {
     
 }
 
+const handleRemoveState = () => {
+  dispatch(resetQuickWorkout());
+  navigate('/workouts');
+}
+
 
         return (
             <>
@@ -134,7 +140,7 @@ const handleSubmitWorkout = async () => {
   </div>
   <div className="current-workout-page-back-btn-div">
     <button className="back-btn-current-workout">
-      <img src={backArrow} alt="Back" />
+      <img src={backArrow} alt="Back" onClick={() => setBackMessage(true)}/>
     </button>
   </div>
   <div className="current-workout-page-main-content-div">
@@ -221,6 +227,13 @@ const handleSubmitWorkout = async () => {
                 onOk={() => setShowMessagePopUp(false)}
                 boolean={showMessagePopUp}
               />
+            )}
+            {backMessage && (
+            <BackArrowPopUp 
+              onCancel={() => setBackMessage(false)}
+              boolean={backMessage}
+              onConfirm={() => handleRemoveState()}
+            />
             )}
             </>
         )
