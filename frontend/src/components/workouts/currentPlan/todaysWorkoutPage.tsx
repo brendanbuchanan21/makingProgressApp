@@ -13,6 +13,7 @@ import { useAddSetToExerciseApiMutation, useDeleteExerciseApiMutation, useDelete
 import { usePostCompletedExerciseMutation } from "../../../redux/completedWorkoutApi";
 import { useNavigate } from "react-router-dom";
 import backArrow from '../../../images/backArrow.svg';
+import IncompleteWorkoutPopUp from "./incompleteWorkoutPopUp";
 
 // i need to grab the workout plan from the redux store? 
 // display the first day in the plan that isn't completed 
@@ -36,6 +37,7 @@ const TodaysWorkoutPage = () => {
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [exerciseToDelete, setExerciseToDelete] = useState<Exercise | null>(null);
   const [cantDeletePopUp, setCantDeletePopUp] = useState(false);
+  const [showIncomplete, setShowIncomplete] = useState(false);
 
   const navigate = useNavigate();
     
@@ -229,14 +231,13 @@ const completedWorkoutUpdate = async (completedWorkout: any) => {
 
 
 
-
 const handleSubmitWorkout = async () => {
 
   const allComplete = firstIncompleteWorkout.exercises.every((exercise) => {
   return exercise._id ? completedExercises[exercise._id] : false;
   });
   if (!allComplete) {
-  alert("Please mark all exercises as complete before submitting the workout.");
+  setShowIncomplete(true);
   return;
   }
         
@@ -452,7 +453,12 @@ const handleBackClick = () => {
    </div>
  </div>
 )}
-
+{showIncomplete && (
+<IncompleteWorkoutPopUp 
+onOk={() => setShowIncomplete(false)}
+boolean={showIncomplete}
+/>
+)}
 
 </section>
         </>

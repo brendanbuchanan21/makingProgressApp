@@ -1,7 +1,5 @@
 
 .current-workout-page {
-    height: 100vh;
-    width: 100vw;
     padding: 2rem;
   }
   
@@ -12,10 +10,11 @@
   
 .current-workout-page-back-btn-div {
   height: 5%;
+  margin-top: 1rem;
 }
 .current-workout-page-back-btn-div button {
   height: 70%;
-  width: 5%;
+  width: 3rem;
   background: none;
   border: 1px solid black;
   border-radius: 2px;
@@ -33,8 +32,8 @@
   }
   
   .workout-card {
-    height: 100%;
-    width: 50%;
+    height: 20rem;
+    width: 30rem;
   }
   
   .workout-card-day-name-div {
@@ -153,7 +152,7 @@
   
   /* Optional: styling for input fields within set cells */
   .set-cell input {
-    width: 40%;
+    width: 70%;
     margin: 0 auto;
     display: block;
     padding: 0.3rem;
@@ -291,4 +290,81 @@
 
 .cancel-btn:hover {
   background-color: #bdbdbd;
+}
+
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.custom-modal-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Modal title */
+.custom-modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Modal message */
+.custom-modal-message {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* Button container */
+.custom-modal-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+/* OK button */
+.cancel-btn {
+  background-color: var(--blue);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cancel-btn:hover {
+  background-color: #0056b3;
+}
+
+
+@media (min-width: 600px) {
+  .workout-card {
+    height: 20rem;
+  }
+  .set-cell input {
+    height: 2rem;
+  }
+
+}
+@media (max-width: 700px) {
+  .current-workout-page-header-div {
+    margin-top: 1rem;
+  }
 }
