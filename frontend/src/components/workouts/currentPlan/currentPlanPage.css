@@ -1,9 +1,6 @@
 .currentPlanPage {
-    
-    
     display: flex;
     flex-direction: column;
-    border: 2px solid purple;
     margin-bottom: 2rem;
 }
 .currentPlanPageNoPlan {
@@ -69,12 +66,16 @@
   color: white;
   border: none;
   transition: all 0.3s ease;
+  height: 2.5rem;
+  width: 5rem;
+  border-radius: 10px;
 }
 .currentPlanPage-complete-plan-btn:hover {
   background-color: white;
   color: lime;
   border: 1px solid lime;
   animation: pulse 1s infinite;
+  cursor: pointer;
 }
 
 @keyframes pulse {

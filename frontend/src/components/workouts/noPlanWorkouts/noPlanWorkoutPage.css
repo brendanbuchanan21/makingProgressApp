@@ -1,20 +1,19 @@
 
 .empty-workout-section {
     height: 40vh;
-    margin-top: 2rem;
-    
+    margin: 0 auto;
+    width: 80%;
 }
 .empty-workout-header-div {
-    margin-top: 5rem;
+    margin: 5rem 0 2rem 0;
     text-align: center;
 }
 
 .add-new-exercise-card {
-    border: 2px solid purple;
-    width: 15%;
+    
+    width: 5rem;
     border: 2px solid var(--grey);
-    margin-left: 8rem;
-    margin-top: 1rem;
+    margin: 0 auto;
     padding-left: 5px;
 }
 .add-new-exercise-card:hover {

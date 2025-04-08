@@ -1,10 +1,9 @@
 // components/WorkoutTemplate.tsx
-import '../../workouts/currentPlan/todaysWorkoutPage.css';
 import NavBar from '../../dashboard/navbar';
 import NoPlanWorkoutCard from './noPlanWorkoutCards';
 import { useEffect, useState } from 'react';
 import AddExerciseEntry from './addExerciseEntry';
-import './noPlanWorkoutPase.css'
+import './noPlanWorkoutPage.css'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
@@ -42,7 +41,7 @@ useEffect(() => {
         </div>
         
         <div className='add-new-exercise-card' onClick={handleAddingExercise}>
-            <p>add new exercise</p>
+            <p>Add Exercise</p>
         </div>
     </section>
   )}

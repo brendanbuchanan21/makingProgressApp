@@ -12,6 +12,7 @@ import AddExerciseEntry from './addExerciseEntry';
 import { useNavigate } from 'react-router-dom';
 import { usePostNoPlanWorkoutMutation } from '../../../redux/noPlanWorkoutApi';
 import DeleteExercisePopUp from './noPlanDeleteExercisePopUp';
+import IncompleteWorkoutPopUp from '../currentPlan/incompleteWorkoutPopUp';
 
 
 const NoPlanWorkoutCard = () => {
@@ -28,6 +29,7 @@ const NoPlanWorkoutCard = () => {
   const [editMode, setEditMode] = useState(false);
   const [confirmDeleteExercise, setConfirmDeleteExercise] = useState(false);
   const [exerciseToDelete, setExerciseToDelete] = useState<string | null>(null);
+  const [showMessagePopUp, setShowMessagePopUp] = useState(false);
 
   //api queries
   const [postNoPlanWorkout] = usePostNoPlanWorkoutMutation();
@@ -103,7 +105,7 @@ const handleSubmitWorkout = async () => {
   //check if every exercise is complete
   const allExercisesComplete = exercises.every((exercise) => exercise.isComplete === true);
   if(!allExercisesComplete) {
-  alert('need to complete every exercise');
+  setShowMessagePopUp(true);
   return;
   }
   const completedWorkout = {...quickWorkoutState.quickWorkout, 
@@ -214,7 +216,12 @@ const handleSubmitWorkout = async () => {
                 conditional={confirmDeleteExercise}
               />
             )}
-    
+            {showMessagePopUp && (
+              <IncompleteWorkoutPopUp 
+                onOk={() => setShowMessagePopUp(false)}
+                boolean={showMessagePopUp}
+              />
+            )}
             </>
         )
 

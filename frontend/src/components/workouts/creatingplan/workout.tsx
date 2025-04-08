@@ -90,7 +90,7 @@ return (
         </div>
     ) : planIsComplete ? ( // Corrected nested ternary
         <div className='WP-current-workout-card'>
-            <p>Navigate to Current Plan page to submit Plan</p>
+            <p>Navigate to the plans page to submit a Plan</p>
         </div>
     ) : (
         <div className='WP-current-workout-card'>
