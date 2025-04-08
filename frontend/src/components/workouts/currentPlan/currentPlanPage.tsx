@@ -227,7 +227,6 @@ const handleAbandonPlan = async () => {
                 )}
             </section>
 
-            {/* TABS */}
             <section className='previous-plans-section'>
                 <div className='previous-plans-header-div'>
                     <h1>Previous Plans</h1>
@@ -285,7 +284,7 @@ const handleAbandonPlan = async () => {
                             ))}
                         </div>
                     ) : (
-                        <p>No Quick Workouts Found</p>
+                        <p className='no-quick-workouts-text'>No Quick Workouts Found</p>
                     )
                 )}
             </section>
