@@ -88,7 +88,7 @@ const handleDeleteExercise = (exerciseId: string) => {
   navigate("/workouts");
   } else {
           // Otherwise, simply delete the exercise.
-  dispatch(deletingExercise({ exerciseId }));
+  dispatch(deletingExercise({ exerciseId: exerciseId}));
    }
    setConfirmDeleteExercise(false);
   
@@ -179,15 +179,15 @@ const handleRemoveState = () => {
                 {set.setNumber}
               </div>
               <div className="set-cell">
-                <input type="number" min="0"   value={set.weight === null ? "" : set.weight}
+                <input type="number" min="0"   value={set.weight ?? ""}
                             onChange={(e) => handleInputChange(exercise.id, set.id, "weight", Number(e.target.value))}/>
               </div>
               <div className="set-cell">
-                <input type="number" min="0"   value={set.reps === null ? "" : set.reps}
+                <input type="number" min="0"   value={set.reps ?? ""}
                             onChange={(e) => handleInputChange(exercise.id, set.id, "reps", Number(e.target.value))}/>
               </div>
               <div className="set-cell">
-                <input type="number" min="0" value={set.rir === null ? "" : set.rir}
+                <input type="number" min="0" value={set.rir ?? ""}
                             onChange={(e) => handleInputChange(exercise.id, set.id, "rir", Number(e.target.value))}/>
               </div>
             </div>
@@ -196,7 +196,7 @@ const handleRemoveState = () => {
           </div>
           <div className="exercise-completion">
             <label>Mark as Complete</label>
-            <input type="checkbox" className="exercise-complete-checkbox" onChange={() => dispatch(exerciseComplete({exerciseId: exercise.id}))} />
+            <input type="checkbox" className="exercise-complete-checkbox" checked={exercise.isComplete} onChange={() => dispatch(exerciseComplete({exerciseId: exercise.id}))} />
           </div>
         </div>
           ))
@@ -217,7 +217,7 @@ const handleRemoveState = () => {
             )}
             {confirmDeleteExercise && (
               <DeleteExercisePopUp 
-                onConfirm={handleDeleteExercise}
+                onConfirm={() => exerciseToDelete && handleDeleteExercise(exerciseToDelete)}
                 onCancel={() => setConfirmDeleteExercise(false)}
                 conditional={confirmDeleteExercise}
               />
