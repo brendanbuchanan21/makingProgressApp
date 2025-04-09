@@ -42,7 +42,7 @@ interface completedWorkoutRequest {
 
 export const completedWorkoutApi = createApi({
     reducerPath: 'completedWorkoutApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/completedWorkout',
+    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api/completedWorkout`,
         prepareHeaders: async (headers) => {
             const auth = getAuth();
             const user = auth.currentUser;

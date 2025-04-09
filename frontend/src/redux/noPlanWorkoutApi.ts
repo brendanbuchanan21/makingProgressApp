@@ -5,7 +5,7 @@ import { noPlanWorkout } from './noPlanWorkoutSlice';
 
 export const noPlanWorkoutApi = createApi({
     reducerPath: 'noPlanApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/noPlanWorkout', prepareHeaders: async (headers, {getState}) => {
+    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api/noPlanWorkout`, prepareHeaders: async (headers, {getState}) => {
         const auth = getAuth();
         const user = auth.currentUser;
         if(user) {
