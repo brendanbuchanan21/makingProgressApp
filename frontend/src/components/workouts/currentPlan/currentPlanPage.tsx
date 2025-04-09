@@ -177,6 +177,7 @@ const handleAbandonPlan = async () => {
   setIsEditing(false);
 }
 
+
     return (
         <>
         {showAbandonPlan && (
@@ -229,7 +230,7 @@ const handleAbandonPlan = async () => {
 
             <section className='previous-plans-section'>
                 <div className='previous-plans-header-div'>
-                    <h1>Previous Plans</h1>
+                    <h1>{selectedTab === "quickWorkouts" ? "Quick Workouts" : "Previous Plans"}</h1>
                 </div>
                 <div className='previous-plans-or-quick-workout-select-div'>
                     <p className={selectedTab === "plans" ? "active-tab" : ""} onClick={() => handleTabSwitch("plans")}>Previous Plans</p>
@@ -274,7 +275,7 @@ const handleAbandonPlan = async () => {
                                     <p>Completed on: {formatDate(workout.dateDone)}</p>
                                     {Array.isArray(workout.exercises) ? (
                                         workout.exercises.map((exercise: any) => (
-                                            <p key={exercise._id}>Muscle Groups: <span className='quick-workout-card-muscle-group'>{exercise.muscleGroup}</span></p>
+                                            <p key={exercise._id}>Muscle Group: <span className='quick-workout-card-muscle-group'>{exercise.muscleGroup}</span></p>
                                         ))
                                     ) : (
                                         <p>No exercises found</p>

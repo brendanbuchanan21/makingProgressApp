@@ -4,7 +4,7 @@
     margin-bottom: 2rem;
 }
 .currentPlanPageNoPlan {
-  height: 10vh;
+  height: auto;
 }
 
 .no-current-plan-text {
@@ -218,8 +218,7 @@
 .previous-plans-section {
   display: flex;
   flex-direction: column;
-  padding-bottom: 5rem;
-  min-height: 35rem;
+  height: auto;
 }
 .previous-plans-header-div {
   position: relative;
@@ -269,12 +268,13 @@
 
 .grid-container-2 {
     display: grid;
-    width: 80vw;
-    height: auto;
+    width: 80%;
     margin: 0 auto;
-    gap: 5%;
+    gap: 2rem;
     grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); 
     grid-auto-rows: auto;
+    overflow: auto;
+    
 }
 
 .previous-plan-card {
@@ -284,7 +284,6 @@
   border-radius: 10px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   padding: 20px; /* Inner padding for consistent spacing */
-  margin-bottom: 2rem;
 }
 .previous-plan-card h3 {
   margin: 1rem 0;
@@ -303,8 +302,7 @@
 .quick-workout-card {
   border: 2px solid var(--grey);
   border-radius: 2px;
-  padding: 10px;
-  gap: 2rem;
+  padding: 10px; 
 }
 .no-quick-workouts-text {
   text-align: center;
@@ -409,4 +407,13 @@
   .grid-container {
     margin-top: 2rem;
   }
+  .grid-container-2 {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+  .previous-plans-section {
+    padding-bottom: 12vh;
+  }
 }
+
