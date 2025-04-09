@@ -7,9 +7,9 @@ import { deleteWeek, setCurrentPlan } from "../../../redux/workoutSlice";
 import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
 import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
-import { useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import React from "react";
 
 
 
@@ -240,4 +240,4 @@ const handleDeleteWeek = async (weekToDelete: number | null) => {
   
 
 
-export default WeekCard;
+export default React.memo(WeekCard);
