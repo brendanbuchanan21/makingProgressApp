@@ -15,7 +15,8 @@ dotenv.config();
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
-const serviceAccount = require('../keys/firebase.json');
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+
 
 const port = 8000;
 const app = express();
