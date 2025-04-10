@@ -114,7 +114,7 @@ const handleSubmitWorkout = async () => {
   }
 
   try {
-    const response = await postNoPlanWorkout(completedWorkout).unwrap();
+    await postNoPlanWorkout(completedWorkout).unwrap();
     dispatch(resetQuickWorkout());
     navigate('/workouts');
   } catch (error){

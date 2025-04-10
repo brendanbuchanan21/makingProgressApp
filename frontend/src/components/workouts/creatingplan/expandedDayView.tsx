@@ -91,7 +91,7 @@ const handleSaveExercise = async (updatedExercise: Exercise) => {
   const exerciseId = selectedExercise._id;
 
   try {
-    const response = await editExerciseApi({
+    await editExerciseApi({
     workoutId,
     weekNumber,
     day: selectedDay.day,
@@ -117,7 +117,7 @@ const handleSaveExercise = async (updatedExercise: Exercise) => {
 const handleDeleteExercise = async (exerciseId: string) => {
 
   try {
-    const response = await deleteExerciseApi({
+    await deleteExerciseApi({
     workoutId,
     exerciseId,
     weekNumber,

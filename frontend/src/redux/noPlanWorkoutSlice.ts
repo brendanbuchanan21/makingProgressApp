@@ -92,7 +92,7 @@ const quickWorkoutSlice = createSlice({
                     exercise.isComplete = !exercise.isComplete;
                 }
             },
-            resetQuickWorkout(state){
+            resetQuickWorkout(){
                 return initialState;
             }
         },

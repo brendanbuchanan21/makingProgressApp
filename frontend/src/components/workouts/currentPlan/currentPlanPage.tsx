@@ -30,7 +30,6 @@ const CurrentPlanPage = () => {
   const [addWeekApi] = useHandleAddWeekApiMutation();
   const [postCompletedProgram] = usePostCompletedProgramMutation();
   const [isUserReady, setIsUserReady] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null)
   const [noPlan, setNoPlan] = useState(false);
   const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans");
   const [showAbandonPlan, setShowAbandonPlan] = useState(false);
@@ -44,10 +43,8 @@ const CurrentPlanPage = () => {
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
   if(user) {
-  setUserId(user.uid);
   setIsUserReady(true)
   } else {
-  setUserId(null);
   setIsUserReady(false);
   }
   });
@@ -112,6 +109,7 @@ const handleAddWeek = async () => {
   const newWeek = response.weeks.find(week => week.weekNumber === newWeekNumber)
   if (!newWeek) {
   console.error('new week not found in response');
+  return;
   }
   dispatch(addWeek({workoutPlanId: currentPlan._id, newWeek}))
   } catch (error) {
@@ -129,7 +127,7 @@ const handleSubmitPlan = async () => {
   duration: currentPlan.duration
   }
   try {
-  const response = await postCompletedProgram(completedPlan).unwrap()
+  await postCompletedProgram(completedPlan).unwrap()
   navigate('/workouts');
        
   } catch (error) {
@@ -137,7 +135,7 @@ const handleSubmitPlan = async () => {
   }
 
   try {
-  const deleteCurrentPlan = await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
+  await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
   dispatch(resetWorkoutState());
   } catch (error) {
   console.error('error caught before making query:', error);
@@ -171,7 +169,7 @@ const formatDate = (isoString: string) => {
 
 const handleAbandonPlan = async () => {
 
-  const deleteCurrentPlan = await deleteExerciseProgram({id: currentPlan._id})
+  await deleteExerciseProgram({id: currentPlan._id})
   dispatch(resetWorkoutState());
   setShowAbandonPlan(false);
   setIsEditing(false);

@@ -4,7 +4,7 @@ import { getAuth } from 'firebase/auth';
 
 export const userDataApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api/userData`, prepareHeaders: async (headers, { getState }) => {
+    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api/userData`, prepareHeaders: async (headers) => {
         const auth = getAuth();
         const user = auth.currentUser;
         if(user) {

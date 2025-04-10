@@ -195,11 +195,9 @@ const deleteExerciseFromCurrentDay = async (exercise: Exercise) => {
 
 
 
-
-
 const sendCompletedExercise = async (completedWorkout: any) => {
   try {
-  const response = await postCompletedExercise(completedWorkout).unwrap();
+  await postCompletedExercise(completedWorkout).unwrap();
   } catch (error) {
   console.error("API request failed:", JSON.stringify(error, null, 2));
   }
@@ -208,7 +206,7 @@ const sendCompletedExercise = async (completedWorkout: any) => {
 
 const completedWorkoutUpdate = async (completedWorkout: any) => {
   try {
-  const response = await updateCompletedWorkout({
+  await updateCompletedWorkout({
   workoutPlanId: completedWorkout.workoutPlanId,
   weekNumber: completedWorkout.weekNumber,
   day: completedWorkout.day,
@@ -240,10 +238,10 @@ const handleSubmitWorkout = async () => {
   setShowIncomplete(true);
   return;
   }
-        
+
+  let weekNumber = null;
   // this is to extract the week number for the completedworkout below
   if(firstIncompleteWorkout) {
-  let weekNumber = null;
   for (const week of currentPlan.weeks) {
   const foundDay = week.days.find(day => day._id === firstIncompleteWorkout._id);
   if (foundDay) {

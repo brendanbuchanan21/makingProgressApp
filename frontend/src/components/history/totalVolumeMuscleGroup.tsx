@@ -11,17 +11,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const TotalVolumeMuscleGroup = () => {
 
     const [isUserReady, setIsUserReady] = useState(false);
-    const [userId, setUserId] = useState<string | null>(null);
 
 
     const auth = getAuth()
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if(user) {
-                setUserId(user.uid);
                 setIsUserReady(true);
             } else {
-                setUserId(null);
                 setIsUserReady(false)
             }
         });

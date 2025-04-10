@@ -20,7 +20,6 @@ const TotalVolumeChart = () => {
 
 
   const [isUserReady, setIsUserReady] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
 
   const auth = getAuth();
 
@@ -28,10 +27,8 @@ const TotalVolumeChart = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       
       if(user) {
-        setUserId(user.uid);
         setIsUserReady(true);
       } else {
-        setUserId(null);
         setIsUserReady(false);
       }
     });

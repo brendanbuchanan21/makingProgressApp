@@ -30,7 +30,6 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
 
   //use state values
   const [isUserReady, setIsUserReady] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null)
   const [warningMessage, setWarningMessage] = useState(false);
   const [deleteWeekPopUp, setDeleteWeekPopUp] = useState(false);
   const [weekToDelete, setWeekToDelete] = useState<number | null>(null);
@@ -43,10 +42,8 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
   if(user) {
-  setUserId(user.uid);
   setIsUserReady(true)
   } else {
-  setUserId(null);
   setIsUserReady(false);
   }
   });
@@ -55,7 +52,7 @@ useEffect(() => {
 }, [auth]);
 
   // Ensure the query is only sent when the token is ready
-  const { data: workoutPlanData, error: workoutPlanError, isLoading: isLoadingWorkoutPlan } = useGetExerciseProgramQuery(
+  const { data: workoutPlanData } = useGetExerciseProgramQuery(
   { workoutPlanId: workoutPlanId },
   {
   skip: !isUserReady,
@@ -65,7 +62,7 @@ useEffect(() => {
     
     
   // Second query: Get completed workout volume
-  const { data: completedWorkoutData, error: completedWorkoutsError, isLoading: isLoadingCompletedWorkouts } = useGetCompletedWorkoutVolumeQuery(
+  const { data: completedWorkoutData } = useGetCompletedWorkoutVolumeQuery(
   workoutPlanId,
   {
   skip: !isUserReady, // Ensure it doesn't run until the user is ready
