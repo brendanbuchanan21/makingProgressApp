@@ -11,8 +11,8 @@ import volumeRouter from './routes/volumeRoutes.js';
 import noPlanWorkoutRouter from './routes/noPlanWorkoutRouter.js';
 import userRouter from './routes/userRoute.js'
 import admin from 'firebase-admin'
-dotenv.config();
-import { createRequire } from 'module';
+
+
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
