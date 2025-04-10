@@ -4,7 +4,7 @@ import { useState } from "react";
 import { RootState } from "../../../redux/store";
 import './todaysWorkoutPage.css'
 import NavBar from "../../dashboard/navbar";
-import { Exercise, resetWorkoutState, SetDetails, removeSetFromExercise, deleteExercise, updateDayCompletion } from "../../../redux/workoutSlice";
+import { Exercise, SetDetails, removeSetFromExercise, deleteExercise, updateDayCompletion } from "../../../redux/workoutSlice";
 import trashImg from '../../../images/deleteTrash.svg'
 import editMarker from '../../../images/editMarker.svg'
 import deleteMarker from '../../../images/deleteMarker.svg'

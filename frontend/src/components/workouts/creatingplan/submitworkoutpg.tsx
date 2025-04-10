@@ -1,7 +1,6 @@
 import { RootState } from "../../../redux/store";
 import './submitworkoutpg.css';
 import { useDispatch, useSelector } from 'react-redux';
-import NavBar from "../../dashboard/navbar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { DayPlan } from "../../../redux/workoutSlice";

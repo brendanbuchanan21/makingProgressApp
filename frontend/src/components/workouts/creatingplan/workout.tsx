@@ -2,8 +2,6 @@ import './workouts.css'
 import '../../dashboard/dashboard.css'
 import NavBar from '../../dashboard/navbar';
 import { useSelector } from 'react-redux';
-import planningImg from '../../../images/planningImg.jpg'
-import currentPlanImg from '../../../images/currentPlanImg.jpeg'
 import { Link } from 'react-router-dom';
 import { RootState } from '../../../redux/store';
 import { useEffect, useState } from 'react';
