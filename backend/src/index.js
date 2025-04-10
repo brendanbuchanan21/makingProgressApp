@@ -12,12 +12,11 @@ import userRouter from './routes/userRoute.js'
 import admin from 'firebase-admin'
 
 
-
+// Get the relative path from the environment variable
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-console.log("Firebase Service Account Key: ", process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 const app = express();
 
 app.use(cors());
