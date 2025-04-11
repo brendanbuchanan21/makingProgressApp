@@ -192,7 +192,7 @@
 
   .submit-todays-workout-div {
     width: 30rem;
-    
+    margin-bottom: 10rem;
   }
   .complete-workout-btn {
     border: 1px solid var(--blue);
@@ -360,7 +360,7 @@
 
 @media (min-width: 600px) {
   .workout-card {
-    height: 20rem;
+    height: auto;
   }
   .set-cell input {
     height: 2rem;

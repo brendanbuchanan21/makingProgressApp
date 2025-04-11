@@ -136,7 +136,7 @@ const handleRemoveState = () => {
             ) : (
               <section className="current-workout-page">
   <div className="current-workout-page-header-div">
-    <h1>Quick Workout</h1>
+  <h1>Quick Workout</h1>
   </div>
   <div className="current-workout-page-back-btn-div">
     <button className="back-btn-current-workout">
@@ -146,7 +146,6 @@ const handleRemoveState = () => {
   <div className="current-workout-page-main-content-div">
     <div className="workout-card">
       <div className="workout-card-day-name-div">
-        <h2>Workout Day</h2>
       </div>
       <ul>
         {exercises.length > 0 ? (
