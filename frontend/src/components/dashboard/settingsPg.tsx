@@ -41,6 +41,7 @@ const resetAccount = async () => {
     await resetUserData({});
     dispatch(resetWorkoutState());
     dispatch(resetQuickWorkout());
+    setResetPopUp(false);
   
   } catch (error) {
     console.error(error);
