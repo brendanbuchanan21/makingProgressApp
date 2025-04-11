@@ -5,9 +5,15 @@ import noPlanWorkoutModel from "../models/noPlanWorkoutModel.js";
 
 export const aggregateMuscleGroupVolume = async (req, res) => {
   try {
+
+      const userId = req.user.uid;
       // Start aggregation pipeline on the first collection (completedWorkoutModel)
       const combinedMuscleGroupVolumes = await completedWorkoutModel.aggregate([
-          // --- Pipeline for completedWorkoutModel ---
+          
+        {
+            $match: { userId }
+        },
+        // --- Pipeline for completedWorkoutModel ---
           {
               $project: { // Select only necessary fields from completedWorkoutModel
                   exercises: 1,
@@ -31,6 +37,9 @@ export const aggregateMuscleGroupVolume = async (req, res) => {
               $unionWith: {
                   coll: "noplanworkouts", 
                   pipeline: [
+                      {
+                         $match: { userId }
+                      },
                       // Pipeline specific to noplansworkouts before unioning
                       {
                           $project: { // Select only necessary fields from noplansworkouts
@@ -82,6 +91,9 @@ export const aggregateMuscleGroupVolume = async (req, res) => {
 
 export const aggregateTotalVolumeByTimescale = async (req, res) => {
   try {
+
+      const userId = req.user.uid;
+
       const { timescale = "week" } = req.query; // Default to 'week' if not provided
       let groupFormat; // To hold the date format string for $dateToString
 
@@ -97,6 +109,10 @@ export const aggregateTotalVolumeByTimescale = async (req, res) => {
 
       // Start aggregation pipeline on the first collection (completedWorkoutModel)
       const combinedTotalVolumes = await completedWorkoutModel.aggregate([
+
+            {
+                $match: { userId }
+            },
            // --- Pipeline for completedWorkoutModel ---
            {
               $project: { // Standardize fields before union
@@ -116,6 +132,9 @@ export const aggregateTotalVolumeByTimescale = async (req, res) => {
               $unionWith: {
                   coll: "noplanworkouts",
                   pipeline: [
+                      {
+                        $match: { userId }
+                      },
                       // Pipeline specific to noplansworkouts before unioning
                       {
                           $project: { // Select and standardize fields
