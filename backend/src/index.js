@@ -9,22 +9,33 @@ import completedProgramsRouter from './routes/completedProgramsRouter.js'
 import volumeRouter from './routes/volumeRoutes.js';
 import noPlanWorkoutRouter from './routes/noPlanWorkoutRouter.js';
 import userRouter from './routes/userRoute.js'
-import admin from 'firebase-admin'
+import admin from 'firebase-admin';
+import fs from 'fs';
 
-
-// Get the relative path from the environment variable
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+// ✅ Load environment variables only in development
+if (process.env.NODE_ENV !== 'production') {
+    const dotenv = await import('dotenv');
+    dotenv.config();
+  }
 
 
 const port = process.env.PORT || 8000;
 const app = express();
-
 app.use(cors());
 
 // Get the current directory (__dirname equivalent for ES modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const keyPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+let serviceAccount;
+
+if (process.env.NODE_ENV === 'production') {
+    serviceAccount = JSON.parse(keyPath); // In production, it's stringified JSON
+  } else {
+    const absolutePath = path.resolve(__dirname, keyPath); // Local path to the .json file
+    serviceAccount = JSON.parse(fs.readFileSync(absolutePath, 'utf-8'));
+  }
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
