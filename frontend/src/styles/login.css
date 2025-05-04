@@ -198,6 +198,7 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: .7rem;
 }
 
 .sign-up-verification-message {

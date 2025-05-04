@@ -16,6 +16,7 @@ import { setUser } from './redux/userSlice';
 import { useDispatch } from 'react-redux';
 import { auth } from './components/welcome/firebase';
 import WorkoutTemplate from './components/workouts/noPlanWorkouts/noPlanWorkoutPage';
+import LandingPageComponent from './components/welcome/landingPage';
 
 function App() {
 
@@ -36,7 +37,8 @@ function App() {
     <>
     <Router>
       <Routes>
-       <Route path='/' element={<Welcome />} />
+      <Route path='/' element={<LandingPageComponent />} />
+       <Route path='/login' element={<Welcome />} />
        <Route path='/welcome' element={<Welcome />}/> 
        <Route path='/signup' element={<SignUp />}/> 
        <Route path='/settingsPg' element={<SettingsPg />} />
