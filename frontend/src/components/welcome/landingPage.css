@@ -14,7 +14,7 @@
 }
 .hero-header-div {
     text-align: center;
-    margin-top: 8rem;
+    margin-top: 5rem;
 }
 .hero-header-div h1 {
     font-size: 1.8rem;
@@ -90,3 +90,57 @@
     border: 2px solid red;
     
 }
+.card-carousel {
+    display: none;
+}
+@media (min-width: 550px) and (max-width: 800px) {
+   
+    .card-section {
+        border: 2px solid lime;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+    }
+}
+@media (max-width: 549px) {
+    .hero-header-div {
+        margin: 2rem;
+    }
+    .hero-header-div h1 {
+        margin-bottom: .5rem;
+    }
+    .card-section {
+        display: none;
+      }
+      
+      .card-carousel {
+        display: block;
+        width: 100%;
+        padding: 0 1rem;
+        margin-top: 3rem;
+      }
+    
+      .individual-card-container {
+        width: 100%;
+        max-width: 20rem;
+        min-height: 25rem;
+        margin: 0 auto;
+      }
+    
+      .inner-card-border {
+        min-height: 30rem;
+      }
+      .innner-card-border {
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-pagination-bullet {
+        background: var(--blue);
+        opacity: 0.6;
+      }
+    
+      .swiper-pagination-bullet-active {
+        opacity: 1;
+      }
+}
+
