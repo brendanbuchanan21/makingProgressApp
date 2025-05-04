@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { auth } from './components/welcome/firebase';
 import WorkoutTemplate from './components/workouts/noPlanWorkouts/noPlanWorkoutPage';
 import LandingPageComponent from './components/welcome/landingPage';
+import NotFoundPage from './components/welcome/404Page';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
        <Route path='/submitworkoutpg' element={<SubmitWorkoutPg />} />
        <Route path='/currentPlanPage' element={<CurrentPlanPage />} />
        <Route path='/quickWorkoutPage' element={<WorkoutTemplate/>} />
+       <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Router>
     </>
