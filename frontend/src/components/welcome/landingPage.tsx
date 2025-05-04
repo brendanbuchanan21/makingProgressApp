@@ -5,6 +5,7 @@ import workoutImg from '../../images/todayworkout.jpeg'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -30,6 +31,9 @@ const LandingPageComponent = () => {
         }
     ]
 
+    const navigate = useNavigate();
+
+
     return (
         <section className='landing-page-section'>
             <div className='hero-section-container'>
@@ -38,8 +42,8 @@ const LandingPageComponent = () => {
                     <h2>Visualize your progress</h2>
                 </div>
                 <div className='hero-buttons-div'>
-                    <button className='landing-login-btn'>Login</button>
-                    <button className='get-started-btn'>Get Started</button>
+                    <button className='landing-login-btn' onClick={() => navigate('/login')}>Login</button>
+                    <button className='get-started-btn' onClick={() => navigate('/signup')}>Get Started</button>
                 </div>
             </div>
 
