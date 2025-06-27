@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import visibilityOn from '../../images/visibilityOnEye.svg';
 import visibilityOff from '../../images/visibilityOffEye.svg';
 import { Dumbbell, ArrowRight, Loader2 } from 'lucide-react';
@@ -74,15 +74,15 @@ const Login = () => {
 
                         }}/>
                         <div className='login-password-div'>
-                            <input type="password" placeholder='Password' className='login-password-input' onChange={(e) => {
+                            <input type={showPassword ? "text" : "password"} placeholder='Password' className='login-password-input' onChange={(e) => {
                                 setPassword(e.target.value);
                                 setError('');
                             }}/>
-                            <img src={showPassword ? visibilityOff : visibilityOff} alt="password visibility" className='password-toggle-icon' onClick={togglePasswordVisbility}/>
+                            <img src={showPassword ? visibilityOn : visibilityOff} alt="password visibility" className='password-toggle-icon' onClick={togglePasswordVisbility}/>
                         </div>
                         <div className='login-btn-container' onClick={handleLogin}>
                             {isLoading ? (
-                                <Loader2 />
+                                <Loader2 className='spinner'/>
                             ) : (
                                 <>
                                 <p className='login-text'>Login</p>

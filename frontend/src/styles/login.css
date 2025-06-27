@@ -83,6 +83,7 @@
 }
 .password-toggle-icon {
     width: 1.5rem;
+    cursor: pointer;
 }
 .login-btn-container {
     margin-top: 1rem;
@@ -96,6 +97,23 @@
     align-items: center;
     justify-content: center;
     gap: .5rem;
+    cursor: pointer;
+}
+
+.login-btn-container:hover {
+    background-color: #1d4ed8;
+}
+.spinner {
+    animation: spin 1s linear infinite;
+}
+/* Keyframes */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .login-bottom-text-div {
