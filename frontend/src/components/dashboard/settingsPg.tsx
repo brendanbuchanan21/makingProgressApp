@@ -32,7 +32,7 @@ const logout = async () => {
     console.error('error signing out:', error);
     return;
   }
-  navigate('/welcome');
+  navigate('/login');
 }
 
 const resetAccount = async () => {
@@ -65,7 +65,7 @@ const deleteAccount = async (password: string) => {
     dispatch(resetQuickWorkout());
     await deleteUser(user); // Delete the user from Firebase
     setDeleteModalOpen(false); // Close the modal
-    navigate("/welcome"); // Redirect to welcome page
+    navigate("/signup"); // Redirect to welcome page
 
   } catch(error) {
     console.error("error deleting account:", error);
