@@ -1,5 +1,4 @@
 
-import Welcome from './components/welcome/welcome'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './components/welcome/signup'; // Adjust the path as needed
 import WorkoutSection from './components/workouts/creatingplan/workout'
@@ -18,6 +17,7 @@ import { auth } from './components/welcome/firebase';
 import WorkoutTemplate from './components/workouts/noPlanWorkouts/noPlanWorkoutPage';
 import LandingPageComponent from './components/welcome/landingPage';
 import NotFoundPage from './components/welcome/404Page';
+import Login from './components/welcome/login';
 
 function App() {
 
@@ -39,8 +39,7 @@ function App() {
     <Router>
       <Routes>
       <Route path='/' element={<LandingPageComponent />} />
-       <Route path='/login' element={<Welcome />} />
-       <Route path='/welcome' element={<Welcome />}/> 
+       <Route path='/login' element={<Login />} />
        <Route path='/signup' element={<SignUp />}/> 
        <Route path='/settingsPg' element={<SettingsPg />} />
        <Route path='/workouts' element={<WorkoutSection />} />

@@ -1,260 +1,140 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-.welcome-section {
-  height: 20vh;
-  width: 100vw;
- 
-}
-.welcome-header-div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    margin-top: 6%;
-    font-family: Arial, Helvetica, sans-serif
+.login-main-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 2rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e5e7eb 0%, #f9fafb 50%, #f3f4f6 100%);
 }
 
-.welcome-text {
-    font-size: clamp(1.5rem, 3.5rem, 3.8rem);
-    margin-bottom: 2%;
+
+.login-main-blur {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, #f3f4f6 1px, transparent 0);
+  background-size: 20px 20px;
+  opacity: 0.3;
 }
 
-.login-section {
-    width: 100vw;
-    height: auto;
+.login-section-container {
+    max-width: 90rem;
     display: flex;
-    justify-content: center;
-}
-.login-container {
-    height: auto;
-    width: auto;
-    border: 2px solid var(--blue);
-    box-shadow: 0px 4px 8px rgba(46, 47, 48, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-}
-#sign-up-container {
-    margin-top: 10rem;
-}
-.form-login-text {
-    font-size: clamp(2rem, 1.8vw, 2.8rem);
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 700;
+    gap: 5rem;
+    min-height: 70vh;
+    margin-top: 5rem
 }
 
-.shaded-login-area {
-    height: auto;
-    width: auto;
+.card-container-login {
+    border-radius: 8px;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
-   
+    background-color: white;
+    z-index: 1000;
+    max-width: 30rem;
 }
-.input-div {
-    width: auto;
-    height: auto;
+.login-title-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: .5rem;
 }
-.sign-in-input {
-    height: 3rem;
-    width: 15rem;
-    border: none; /* Remove default border */
-    outline: none;
-    background-color: #f9f9f9da; /* Light background for contrast */
-    font-size: 16px;
-    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle shadow */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    padding: 10px;
-    border-radius: 12px;
-    margin: 0; /* Ensure both inputs have no extra margin */
+.login-title {
+    font-size: 2rem;
+}
+.login-description {
+    font-size: 1.2rem;
+}
+.login-title-span {
+  background: linear-gradient(to right, #3b82f6, #6366f1, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.credential-login-input-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-input-email {
+    height: 2.5rem;
+    border-radius: 8px;
+    border: .5px solid grey;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.login-password-div {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-password-input {
+    height: 2.5rem;
+    border-radius: 8px;
+    padding: 1rem;
+    border: .5px solid grey;
 }
 .password-toggle-icon {
-    position: absolute;
-    right: 10%;
+    width: 1.5rem;
 }
-.login-btn {
-    margin: 0 auto;
-    height: 2.5rem;
-    width: 8rem;
-    border-radius: 12px;
-    border: none; /* Remove default border */
-    background-color: var(--blue); /* Light blue background */
-    color: #ffffff; /* White text for contrast */
-    font-size: 1rem; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    cursor: pointer; /* Show pointer on hover */
-    box-shadow: 0px 4px 6px rgba(173, 216, 230, 0.8); /* Light blue-ish shadow */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /
-}
-.login-btn:hover {
-    background: none;
-    color: black;
-    border: 1px solid black;
-}
-a {
-    text-decoration: none;
-    color: hsl(0, 0%, 40%);
-}
-#sign-up-text {
-    color: hsl(0, 0%, 40%);
-    text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-
-
-.login-error-message {
-    border: 1px solid #e63946; /* Soft red border */
-    background-color: #f8d7da; /* Light coral background */
-    color: #721c24; /* Darker red text */
-    padding: 10px 15px;
+.login-btn-container {
     margin-top: 1rem;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    transition: all 0.3s ease;
-    max-width: 15rem;
-}
-
-.login-error-message {
-    /* Optional: subtle fade-in effect */
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-}
-
-/* Keyframe animation for fade-in effect */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.login-error-message p {
-    margin: 0;
-}
-
-
-.sign-up-section {
-    width: 100vw;
-    height: 100vh;
+    height: 2.5rem;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-}
-#sign-up-login-text {
-    color: #004080;
+    gap: .5rem;
 }
 
-#confirmPassword {
-    margin-bottom: 10%;
-    height: 15%;
-    border: 2px solid hsl(0, 0, 90%);
-    border-radius: 12px;
-    border: none; /* Remove the default border */
-    outline: none; /* Remove the focus outline */
-    background-color: #f9f9f9da; /* Light background for contrast */
-    font-size: 16px;
-    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle grayish-white shadow */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    padding: 10px;
-}
-
-#login-signup-text {
-    color: #004080;
-}
-.shaded-login-area-sign-up {
-    height: 35vh;
-    width: 25vw;
+.login-bottom-text-div {
+    margin-top: 1rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-}
-.input-sign-up {
-    height: 5vh;
-    width: 80%;
-    border: none; /* Remove default border */
-    outline: none;
-    background-color: #f9f9f9da; /* Light background for contrast */
-    font-size: 16px;
-    box-shadow: 0px 4px 6px rgba(220, 220, 220, 0.8); /* Subtle shadow */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    padding: 10px;
-    border-radius: 12px;
-    margin-bottom: .5rem;
-}
-#sign-up-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: .7rem;
+    justify-content: center;
+    font-size: .9rem;
+    color: hsl(0, 0%, 40%);
 }
 
-.sign-up-verification-message {
-    border: 1px solid #28a745; /* Green border */
-    background-color: #d4edda; /* Light green background */
-    color: #155724; /* Darker green text */
-    padding: 10px 15px;
-    margin-top: 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    transition: all 0.3s ease;
+.login-sign-up-text {
+    color: #2563eb;
 }
 
-.sign-up-verification-message {
-    /* Optional: subtle fade-in effect */
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-}
 
-/* Keyframe animation for fade-in effect */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+.login-img-container {
+    width: 30rem;
+    height: 30rem;
+    display: none;
+}
+.img-login {
+    width: 100%;
+}
+@media (min-width: 900px) {
+
+    .login-section-container {
+        padding: 3rem;
     }
-    to {
-        opacity: 1;
+
+    .login-img-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
-
-@media (min-height: 1000px) and (min-width: 1000px) {
-
-    .sign-in-input {
-        height: 5rem;
-        width: 22rem;
-        font-size: 1.7rem;
-    }
-    .login-btn {
-        height: 4rem;
-        width: 10rem;
-        font-size: 1.5rem;
-    }
-
-    .login-error-message {
-        font-size: 1.5rem;
-        max-width: 15rem;
-    }
-    #sign-up-text {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 450px) and (max-height: 950px) {
-    .login-section {
-        box-sizing: border-box;
-        padding: 2rem;
+@media (max-width: 500px) {
+    .card-container-login {
+        padding: 1rem;
     }
 }
