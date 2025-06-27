@@ -127,6 +127,10 @@
 
 .login-sign-up-text {
     color: #2563eb;
+    cursor: pointer;
+}
+.login-sign-up-text:hover {
+    color: #1d4ed8;
 }
 
 

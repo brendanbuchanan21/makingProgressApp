@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from './firebase';
-import '../../styles/login.css';
-import { Link } from 'react-router-dom';
+import { Dumbbell, Loader2, ArrowRight } from 'lucide-react';
+import './signup.css';
+import visibilityOn from '../../images/visibilityOnEye.svg';
+import visibilityOff from '../../images/visibilityOffEye.svg';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignUp = () => {
 
@@ -11,11 +15,14 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
-
         const passwordRegex = /^(?=.*[A-Z])[A-Za-z\d@$!%*?&]{6,}$/;
 
         if(password !== confirmPassword) {
@@ -29,6 +36,7 @@ const SignUp = () => {
         }
 
         try {
+         setIsLoading(true);
          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
          const user = userCredential.user;
 
@@ -39,56 +47,96 @@ const SignUp = () => {
         } catch (err: any) {
             setError("User credentials not valid. Please use a valid email address");
             console.error("sign up failed", err.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    }
+    const togglePasswordVibility2 = () => {
+        setShowPassword2(!showPassword2);
+    }
+
     return (
-        <section className='login-section'>
-        <div className='login-container' id='sign-up-container'>
-            <p className='form-login-text'>Sign Up</p>
-            <form onSubmit={handleSignUp}>
-                <div className='shaded-login-area'>
-                    <div className='input-div'>
-                    <input 
-                        type="email"
-                        className='sign-in-input'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder='email address'
-                        />
-                        </div>
-                        <div className='input-div'>
-                    <input 
-                        type="password"
-                        className='sign-in-input'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        placeholder='password'
-                        />
-                        </div>
-                        <div className='input-div'>
-                     <input 
-                        type="password"
-                        className='sign-in-input'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                        placeholder='confirm password'
-                        />
-                        </div>
-                        <button type="submit" className='login-btn'>Sign Up</button>
-                </div>
-
-            </form>
-
-            {error && <div className='login-error-message'>{error}</div>}
-            {message && <div className='sign-up-verification-message'>{message}</div>}
-            <p id='sign-up-text'>Already have an account? <Link to="/welcome"><span id='sign-up-login-text'>Login</span></Link></p> 
+        <section id='signup-section'>
+      <nav className="nav">
+        <div className="nav-container">
+          <div className="nav-content">
+            <div className="nav-brand">
+              <div className="nav-logo">
+                <Dumbbell className="nav-logo-icon" />
+              </div>
+              <span className="nav-title">makingProgress</span>
+            </div>
+          </div>
         </div>
-        </section>
-    );
+      </nav>
+
+      <div className='signup-main-container'>
+        <div className='signup-main-blur'></div>
+
+        <div className='signup-section-container'>
+          <div className='card-container-signup'>
+            <div className='signup-title-container'>
+              <h1 className='signup-title'>Join <span className='signup-title-span'>makingProgress</span></h1>
+              <p className='signup-description'>Create an account and start your fitness journey today</p>
+            </div>
+            <div className='credential-signup-input-container'>
+              <input type="email" placeholder='Email address' className='signup-input-email' onChange={(e) => {
+                setEmail(e.target.value);
+                setError('');
+              }} />
+              <div className='signup-password-div'>
+                <div className='individual-password-div-container'>
+                     <input type={showPassword ? "text" : "password"} placeholder='Password' className='signup-password-input' onChange={(e) => {
+                        setPassword(e.target.value);
+                        setError('');
+                }} />
+                 <img src={showPassword ? visibilityOn : visibilityOff} alt="password visibility" className='password-toggle-icon' onClick={togglePasswordVisibility} />
+                </div>
+                <div className='individual-password-div-container'>
+                <input type={showPassword2 ? "text" : "password"} placeholder='Password' className='signup-password-input' onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setError('');
+                }} />
+                <img src={showPassword2 ? visibilityOn : visibilityOff} alt="password visibility 2" className='password-toggle-icon' onClick={togglePasswordVibility2} />
+                </div>
+              </div>
+              <div className='signup-btn-container' onClick={handleSignUp}>
+                {isLoading ? (
+                  <Loader2 className='spinner' />
+                ) : (
+                  <>
+                    <p className='signup-text'>Sign Up</p>
+                    <ArrowRight />
+                  </>
+                )}
+              </div>
+              {error && (
+                <div className='error-div'>
+                  <p>{error}</p>
+                </div>
+              )}
+              {message && (
+                <div className='message-div'>
+                    <p>{message}🎉 Make sure to check spam.</p>
+                </div>
+              )}
+              <div className='signup-bottom-text-div'>
+                <p>Already have an account? <span className='signup-login-text' onClick={() => navigate('/login')}>Login</span></p>
+              </div>
+            </div>
+          </div>
+          <div className='signup-img-container'>
+            <img src="https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" className='img-signup' />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+    
 }
 
 export default SignUp;

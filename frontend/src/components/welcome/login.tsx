@@ -96,7 +96,7 @@ const Login = () => {
                             </div>
                         )}
                         <div className='login-bottom-text-div'>
-                            <p>Don't have an account? <span className='login-sign-up-text'>Sign Up</span></p>
+                            <p>Don't have an account? <span className='login-sign-up-text' onClick={() => navigate("/signup")}>Sign Up</span></p>
                         </div>
                     </div>  
                 </div>
