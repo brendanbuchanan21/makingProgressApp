@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './components/welcome/signup'; // Adjust the path as needed
 import WorkoutSection from './components/workouts/creatingplan/workout'
-import NewPlanPopup from './components/workouts/creatingplan/newPlanPopup';
+import NewPlanPopup from './components/workouts/creatingplan/new-plan-popup';
 import SubmitWorkoutPg from './components/workouts/creatingplan/submitworkoutpg';
 import CurrentPlanPage from './components/workouts/currentPlan/currentPlanPage';
 import SettingsPg from './components/dashboard/settingsPg';
