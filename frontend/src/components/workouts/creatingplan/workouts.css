@@ -1,244 +1,425 @@
 .WP-section-1 {
-    
-    height: 80vh;
-    width: 100vw;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 2rem;
 }
 
-.WP-header-div {
-    width: 40%;
-    height: 20%;
-    margin: 0 auto;
-    text-align: center;
-    padding: 3rem;
-    font-family: Arial, Helvetica, sans-serif;
+/* Hero Section */
+.WP-hero-section {
+  width: 100%;
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
 }
 
-.WP-cards-container {
-    width: auto;
-    height: auto;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5%;
-    padding: 2rem;
+.WP-header-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
- #WP-card {
-    height: 30rem;
-    width: 25vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+.WP-main-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  line-height: 1.1;
 }
+
+.WP-subtitle {
+  font-size: 1.25rem;
+  color: #64748b;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+/* Dashboard Grid */
+.WP-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  margin-bottom: 8rem;
+}
+
+/* Card Styles */
 .WP-card {
-  height: 30rem;
-  width: 25vw;
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   flex-direction: column;
+  min-height: 320px;
+}
+
+.WP-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.WP-card-primary {
+  border-left: 4px solid var(--blue);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.02) 0%, rgba(147, 51, 234, 0.02) 100%);
+}
+
+.WP-card-secondary {
+  border-left: 4px solid #10b981;
+}
+
+.WP-card-accent {
+  border-left: 4px solid #f59e0b;
+}
+
+/* Card Header */
+.WP-card-header {
+  display: flex;
   align-items: center;
-  
-  padding-top: .7rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-
-.WP-current-workout-card {
-    width: 75%;
-    height: 70%;
-    margin-bottom: 5%;
-    margin-top: 5%;
-    border: 2px solid var(--grey); 
-    background-color: rgba(255, 255, 255, 0.1); 
-    border-radius: 12px; 
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+.WP-card-icon {
+  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 12px;
 }
 
-.WP-current-workout-card p {
-    font-size: 16px;
-    font-weight: 500;
-    color: black;
-    margin: 5px 0;
-    margin-bottom: 10px;
-    margin-top: 1rem;
-}
-.muscle-group-preview-text {
-    color: var(--hover-blue);
+.WP-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
 }
 
+/* Card Content */
+.WP-card-content {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
 
-.WP-card-btn {
-    width: 8rem;
-    height: 3rem;
-    border-radius: 7px;
-    border: 1px solid var(--blue); 
-    background-color: white;
-    color: var(--blue); 
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer; 
-    box-shadow: 0px 4px 6px rgba(154, 158, 159, 0.8); 
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Added transform transition */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    
+.WP-card-description {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Workout Preview */
+.WP-workout-preview {
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.WP-workout-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.WP-workout-description {
+  color: #64748b;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.WP-workout-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.WP-detail-item {
+  text-align: center;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.WP-detail-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.WP-detail-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-top: 0.25rem;
+}
+
+/* Muscle Groups */
+.WP-muscle-groups {
+  margin-top: 1rem;
+}
+
+.WP-muscle-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.WP-muscle-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.WP-muscle-tag {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Tags */
+.WP-workout-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.WP-tag {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--blue);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.WP-tag-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+/* Buttons */
+.WP-card-footer {
+  margin-top: auto;
+}
+
+.WP-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}
+
+.WP-btn-primary {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+}
+
+.WP-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
+}
+
+.WP-btn-secondary {
+  background: white;
+  color: #10b981;
+  border: 2px solid #10b981;
+}
+
+.WP-btn-secondary:hover {
+  background: #10b981;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.WP-btn-dashed {
+  background: white;
+  color: var(--blue);
+  border: 2px dashed var(--blue);
+}
+
+.WP-btn-dashed:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: var(--hover-blue);
+  color: var(--hover-blue);
+}
+
+.WP-btn-disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.WP-btn-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.WP-btn-add-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Modal */
+.WP-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.WP-modal {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 450px;
+  width: 90%;
+  z-index: 1001;
+  animation: slideIn 0.3s ease-out;
+}
+
+.WP-modal-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.WP-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.WP-modal-message {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.WP-modal-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.WP-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(239, 68, 68, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .WP-card-btn:hover {
-    border: none;
-    transform: translateY(-4px); 
-    box-shadow: 0px 6px 8px rgba(154, 158, 159, 0.8);
-    background-color: var(--blue);
-    color: white;
+  to {
+    opacity: 1;
   }
-  #WP-card-new-plan {
-    display: flex;
-    align-items: center;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .WP-main-title {
+    font-size: 2.5rem;
   }
 
-
-  #WP-new-plan-text {
-    margin: 1rem 0;
-  }
-  #WP-card-text-past-plans {
-    margin: 1rem 0;
+  .WP-subtitle {
+    font-size: 1.125rem;
   }
 
-  #WP-past-plans-view-btn {
-    background: none;
-    width: 8rem;
-    height: 3rem;
-    border: 1px solid var(--blue);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--blue);
-    border-radius: 3px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  .WP-dashboard-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.5rem;
   }
-  #WP-past-plans-view-btn:hover {
-    background-color: var(--hover-blue);
-    color: white;
-    transform: translateY(-4px);
+
+  .WP-card {
+    padding: 1.5rem;
+    min-height: auto;
   }
-  .add-new-plan-btn {
-    background: none;
-    width: 8rem;
-    height: 3rem;
-    border: 1px dashed var(--blue);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--blue);
+
+  .WP-workout-details {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .add-new-plan-btn:hover {
-    border: none;
-    cursor: pointer;
-    border: 1px solid var(--hover-blue);
-    color: var(--hover-blue);
-    border-radius: 4px;
+
+  .WP-hero-section {
+    padding: 2rem 1rem 1rem;
   }
-  .WP-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* semi-transparent black */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+}
+
+@media (max-width: 480px) {
+  .WP-main-title {
+    font-size: 2rem;
   }
-  
+
+  .WP-workout-details {
+    grid-template-columns: 1fr;
+  }
+
+  .WP-card {
+    padding: 1rem;
+  }
+
   .WP-modal {
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
-    z-index: 1001;
-    animation: fadeIn 0.3s ease-out;
+    padding: 2rem;
+    margin: 1rem;
   }
-  
-  .WP-modal p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-  
-  .WP-modal-close-btn {
-    background-color: #ff5555;
-    border: none;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-  }
-  
-  .WP-modal-close-btn:hover {
-    background-color: #e04848;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-
-  @media (max-width: 700px) {
-    .WP-header-div {
-      background-color: hsl(0, 0%, 95%);
-      width: 100%;
-    }
-    .WP-cards-container {
-    flex-direction: column;
-    align-items: center;
-    }
-    #WP-card-past-plans {
-      height: 10rem;
-      display: flex;
-      
-    }
-    .WP-card-text {
-      margin-top: 2rem;
-    }
-    #WP-card-text-past-plans {
-      text-align: center;
-    }
-    #WP-card {
-      height: 28rem;
-      width: 80%;
-      border-bottom: 2px solid var(--grey);
-    }
-    .WP-card {
-      border-bottom: 2px solid var(--grey);
-      width: 100%;
-      height: 10rem;
-    }
-    #WP-card-new-plan {
-      margin: 3rem 0;
-    }
-    .WP-card-btn {
-      margin-bottom: 2rem;
-      width: 8rem;
-      height: 3rem;
-      border-radius: 2px;
-    }
-  }
-  
+}
