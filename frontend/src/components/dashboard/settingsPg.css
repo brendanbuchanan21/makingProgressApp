@@ -1,186 +1,482 @@
-.settings-page {
-    width: 100vw;
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-}
-.settings-main-section-wrapper {
-    width: 100vw;
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.back-click-settings-page-div {
-    width: 20rem;
-    height: 2rem;
-    display: flex;
-    justify-content: flex-start; /* Align text to the left */
-    font-weight: bold;
-    color: black;
-    cursor: pointer;
-    justify-content: start;
-    align-items: center;
-    border-radius: 2px;
-    margin-bottom: 1rem;
-}
-.back-arrow-smaller-div {
-    border: 1px solid var(--grey);
-    width: 3rem;
-}
-.back-arrow-smaller-div:hover {
-    border: 1px solid var(--hover-blue);
+/* Base Styles */
+.SP-section {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 2rem;
 }
 
-.back-arrow-icon {
-    width: 20px; /* Adjust size as needed */
-    height: auto;
-    display: inline-block; /* Ensures it behaves like text */
-    vertical-align: middle; /* Aligns with text properly */
+/* Hero Section */
+.SP-hero-section {
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-
-.settings-main-container {
-    border: 2px solid var(--grey);
-    width: 20rem;
-    height: 25rem;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-}
-.settings-page-header-div {
-    padding: 1rem;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-.settings-page-container-body-div {
-    margin: 1rem;
-    height: 60%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-.settings-description-container {
-    width: 80%;
-    height: 10%;
-    border-bottom: 1px solid var(--grey);
-    margin-top: 1rem;
-}
-.settings-description-container p:hover {
-    color: var(--hover-blue);
-    cursor: pointer;
-}
-.sign-out-div {
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-.sign-out-div button {
-    font-size: 1rem;
-    border: 1px solid var(--blue);
-    background: none;
-    color: var(--blue);
-    border-radius: 8px;
-    width: 30%;
-    height: 90%
+.SP-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.sign-out-div button:hover {
-    color: white;
-    background-color: var(--hover-blue);
-    cursor: pointer;
+.SP-back-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Modal Background Overlay */
+.SP-back-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateX(-2px);
+}
+
+.SP-back-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.SP-header-text {
+  flex: 1;
+}
+
+.SP-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.SP-subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Container */
+.SP-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Settings Grid */
+.SP-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Settings Card */
+.SP-settings-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SP-settings-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Card Header */
+.SP-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.SP-card-icon {
+  font-size: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.SP-card-icon-account {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+}
+
+.SP-card-icon-data {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+}
+
+.SP-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Settings List */
+.SP-settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.SP-setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.5);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  width: 100%;
+}
+
+.SP-setting-item:hover {
+  background: white;
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateX(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.SP-setting-item-warning:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.02);
+}
+
+.SP-setting-item-danger:hover {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.SP-setting-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.SP-setting-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 12px;
+  color: var(--blue);
+}
+
+.SP-setting-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.SP-setting-icon-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.SP-setting-icon-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.SP-setting-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.SP-setting-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.SP-setting-description {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.SP-setting-arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #94a3b8;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SP-setting-item:hover .SP-setting-arrow {
+  color: var(--blue);
+  transform: translateX(2px);
+}
+
+.SP-setting-item-warning:hover .SP-setting-arrow {
+  color: #f59e0b;
+}
+
+.SP-setting-item-danger:hover .SP-setting-arrow {
+  color: #ef4444;
+}
+
+/* Sign Out Section */
+.SP-signout-section {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.SP-signout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.SP-signout-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.02);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(239, 68, 68, 0.2);
+}
+
+.SP-signout-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Enhanced Modal Styles */
 .modal-overlay-delete {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Modal Box */
 .modal-content-delete {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.3s ease-in-out;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
+
+.modal-content-delete h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+}
+
+.modal-content-delete p {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
 .modal-content-delete input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  margin: 1rem 0 2rem 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
 }
 
-/* Focus State for Input */
 .modal-content-delete input:focus {
-    border-color: #e63946;
-    outline: none;
-}
-/* Modal Buttons Container */
-.modal-buttons-delete-setting {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-/* Cancel Button */
+.modal-content-delete input::placeholder {
+  color: #94a3b8;
+}
+
+.modal-buttons-delete-setting {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.cancel-btn,
+.confirm-btn {
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+}
+
 .cancel-btn {
-    background: #ccc;
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
+  background: white;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
 }
 
 .cancel-btn:hover {
-    background: #bbb;
+  background: #f8fafc;
+  border-color: #64748b;
+  color: #1e293b;
 }
 
-/* Confirm Button */
 .confirm-btn {
-    background: #e63946;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
 }
 
 .confirm-btn:hover {
-    background: #c22e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(239, 68, 68, 0.4);
 }
 
-/* Fade-in Animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .SP-main-title {
+    font-size: 2rem;
+  }
+
+  .SP-header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .SP-container {
+    padding: 1rem;
+  }
+
+  .SP-settings-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .SP-settings-card {
+    padding: 1.5rem;
+  }
+
+  .SP-setting-item {
+    padding: 0.875rem;
+  }
+
+  .SP-setting-info {
+    gap: 0.75rem;
+  }
+
+  .SP-setting-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .SP-setting-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .SP-signout-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-content-delete {
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .modal-buttons-delete-setting {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .SP-main-title {
+    font-size: 1.75rem;
+  }
+
+  .SP-settings-card {
+    padding: 1rem;
+  }
+
+  .SP-setting-name {
+    font-size: 0.875rem;
+  }
+
+  .SP-setting-description {
+    font-size: 0.75rem;
+  }
+}
