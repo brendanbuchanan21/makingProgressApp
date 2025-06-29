@@ -1,296 +1,414 @@
+"use client"
 
-import './currentPlanPage.css'
-import WeekCard from "./weekCard";
-import NavBar from "../../dashboard/navbar";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
-import addMarkerBlue from '../../../images/addMarkerBlue.svg'
-import { useDispatch, useSelector } from 'react-redux';
-import { addWeek } from '../../../redux/workoutSlice';
-import { RootState } from '../../../redux/store';
-import { useHandleAddWeekApiMutation } from '../../../redux/workoutApi';
-import { resetWorkoutState } from '../../../redux/workoutSlice';
-import { usePostCompletedProgramMutation, useGetCompletedProgramQuery  } from '../../../redux/completedProgramsApi';
-import { useDeleteExerciseProgramMutation } from '../../../redux/workoutApi';
-import dumbbellImg from '../../../images/dumbbell-svgrepo-com.svg';
-import { ClipLoader } from 'react-spinners';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useGetNoPlanWorkoutsQuery } from '../../../redux/noPlanWorkoutApi';
-import AbandonPlanPopUp from './abandonPlanPopUp';
-
+import "./currentPlanPage.css"
+import WeekCard from "./weekCard"
+import NavBar from "../../dashboard/navbar"
+import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import addMarkerBlue from "../../../images/addMarkerBlue.svg"
+import { useDispatch, useSelector } from "react-redux"
+import { addWeek } from "../../../redux/workoutSlice"
+import type { RootState } from "../../../redux/store"
+import { useHandleAddWeekApiMutation } from "../../../redux/workoutApi"
+import { resetWorkoutState } from "../../../redux/workoutSlice"
+import { usePostCompletedProgramMutation, useGetCompletedProgramQuery } from "../../../redux/completedProgramsApi"
+import { useDeleteExerciseProgramMutation } from "../../../redux/workoutApi"
+import dumbbellImg from "../../../images/dumbbell-svgrepo-com.svg"
+import { ClipLoader } from "react-spinners"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { useGetNoPlanWorkoutsQuery } from "../../../redux/noPlanWorkoutApi"
+import AbandonPlanPopUp from "./abandonPlanPopUp"
 
 const CurrentPlanPage = () => {
+  const currentPlan = useSelector((state: RootState) => state.workout.currentPlan)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // State and RTK queries
+  const [isEditing, setIsEditing] = useState(false)
+  const [addWeekApi] = useHandleAddWeekApiMutation()
+  const [postCompletedProgram] = usePostCompletedProgramMutation()
+  const [isUserReady, setIsUserReady] = useState(false)
+  const [noPlan, setNoPlan] = useState(false)
+  const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans")
+  const [showAbandonPlan, setShowAbandonPlan] = useState(false)
+  const [deleteExerciseProgram] = useDeleteExerciseProgramMutation()
 
-    //use state and rtk queries
-  const [isEditing, setIsEditing] = useState(false);
-  const [addWeekApi] = useHandleAddWeekApiMutation();
-  const [postCompletedProgram] = usePostCompletedProgramMutation();
-  const [isUserReady, setIsUserReady] = useState(false);
-  const [noPlan, setNoPlan] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans");
-  const [showAbandonPlan, setShowAbandonPlan] = useState(false);
+  const auth = getAuth()
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsUserReady(true)
+      } else {
+        setIsUserReady(false)
+      }
+    })
+    return () => unsubscribe()
+  }, [auth])
 
-    
-  const [deleteExerciseProgram] = useDeleteExerciseProgramMutation();
-  const auth = getAuth();
+  // Retrieve all past plans
+  const {
+    data: completedPrograms,
+    error,
+    isLoading,
+  } = useGetCompletedProgramQuery(undefined, {
+    skip: !isUserReady,
+    refetchOnMountOrArgChange: true,
+  })
 
+  // Check if all days in plan are complete
+  const allDaysComplete = currentPlan?.weeks?.every((week) => week.days.every((day) => day.isCompleted)) ?? false
+  const programComplete = allDaysComplete
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-  if(user) {
-  setIsUserReady(true)
-  } else {
-  setIsUserReady(false);
-  }
-  });
-    //clean up on unmount
-  return () => unsubscribe();
-}, [auth]);
+  useEffect(() => {
+    if (!currentPlan || !currentPlan._id) {
+      setNoPlan(true)
+    } else {
+      setNoPlan(false)
+    }
+  }, [currentPlan])
 
-  // retrieve all past plans
-  const { data: completedPrograms, error, isLoading } = useGetCompletedProgramQuery(undefined, {
-  skip: !isUserReady,
-  refetchOnMountOrArgChange: true
-  });
+  const handleAddWeek = async () => {
+    try {
+      if (!currentPlan) {
+        return
+      }
 
-  //if all days in plan have iscomplete then set programComplete to true 
-  const allDaysComplete = currentPlan?.weeks?.every(week => 
-  week.days.every(day => day.isCompleted)
-  ) ?? false
+      const lastWeekNumber =
+        currentPlan.weeks.length > 0 ? currentPlan.weeks[currentPlan.weeks.length - 1].weekNumber : 0
+      const newWeekNumber = lastWeekNumber + 1
 
-  const programComplete = allDaysComplete;
+      const daysForNewWeek =
+        currentPlan.weeks.length > 0
+          ? currentPlan.weeks[0].days.map((day) => ({
+              day: day.day,
+              exercises: day.exercises.map((exercise) => ({
+                id: exercise._id,
+                name: exercise.name,
+                muscleGroup: exercise.muscleGroup,
+                sets: exercise.sets.map((_, index) => ({
+                  setNumber: index + 1,
+                  reps: null,
+                  weight: null,
+                  rir: null,
+                })),
+              })),
+            }))
+          : []
 
-useEffect(() => {
-  if(!currentPlan || !currentPlan._id) {
-  setNoPlan(true);
-  } else {
-  setNoPlan(false);
-  }
-}, [currentPlan]);
+      const response = await addWeekApi({
+        workoutPlanId: currentPlan._id,
+        weekNumber: newWeekNumber,
+        days: daysForNewWeek,
+      }).unwrap()
 
-const handleAddWeek = async () => {
-        
-  try{
-  if (!currentPlan) {
-  return;
-  }
-  const lastWeekNumber = currentPlan.weeks.length > 0 ? currentPlan.weeks[currentPlan.weeks.length - 1].weekNumber : 0;
-  const newWeekNumber = lastWeekNumber + 1;
+      const newWeek = response.weeks.find((week) => week.weekNumber === newWeekNumber)
 
-  // Get the first week's days and reset the 'isCompleted' status
-  const daysForNewWeek = currentPlan.weeks.length > 0
-  ? currentPlan.weeks[0].days.map(day => ({
-  day: day.day,
-  exercises: day.exercises.map(exercise => ({
-  id: exercise._id,
-  name: exercise.name,
-  muscleGroup: exercise.muscleGroup,
-  sets: exercise.sets.map((_, index) => ({
-  setNumber: index + 1, // Ensures setNumber starts from 1
-  reps: null,
-  weight: null,
-  rir: null
-  }))
-  }))
-  }))
-  : [];
+      if (!newWeek) {
+        console.error("new week not found in response")
+        return
+      }
 
-  const response = await addWeekApi({
-  workoutPlanId: currentPlan._id,
-  weekNumber: newWeekNumber,
-  days: daysForNewWeek
-  }).unwrap();
-
-  const newWeek = response.weeks.find(week => week.weekNumber === newWeekNumber)
-  if (!newWeek) {
-  console.error('new week not found in response');
-  return;
-  }
-  dispatch(addWeek({workoutPlanId: currentPlan._id, newWeek}))
-  } catch (error) {
-  console.error(error);
-  }
-};
-
-
-const handleSubmitPlan = async () => {
-
-  const completedPlan = {
-  workoutPlanId: currentPlan._id,
-  name: currentPlan.name ?? "Untitled Program",
-  startDate: currentPlan.startDate,
-  duration: currentPlan.duration
-  }
-  try {
-  await postCompletedProgram(completedPlan).unwrap()
-  navigate('/workouts');
-       
-  } catch (error) {
-        console.error('error posting completed program:', error);
+      dispatch(addWeek({ workoutPlanId: currentPlan._id, newWeek }))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  try {
-  await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
-  dispatch(resetWorkoutState());
-  } catch (error) {
-  console.error('error caught before making query:', error);
+  const handleSubmitPlan = async () => {
+    const completedPlan = {
+      workoutPlanId: currentPlan._id,
+      name: currentPlan.name ?? "Untitled Program",
+      startDate: currentPlan.startDate,
+      duration: currentPlan.duration,
+    }
+
+    try {
+      await postCompletedProgram(completedPlan).unwrap()
+      navigate("/workouts")
+    } catch (error) {
+      console.error("error posting completed program:", error)
+    }
+
+    try {
+      await deleteExerciseProgram({ id: completedPlan.workoutPlanId }).unwrap()
+      dispatch(resetWorkoutState())
+    } catch (error) {
+      console.error("error caught before making query:", error)
+    }
   }
-}
 
   // Fetch quick workout data
-  const { data: quickWorkouts, error: quickWorkoutsError, isLoading: quickWorkoutsLoading} = useGetNoPlanWorkoutsQuery(undefined, {
-  skip: !isUserReady,
-  refetchOnMountOrArgChange: true,
-  });
+  const {
+    data: quickWorkouts,
+    error: quickWorkoutsError,
+    isLoading: quickWorkoutsLoading,
+  } = useGetNoPlanWorkoutsQuery(undefined, {
+    skip: !isUserReady,
+    refetchOnMountOrArgChange: true,
+  })
 
-const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
-  if(selectedTab !== tab) {
-  setSelectedTab(tab);
+  const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
+    if (selectedTab !== tab) {
+      setSelectedTab(tab)
+    }
   }
-};
 
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString)
+    return date
+      .toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .replace(",", " at")
+  }
 
-const formatDate = (isoString: string) => {
-  const date = new Date(isoString);
-  return date.toLocaleString("en-US", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: true
-  }).replace(",", " at"); // Formats date properly
-};
+  const handleAbandonPlan = async () => {
+    await deleteExerciseProgram({ id: currentPlan._id })
+    dispatch(resetWorkoutState())
+    setShowAbandonPlan(false)
+    setIsEditing(false)
+  }
 
-const handleAbandonPlan = async () => {
+  return (
+    <>
+      {showAbandonPlan && (
+        <AbandonPlanPopUp
+          boolean={showAbandonPlan}
+          onConfirm={handleAbandonPlan}
+          onCancel={() => setShowAbandonPlan(false)}
+        />
+      )}
 
-  await deleteExerciseProgram({id: currentPlan._id})
-  dispatch(resetWorkoutState());
-  setShowAbandonPlan(false);
-  setIsEditing(false);
-}
+      <NavBar />
 
-
-    return (
+      {noPlan ? (
+        <section className="CPP-no-plan-section">
+          <div className="CPP-no-plan-content">
+            <div className="CPP-no-plan-icon">📋</div>
+            <h2 className="CPP-no-plan-title">No Active Plan</h2>
+            <p className="CPP-no-plan-description">Create a workout plan to get started with your fitness journey</p>
+            <Link to="/workouts" className="CPP-btn CPP-btn-primary">
+              <span>Back to Workouts</span>
+              <svg className="CPP-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        </section>
+      ) : (
         <>
-        {showAbandonPlan && (
-            <AbandonPlanPopUp 
-            boolean={showAbandonPlan}
-            onConfirm={handleAbandonPlan}
-            onCancel={() => setShowAbandonPlan(false)}
-            />
-        )}
-            <section className={noPlan ? "currentPlanPageNoPlan" : "currentPlanPage"}>
-                <NavBar />
-                {noPlan ? (
-                    <p className='no-current-plan-text'>No current Plan</p>
-                ) : (
-                    <>
-                        <div className="currentPlanPage-header-div">
-                            <h1>Current Plan</h1>
-                        </div>
-                        <div className="currentPlanPage-edit-plan-btn-div">
-                            <Link to="/workouts" className="currentPlanPage-back-btn">Back</Link>
-                            {programComplete ? (
-                               <button className='currentPlanPage-complete-plan-btn' onClick={handleSubmitPlan}>Complete Program</button> 
-                            ) : (
-                                <button className="currentPlanPage-edit-btn" onClick={() => setIsEditing(!isEditing)}>Edit Plan</button>
-                            )}
-                           
-                        </div>
-                        {isEditing && (
-                            <>
-                            <div className='add-week-marker-div'>
-                                <div className='add-week-marker-wrapper' onClick={() => {}}>
-                                    <img src={addMarkerBlue} alt="Add Week" />
-                                    <p onClick={handleAddWeek}>Add Week</p>
-                                </div>
-                            </div>
-                            <div className='add-week-marker-div'>
-                                <div className='abandon-plan-button-div'>
-                                    <p onClick={() => setShowAbandonPlan(true)}>Abandon plan</p>
-                                </div>
-                            </div>
-                            </>
-                        )}
-                        <div className="grid-container">
-                            <WeekCard isEditing={isEditing} />
-                        </div>
-                        
-                    </>
-                )}
-            </section>
+          {/* Current Plan Section */}
+          <section className="CPP-current-plan-section">
+            <div className="CPP-hero-section">
+              <div className="CPP-header-content">
+                <h1 className="CPP-main-title">Current Plan</h1>
+                <p className="CPP-subtitle">Track your progress and manage your workout schedule</p>
+              </div>
+            </div>
 
-            <section className='previous-plans-section'>
-                <div className='previous-plans-header-div'>
-                    <h1>{selectedTab === "quickWorkouts" ? "Quick Workouts" : "Previous Plans"}</h1>
-                </div>
-                <div className='previous-plans-or-quick-workout-select-div'>
-                    <p className={selectedTab === "plans" ? "active-tab" : ""} onClick={() => handleTabSwitch("plans")}>Previous Plans</p>
-                    <p className={selectedTab === "quickWorkouts" ? "active-tab" : ""} onClick={() => handleTabSwitch("quickWorkouts")}>Previous Quick Workouts</p>
-                </div>
+            <div className="CPP-controls-bar">
+              <Link to="/workouts" className="CPP-btn CPP-btn-secondary">
+                <svg className="CPP-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Back</span>
+              </Link>
 
-                {/* RENDER BASED ON TAB SELECTION */}
-                {selectedTab === "plans" ? (
-                    isLoading ? (
-                        <div className='spinner-container'>
-                            <ClipLoader size={50} color='#007bff' />
-                        </div>
-                    ) : error ? (
-                        <p>Error loading previous plans. Please try again.</p>
-                    ) : completedPrograms?.completedPrograms?.length > 0 ? (
-                        <div className='grid-container-2'>
-                            {completedPrograms.completedPrograms.map((program: any) => (
-                                <div className='previous-plan-card' key={program._id}>
-                                    <h3><u>{program.name}</u></h3>
-                                    <p>Plan completed from: {program.startDate} - {program.endDate}</p>
-                                    <p>Lasted: {program.duration}</p>
-                                    <p>Total Volume: {program.totalVolume} lbs <span><img src={dumbbellImg} alt="" className='span-dumbbell'/></span></p>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className='previous-plans-text'>No Previous Plans Found</p>
-                    )
+              <div className="CPP-action-buttons">
+                {programComplete ? (
+                  <button className="CPP-btn CPP-btn-success" onClick={handleSubmitPlan}>
+                    <svg className="CPP-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Complete Program</span>
+                  </button>
                 ) : (
-                    // RENDER QUICK WORKOUTS
-                    quickWorkoutsLoading ? (
-                        <div className='spinner-container'>
-                            <ClipLoader size={50} color='#007bff' />
-                        </div>
-                    ) : quickWorkoutsError ? (
-                        <p>Error loading quick workouts. Please try again.</p>
-                    ) : quickWorkouts?.length > 0 ? (
-                        <div className='grid-container-2'>
-                            {quickWorkouts.map((workout: any) => (
-                                <div className='quick-workout-card' key={workout._id}>
-                                    <h3><u>Past Workout</u></h3>
-                                    <p>Completed on: {formatDate(workout.dateDone)}</p>
-                                    {Array.isArray(workout.exercises) ? (
-                                        workout.exercises.map((exercise: any) => (
-                                            <p key={exercise._id}>Muscle Group: <span className='quick-workout-card-muscle-group'>{exercise.muscleGroup}</span></p>
-                                        ))
-                                    ) : (
-                                        <p>No exercises found</p>
-                                    )}
-                                    <p>Total Volume: {workout.totalVolume} lbs</p>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className='no-quick-workouts-text'>No Quick Workouts Found</p>
-                    )
+                  <button className="CPP-btn CPP-btn-outline" onClick={() => setIsEditing(!isEditing)}>
+                    <svg className="CPP-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
+                    <span>{isEditing ? "Done Editing" : "Edit Plan"}</span>
+                  </button>
                 )}
-            </section>
+              </div>
+            </div>
+
+            {isEditing && (
+              <div className="CPP-edit-controls">
+                <div className="CPP-edit-actions">
+                  <button className="CPP-edit-btn CPP-edit-btn-add" onClick={handleAddWeek}>
+                    <img src={addMarkerBlue || "/placeholder.svg"} alt="Add Week" className="CPP-edit-icon" />
+                    <span>Add Week</span>
+                  </button>
+                  <button className="CPP-edit-btn CPP-edit-btn-danger" onClick={() => setShowAbandonPlan(true)}>
+                    <svg className="CPP-edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    <span>Abandon Plan</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="CPP-weeks-grid">
+              <WeekCard isEditing={isEditing} />
+            </div>
+          </section>
         </>
-    );
+      )}
 
+      {/* History Section - Always Visible */}
+      <section className="CPP-history-section">
+        <div className="CPP-history-header">
+          <h2 className="CPP-history-title">
+            {selectedTab === "quickWorkouts" ? "Quick Workouts History" : "Previous Plans"}
+          </h2>
+          <div className="CPP-tab-switcher">
+            <button
+              className={`CPP-tab ${selectedTab === "plans" ? "CPP-tab-active" : ""}`}
+              onClick={() => handleTabSwitch("plans")}
+            >
+              <svg className="CPP-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span>Previous Plans</span>
+            </button>
+            <button
+              className={`CPP-tab ${selectedTab === "quickWorkouts" ? "CPP-tab-active" : ""}`}
+              onClick={() => handleTabSwitch("quickWorkouts")}
+            >
+              <svg className="CPP-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Quick Workouts</span>
+            </button>
+          </div>
+        </div>
 
-
+        <div className="CPP-history-content">
+          {selectedTab === "plans" ? (
+            isLoading ? (
+              <div className="CPP-loading-state">
+                <ClipLoader size={50} color="var(--blue)" />
+                <p>Loading previous plans...</p>
+              </div>
+            ) : error ? (
+              <div className="CPP-error-state">
+                <div className="CPP-error-icon">⚠️</div>
+                <p>Error loading previous plans. Please try again.</p>
+              </div>
+            ) : completedPrograms?.completedPrograms?.length > 0 ? (
+              <div className="CPP-history-grid">
+                {completedPrograms.completedPrograms.map((program: any) => (
+                  <div className="CPP-history-card CPP-plan-card" key={program._id}>
+                    <div className="CPP-card-header">
+                      <div className="CPP-card-icon">🏆</div>
+                      <h3 className="CPP-card-title">{program.name}</h3>
+                    </div>
+                    <div className="CPP-card-content">
+                      <div className="CPP-card-detail">
+                        <span className="CPP-detail-label">Duration</span>
+                        <span className="CPP-detail-value">
+                          {program.startDate} - {program.endDate}
+                        </span>
+                      </div>
+                      <div className="CPP-card-detail">
+                        <span className="CPP-detail-label">Lasted</span>
+                        <span className="CPP-detail-value">{program.duration}</span>
+                      </div>
+                      <div className="CPP-card-detail">
+                        <span className="CPP-detail-label">Total Volume</span>
+                        <span className="CPP-detail-value">
+                          {program.totalVolume} lbs
+                          <img src={dumbbellImg || "/placeholder.svg"} alt="" className="CPP-dumbbell-icon" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="CPP-empty-state">
+                <div className="CPP-empty-icon">📋</div>
+                <h3>No Previous Plans Found</h3>
+                <p>Complete your first workout plan to see it here</p>
+              </div>
+            )
+          ) : quickWorkoutsLoading ? (
+            <div className="CPP-loading-state">
+              <ClipLoader size={50} color="var(--blue)" />
+              <p>Loading quick workouts...</p>
+            </div>
+          ) : quickWorkoutsError ? (
+            <div className="CPP-error-state">
+              <div className="CPP-error-icon">⚠️</div>
+              <p>Error loading quick workouts. Please try again.</p>
+            </div>
+          ) : quickWorkouts?.length > 0 ? (
+            <div className="CPP-history-grid">
+              {quickWorkouts.map((workout: any) => (
+                <div className="CPP-history-card CPP-workout-card" key={workout._id}>
+                  <div className="CPP-card-header">
+                    <div className="CPP-card-icon">⚡</div>
+                    <h3 className="CPP-card-title">Quick Workout</h3>
+                  </div>
+                  <div className="CPP-card-content">
+                    <div className="CPP-card-detail">
+                      <span className="CPP-detail-label">Completed</span>
+                      <span className="CPP-detail-value">{formatDate(workout.dateDone)}</span>
+                    </div>
+                    <div className="CPP-muscle-groups">
+                      {Array.isArray(workout.exercises) ? (
+                        workout.exercises.map((exercise: any) => (
+                          <span key={exercise._id} className="CPP-muscle-tag">
+                            {exercise.muscleGroup}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="CPP-no-exercises">No exercises found</span>
+                      )}
+                    </div>
+                    <div className="CPP-card-detail">
+                      <span className="CPP-detail-label">Total Volume</span>
+                      <span className="CPP-detail-value">{workout.totalVolume} lbs</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="CPP-empty-state">
+              <div className="CPP-empty-icon">⚡</div>
+              <h3>No Quick Workouts Found</h3>
+              <p>Start a quick workout to see your history here</p>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  )
 }
-export default CurrentPlanPage;
+
+export default CurrentPlanPage
