@@ -75,7 +75,7 @@ const WorkoutSection = () => {
           <div className="WP-card WP-card-secondary">
             <div className="WP-card-header">
               <div className="WP-card-icon">📊</div>
-              <h3 className="WP-card-title">Plans & History</h3>
+              <h3 className="WP-card-title">Current Plan & Past Workouts</h3>
             </div>
             <div className="WP-card-content">
               <p className="WP-card-description">View your workout plans and track your progress</p>
