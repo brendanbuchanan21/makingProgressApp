@@ -1,6 +1,6 @@
 "use client"
 
-import "./newPlanPopup.css"
+import "./new-plan-popup.css"
 import type React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
