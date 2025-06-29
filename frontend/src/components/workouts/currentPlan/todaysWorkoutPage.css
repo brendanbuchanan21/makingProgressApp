@@ -1,384 +1,706 @@
-
-.current-workout-page {
-    padding: 2rem;
-  }
-  
-  .current-workout-page-header-div {
-    display: flex;
-    justify-content: center;
-  }
-  
-.current-workout-page-back-btn-div {
-  height: 5%;
-  margin-top: 1rem;
-}
-.current-workout-page-back-btn-div button {
-  height: 70%;
-  width: 3rem;
-  background: none;
-  border: 1px solid black;
-  border-radius: 2px;
-}
-.current-workout-page-back-btn-div button:hover {
-  border: 1px solid hsl(0, 0%, 50%);
-  color: hsl(0, 0%, 50%);
-  cursor: pointer;
-}
-  .current-workout-page-main-content-div {
-    height: auto;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  .workout-card {
-    min-height: 20rem;
-    width: 30rem;
-  }
-  
-  .workout-card-day-name-div {
-    margin-top: 2rem;
-    text-align: center;
-    display: flex;
-  }
-  
-  .exercise-card {
-    border: 1px solid var(--grey);
-    margin-top: 1.3rem;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    /* Adjust height or min-height as needed */
-  }
-  .exercise-card-header-div {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: .5rem;
-  }
-  .exercise-input {
-    border: none;
-    border-bottom: 1px solid var(--blue);
-    border-radius: 2px;
-    height: 2rem;
-    padding: 0 0.5rem;
-    color: var(--blue);
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: border-bottom 0.2s ease-in-out;
-  }
-  .exercise-input:focus {
-    outline: none; /* Prevents full border highlight */
-    border-bottom: 2px solid var(--blue); /* Reinforces only bottom border */
-  }
-  .exercise-card h3 {
-    color: var(--blue);
-  }
-
-  .trash-img {
-    cursor: pointer;
-  }
-
-
- .exercise-card-button-container {
-  display: flex;
-  justify-content: end;
-  gap: .2rem;
- }
- .exercise-card-button-container button {
-  border: 1px solid var(--grey);
-  background: none;
-  padding: .5rem;
-  border-radius: 4px;
- }
-
- .exercise-card-button-container button:hover {
-  border: 1px solid var(--hover-blue);
-  color: var(--hover-blue);
-  cursor: pointer;
- }
-  /* Header row styling */
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0.8rem 0 0.5rem 0;
-    font-weight: bold;
-    border-bottom: 2px solid var(--grey);
-  }
-  
-  .column-header {
-    flex: 1;
-    text-align: center;
-  }
-  
-  /* Give the set number column a fixed width */
-  .set-number-header {
-    flex: 0 0 50px; /* Fixed width for the set number column */
-  }
-  
-  /* Container for all set rows */
-  .sets-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  /* Each set row styling */
-  .set-row {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Each cell in a row */
-  .set-cell {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .set-number-cell {
-    flex: 0 0 50px; /* Fixed width to match the header */
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* New style for the delete marker image */
-.delete-marker {
-  width: 16px;  /* Adjust size as needed */
-  height: 16px;
-  margin-right: 4px;
-  cursor: pointer;
-}
-  
-  /* Optional: styling for input fields within set cells */
-  .set-cell input {
-    width: 70%;
-    margin: 0 auto;
-    display: block;
-    padding: 0.3rem;
-    box-sizing: border-box;
-  }
-
-  .exercise-completion {
-    margin-top: 1.2rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-  }
-  .submit-todays-workout-div {
-    width: 50%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: end;
-    height: 3rem;
-  }
-  
-  .add-exercise-button-div {
-    height: 2.2rem;
-    margin: 0 auto;
-  }
-  .add-exercise-button-div button {
-    height: 100%;
-    background: none;
-    border-radius: .4rem;
-    width: 4rem;
-    border: 1px solid var(--grey);
-  }
-
-  .add-exercise-button-div button:hover {
-    border: 1px solid black;
-    cursor: pointer;
-  }
-
-  .submit-todays-workout-div {
-    width: 30rem;
-    margin-bottom: 10rem;
-  }
-  .complete-workout-btn {
-    border: 1px solid var(--blue);
-    border-radius: .4rem;
-    padding: 1rem;
-    text-align: center;
-    background-color: white;
-    color: var(--blue);
-  }
-
-  .complete-workout-btn:hover {
-    background-color: var(--hover-blue);
-    color: white;
-    border: 1px solid var(--hover-blue);
-    cursor: pointer;
-  }
-
-  .completed-program-button {
-    border: 1px solid #009c41;
-    border-radius: .4rem;
-    padding: 1rem;
-    text-align: center;
-    background-color: white;
-    color: #009c41;
-  }
-
-.completed-program-button:hover {
-  background-color: #009c41;
-  color: white;
-  border: 1px solid #009c41;
-  cursor: pointer;
+/* Base Styles */
+.TWP-section {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 2rem;
 }
 
-
-.custom-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.custom-modal-content {
-  background-color: #fff;
+/* Hero Section */
+.TWP-hero-section {
+  width: 100%;
   padding: 2rem;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-.custom-modal-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #222;
-}
-
-.custom-modal-message {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  color: #444;
-}
-
-.custom-modal-buttons {
+.TWP-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.TWP-back-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TWP-back-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateX(-2px);
+}
+
+.TWP-back-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.TWP-header-text {
+  flex: 1;
+}
+
+.TWP-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.TWP-subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.TWP-edit-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.TWP-edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-edit-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.TWP-edit-btn-active {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.TWP-edit-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Progress Section */
+.TWP-progress-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.TWP-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.TWP-progress-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.TWP-progress-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.TWP-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.TWP-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  border-radius: 4px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container */
+.TWP-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  margin-bottom: 4rem;
+}
+
+/* Workout Content */
+.TWP-workout-content {
+  width: 100%;
+}
+
+.TWP-exercises-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Exercise Card */
+.TWP-exercise-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Exercise Header */
+.TWP-exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
   gap: 1rem;
 }
 
-.confirm-btn,
-.cancel-btn {
-  padding: 0.5rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.TWP-exercise-info {
+  flex: 1;
 }
 
-.confirm-btn {
-  background-color: #e53935;
+.TWP-exercise-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.TWP-exercise-muscle {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.TWP-exercise-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.TWP-add-set-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-add-set-btn:hover {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.TWP-delete-exercise-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TWP-delete-exercise-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+  transform: scale(1.05);
+}
+
+.TWP-btn-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Sets Container */
+.TWP-sets-container {
+  background: rgba(248, 250, 252, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.TWP-sets-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 1fr;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+.TWP-header-cell {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.TWP-set-number {
+  text-align: left;
+}
+
+.TWP-sets-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.TWP-set-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.TWP-set-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TWP-set-number-cell {
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.TWP-delete-set-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TWP-delete-set-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+.TWP-delete-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.TWP-set-number {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.TWP-set-input {
+  width: 100%;
+  max-width: 80px;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  color: #1e293b;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-set-input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.TWP-set-input::placeholder {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+/* Exercise Completion */
+.TWP-exercise-completion {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.TWP-completion-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-completion-label:hover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.TWP-completion-checkbox {
+  display: none;
+}
+
+.TWP-completion-text {
+  font-weight: 600;
+  color: #64748b;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-checkmark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-check-icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.TWP-completion-checkbox:checked + .TWP-completion-text {
+  color: #10b981;
+}
+
+.TWP-completion-checkbox:checked ~ .TWP-checkmark {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.TWP-completion-checkbox:checked ~ .TWP-checkmark .TWP-check-icon {
+  opacity: 1;
+  transform: scale(1);
   color: white;
 }
 
-.confirm-btn:hover {
-  background-color: #c62828;
+/* Submit Section */
+.TWP-submit-section {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
 }
 
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
+.TWP-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
 }
 
-.cancel-btn:hover {
-  background-color: #bdbdbd;
+.TWP-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
 }
 
-.custom-modal-overlay {
+.TWP-submit-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.TWP-submit-btn-ready {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  animation: pulse-ready 2s infinite;
+}
+
+.TWP-submit-btn-ready:hover {
+  box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse-ready {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Empty State */
+.TWP-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  border: 2px dashed #e2e8f0;
+}
+
+.TWP-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.TWP-empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.TWP-empty-state p {
+  color: #64748b;
+  margin: 0;
+}
+
+/* Modal Styles */
+.TWP-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-/* Modal container */
-.custom-modal-content {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
+.TWP-modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
   text-align: center;
+  animation: slideIn 0.3s ease-out;
 }
 
-/* Modal title */
-.custom-modal-title {
+.TWP-modal-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.TWP-modal-title {
   font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-  font-weight: bold;
-  color: #333;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
 }
 
-/* Modal message */
-.custom-modal-message {
+.TWP-modal-message {
   font-size: 1rem;
-  color: #555;
-  margin-bottom: 1.5rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
 }
 
-/* Button container */
-.custom-modal-buttons {
+.TWP-modal-buttons {
   display: flex;
+  gap: 1rem;
   justify-content: center;
 }
 
-/* OK button */
-.cancel-btn {
-  background-color: var(--blue);
-  color: white;
-  padding: 0.5rem 1.25rem;
+.TWP-modal-btn {
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
   font-size: 1rem;
-  border: none;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
 }
 
-.cancel-btn:hover {
-  background-color: #0056b3;
+.TWP-modal-btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
 }
 
+.TWP-modal-btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(239, 68, 68, 0.4);
+}
 
-@media (min-width: 600px) {
-  .workout-card {
-    height: auto;
+.TWP-modal-btn-cancel {
+  background: white;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.TWP-modal-btn-cancel:hover {
+  background: #f8fafc;
+  border-color: #64748b;
+  color: #1e293b;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
   }
-  .set-cell input {
-    height: 2rem;
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .TWP-main-title {
+    font-size: 2rem;
   }
 
-}
-@media (max-width: 700px) {
-  .current-workout-page-header-div {
-    margin-top: 1rem;
+  .TWP-header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .TWP-container {
+    padding: 1rem;
+  }
+
+  .TWP-exercise-card {
+    padding: 1.5rem;
+  }
+
+  .TWP-exercise-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .TWP-exercise-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .TWP-sets-header,
+  .TWP-set-row {
+    grid-template-columns: 60px 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .TWP-set-input {
+    max-width: 60px;
+    padding: 0.5rem;
+  }
+
+  .TWP-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .TWP-modal-content {
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .TWP-modal-buttons {
+    flex-direction: column;
   }
 }
-@media (min-width: 550px) {
-  .add-exercise-button-div {
-    width: 30rem;
+
+@media (max-width: 480px) {
+  .TWP-main-title {
+    font-size: 1.75rem;
   }
-}
-@media (max-width: 550px) {
-  .submit-todays-workout-div {
-   width: auto;
+
+  .TWP-exercise-card {
+    padding: 1rem;
+  }
+
+  .TWP-sets-container {
+    padding: 1rem;
+  }
+
+  .TWP-sets-header,
+  .TWP-set-row {
+    grid-template-columns: 50px 1fr 1fr 1fr;
+    gap: 0.25rem;
+  }
+
+  .TWP-set-input {
+    max-width: 50px;
+    padding: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  .TWP-header-cell {
+    font-size: 0.75rem;
   }
 }
