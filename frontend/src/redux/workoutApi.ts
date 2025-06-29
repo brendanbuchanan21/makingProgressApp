@@ -64,7 +64,7 @@ interface addWeekRequest {
 
 export const newWorkoutProgramApi = createApi({
     reducerPath: 'workoutApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/workouts`, prepareHeaders: async (headers) => {
+    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api/workouts`, prepareHeaders: async (headers) => {
         const auth = getAuth();
         const user = auth.currentUser;
         if(user) {
