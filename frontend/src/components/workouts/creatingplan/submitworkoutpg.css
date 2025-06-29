@@ -1,395 +1,707 @@
-#add-exercises-popup-section {
+/* Base Styles */
+.SWP-section {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(253, 253, 253, 0.5); /* Semi-transparent black */
-  backdrop-filter: blur(8px); /* Blurry background effect */
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
-/* Ensure the popup section stays on top */
+  z-index: 1000;
 }
 
-#add-exercises-popup-outer-container {
-  border: 2px solid var(--grey);
-  border-radius: 10px; /* Rounded corners */
-  background-color: #f8f9fa; /* Light background for contrast */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  width: 60%; /* Matches the width of the expanded day card */
-  max-width: 800px;
-  padding: 20px; /* Inner padding */
-  margin: 20px auto; /* Centered with top and bottom spacing */
+.SWP-overlay {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 20px; /* Consistent spacing between elements */
-  font-family: 'Arial', sans-serif; /* Clean font */
-  color: #333; /* Darker text for readability */
-  position: relative; /* For proper positioning */
-  
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
-#add-exercises-popup-header-div h1 {
-  font-size: 1.8rem; /* Slightly larger heading */
-  font-weight: bold;
-  color: black; /* Same as border for visual alignment */
-  text-align: center; /* Centered title */
-  margin-bottom: 10px;
+.SWP-container {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }
 
-.AE-popup-days-container {
+/* Header */
+.SWP-header {
+  margin-bottom: 2rem;
+}
+
+.SWP-header-content {
   display: flex;
-  flex-direction: column;
-  gap: 15px; /* Spacing between day cards */
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.AE-popup-day-card {
-  border: 1px solid black;
-  border-radius: 8px; /* Rounded corners */
-  background-color: #fff; /* Contrast for items */
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
-  padding: 15px 20px; /* Inner padding for better spacing */
+.SWP-header-icon {
+  font-size: 3rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+  border-radius: 20px;
+}
+
+.SWP-header-text {
+  flex: 1;
+}
+
+.SWP-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.SWP-subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Progress Section */
+.SWP-progress-section {
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.SWP-progress-header {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer; /* Pointer cursor for better interactivity */
+  margin-bottom: 1rem;
 }
 
-.AE-popup-day-card:hover {
-  transform: scale(1.05); /* Hover effect for engagement */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow for a pop-out effect */
+.SWP-progress-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-.AE-card-day-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
+.SWP-progress-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
-.AE-btn {
-  background-color: #1414d2;;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+.SWP-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.SWP-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  border-radius: 4px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Days Grid */
+.SWP-days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.SWP-day-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 1.5rem;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.SWP-day-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--blue);
+}
+
+.SWP-day-card-completed {
+  border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.02) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.SWP-day-card-completed:hover {
+  border-color: #10b981;
+}
+
+/* Day Header */
+.SWP-day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.SWP-day-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.SWP-day-status {
+  width: 2rem;
+  height: 2rem;
+  background: #10b981;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-}
-
-.AE-btn:hover {
-  background-color: #1414d2;;
-  transform: scale(1.05); /* Slight hover effect */
-}
-
-.AE-back-and-forward-btns-div {
-  display: flex;
-  justify-content: space-between; /* Align buttons side by side */
-  gap: 10px;
-  margin-top: 20px; /* Add spacing from the day cards */
-}
-
-.AE-back-and-forward-btns-div button {
-  flex: 1;
-  height: 45px;
-  border: 2px solid var(--blue);
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  background-color: #f8f9fa;
-  color: var(--blue);
-}
-#AE-back-btn:hover {
-  background-color: var(--hover-blue);
   color: white;
 }
-.AE-back-and-forward-btns-div button:hover {
-  background-color: var(--blue);
-  color: #fff;
-  transform: scale(1.02); /* Slight hover effect */
+
+.SWP-check-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Day Content */
+.SWP-day-content {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.SWP-day-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.SWP-exercise-count {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+.SWP-muscle-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.SWP-muscle-tag {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.SWP-muscle-tag-more {
+  background: #64748b;
+}
+
+.SWP-day-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.SWP-plus-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  stroke-width: 1.5;
+}
+
+.SWP-day-empty p {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Day Footer */
+.SWP-day-footer {
+  margin-top: auto;
+}
+
+.SWP-view-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SWP-view-btn:hover {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.SWP-day-card-completed .SWP-view-btn {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.SWP-day-card-completed .SWP-view-btn:hover {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+/* Actions */
+.SWP-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Buttons */
+.SWP-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  text-decoration: none;
+}
+
+.SWP-btn-primary {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+}
+
+.SWP-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
+}
+
+.SWP-btn-primary:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.SWP-btn-secondary {
+  background: white;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.SWP-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.SWP-btn-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Enhanced Expanded Day Card plus overlay*/
+
+.overlay-for-submit-workout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(5px); 
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000; 
+}
+
+
+
+.expanded-day-card {
+  position: fixed;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1001;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.expanded-day-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+
+/* Exercise List */
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.exercise-item {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.exercise-item:hover {
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.individual-exercise-description-div {
+  flex: 1;
+}
+
+.individual-exercise-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.individual-exercise-muscle-group {
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.individual-exercise-edit-btn-div button {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #64748b;
+  width: auto;
+  min-width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.individual-exercise-edit-btn-div button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: scale(1.05);
+}
+
+/* Form Styles */
+.add-exercise-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.add-exercise-form input,
+.add-exercise-form select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.add-exercise-form input:focus,
+.add-exercise-form select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button Groups */
+.AE-btns-div {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.AE-btns-div button {
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
 }
 
-.AE-back-and-forward-btns-div button:disabled {
-  background-color: #ddd;
+.AE-btns-div button:first-of-type {
+  background: white;
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+}
+
+.AE-btns-div button:first-of-type:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.AE-btns-div button:last-of-type {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+}
+
+.AE-btns-div button:last-of-type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
+}
+
+.finish-btn-div {
+  margin-top: 2rem;
+}
+
+.finish-btn-div button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 2px solid var(--blue);
+  background: white;
+  color: var(--blue);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.finish-btn-div button:hover:not(:disabled) {
+  background: var(--blue);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.finish-btn-div button:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: #e2e8f0;
   cursor: not-allowed;
 }
 
-
-.overlay-for-submit-workout {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for the overlay */
-backdrop-filter: blur(8px); /* Blurry background effect */
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 1000; /* Ensure overlay stays on top */
-}
-
-/* Expanded Day Card Styling */
-.expanded-day-card {
-    border: 1px solid var(--grey);
-    background-color: #f8f9fa; /* Light background for contrast */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    width: 20rem; /* Slightly wider width */
-    max-width: 800px;
-    padding: 20px; /* Inner padding */
-    margin: 20px auto; /* Centered with top and bottom spacing */
-    display: flex;
-    position: absolute; /* Absolute positioning relative to the nearest positioned ancestor */
-    top: 50%; /* Position it 50% from the top */
-    left: 50%; /* Position it 50% from the left */
-    transform: translate(-50%, -50%); /* Move it back by 50% of its own width and height to truly center it */
-    flex-direction: column;
-    gap: 20px; /* Consistent spacing between elements */
-    font-family: 'Arial', sans-serif; /* Clean font */
-    color: #333; /* Darker text for readability */
-    z-index: 1001;
-    max-height: 30rem;
-    overflow-y: auto;
-  }
-  
-  .expanded-day-card h2 {
-    font-size: 1.8rem; /* Slightly larger heading */
-    font-weight: bold;
-    color: black; /* Same as border for visual alignment */
-    text-align: center; /* Centered title */
-    margin-bottom: 10px;
-  }
-  
-  .exercise-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Spacing between exercise items */
-  }
-  
-  .exercise-item {
-    display: flex;
-    justify-content: space-between; /* Align exercise description and button */
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ccc; /* Subtle border for individual items */
-    border-radius: 8px; /* Rounded corners */
-    background-color: #fff; /* Contrast for items */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
-  }
-  
-  .individual-exercise-description-div p {
-    margin: 5px 0;
-    font-size: 1rem; /* Uniform text size */
-  }
-  
-  .individual-exercise-edit-btn-div button {
-    background: none;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
-    display: flex;
-    margin-bottom: 10%;
-    border: 1px solid var(--grey);
-    width: 3rem;
-  
-  }
-  
-  .individual-exercise-edit-btn-div button:hover {
-    border: 1px solid var(--hover-blue);
-    transform: scale(1.05); /* Slight hover effect */
-    color: var(--hover-blue);
-  }
-
-  .individual-exercise-name {
-    font-weight: 600;
-    font-size: clamp(1rem, 1.8rem, 2rem);
-  }
-
-  .individual-exercise-muscle-group {
-    color: #1414d2;;
-  }
-  
-  .individual-exercise-edit-btn-div button:active {
-    transform: scale(0.98); /* Click effect */
-  }
-  
-  .add-exercise-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Spacing between form inputs */
-  }
-  
-  .add-exercise-form input,
-  .add-exercise-form select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow */
-    transition: border-color 0.3s;
-  }
-  
-  .add-exercise-form input:focus,
-  .add-exercise-form select:focus {
-    outline: none;
-    border-color: #1414d2;
-  }
-  
-  .AE-btns-div {
-    display: flex;
-    justify-content: space-between; /* Align buttons side by side */
-    gap: 10px;
-  }
-  
-  .AE-btns-div button {
-    flex: 1;
-    height: 45px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .AE-btns-div button:first-of-type {
-    background-color: white;
-    border: 1px solid var(--blue);
-    color: var(--blue);
-  }
-  
-  .AE-btns-div button:first-of-type:hover {
-    background-color: var(--hover-blue);
-    color: white;
-  }
-  
-  .AE-btns-div button:last-of-type {
-    background-color: #1414d2;;
-    color: #fff;
-  }
-  
-  .AE-btns-div button:last-of-type:hover {
-    background-color: #1414d2;;
-    transform: scale(1.02);
-  }
-  
-  .AE-btns-div button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-  }
-  .finish-btn-div {
-    height: 45px;
-  }
-  .finish-btn-div button {
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    border: 1px solid var(--blue);
-    background: none;
-    color: var(--blue);
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  .finish-btn-div button:disabled {
-    background-color: #ddd;
-    color: white;
-    cursor: not-allowed;
-    border: none;
-  }
-  
-
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* Subtle dark background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+/* Enhanced Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1002;
 }
 
 .popup-container {
-    background: white;
-    padding: 1.5rem;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
 }
 
 .popup-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
 }
 
 .popup-message {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: #555;
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
 }
 
 .popup-button-container {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
-.popup-confirm-btn, .popup-cancel-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+.popup-confirm-btn,
+.popup-cancel-btn {
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
 }
 
 .popup-confirm-btn {
-    background: var(--hover-blue);
-    color: white;
-}
-
-.popup-cancel-btn {
-    background: #ddd;
-    color: black;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
 }
 
 .popup-confirm-btn:hover {
-    background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(239, 68, 68, 0.4);
+}
+
+.popup-cancel-btn {
+  background: white;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
 }
 
 .popup-cancel-btn:hover {
-    background: #bbb;
+  background: #f8fafc;
+  border-color: #64748b;
+  color: #1e293b;
 }
 
-
-@media (min-width: 700px) {
-  .expanded-day-card {
-    width: 30rem;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
-@media (max-height: 700px) {
+/* Responsive Design */
+@media (max-width: 768px) {
+  .SWP-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .SWP-title {
+    font-size: 2rem;
+  }
+
+  .SWP-header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .SWP-days-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .SWP-actions {
+    flex-direction: column-reverse;
+  }
+
+  .SWP-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .expanded-day-card {
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .popup-container {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  .popup-button-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .SWP-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .SWP-title {
+    font-size: 1.75rem;
+  }
+
+  .SWP-day-card {
+    padding: 1rem;
+    min-height: 160px;
+  }
+
+  .expanded-day-card {
+    padding: 1.5rem 1rem;
   }
 }
