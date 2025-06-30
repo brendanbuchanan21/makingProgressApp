@@ -1,23 +1,356 @@
-
-.empty-workout-section {
-    height: 40vh;
-    margin: 0 auto;
-    width: 80%;
+/* Base Styles */
+.WT-section {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 2rem;
 }
-.empty-workout-header-div {
-    margin: 5rem 0 2rem 0;
+
+/* Hero Section */
+.WT-hero-section {
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.WT-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.WT-back-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.WT-back-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateX(-2px);
+}
+
+.WT-back-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.WT-header-text {
+  flex: 1;
+}
+
+.WT-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.WT-subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Container */
+.WT-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+/* Empty State */
+.WT-empty-state {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.WT-empty-content {
+  background: white;
+  border-radius: 24px;
+  padding: 4rem 3rem;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  max-width: 500px;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.WT-empty-content:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.WT-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 2rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.WT-empty-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.WT-empty-description {
+  font-size: 1.125rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 3rem 0;
+}
+
+/* Add Exercise Button */
+.WT-add-exercise-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.WT-add-exercise-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.WT-add-exercise-btn:hover::before {
+  left: 100%;
+}
+
+.WT-add-exercise-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
+}
+
+.WT-btn-icon-wrapper {
+  width: 2rem;
+  height: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.WT-add-exercise-btn:hover .WT-btn-icon-wrapper {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.WT-btn-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.WT-btn-text {
+  font-weight: 700;
+}
+
+/* Features Grid */
+.WT-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.WT-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.WT-feature-item:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.WT-feature-icon {
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+  border-radius: 12px;
+}
+
+.WT-feature-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+}
+
+.WT-feature-item:hover .WT-feature-text {
+  color: var(--blue);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .WT-main-title {
+    font-size: 2rem;
+  }
+
+  .WT-header-content {
+    flex-direction: column;
+    gap: 1rem;
     text-align: center;
+  }
+
+  .WT-container {
+    padding: 2rem 1rem;
+  }
+
+  .WT-empty-content {
+    padding: 3rem 2rem;
+    border-radius: 20px;
+  }
+
+  .WT-empty-title {
+    font-size: 1.75rem;
+  }
+
+  .WT-empty-description {
+    font-size: 1rem;
+  }
+
+  .WT-add-exercise-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 2rem;
+  }
+
+  .WT-features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .WT-feature-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 1rem;
+  }
+
+  .WT-hero-section {
+    padding: 2rem 1rem;
+  }
 }
 
-.add-new-exercise-card {
-    
-    width: 5rem;
-    border: 2px solid var(--grey);
-    margin: 0 auto;
-    padding-left: 5px;
+@media (max-width: 480px) {
+  .WT-main-title {
+    font-size: 1.75rem;
+  }
+
+  .WT-empty-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .WT-empty-title {
+    font-size: 1.5rem;
+  }
+
+  .WT-empty-icon {
+    font-size: 3rem;
+  }
+
+  .WT-add-exercise-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .WT-features-grid {
+    margin-top: 1.5rem;
+  }
 }
-.add-new-exercise-card:hover {
-    cursor: pointer;
-    border: 2px solid var(--hover-blue);
-    color: var(--hover-blue);
+
+/* Loading Animation for when exercises are being added */
+.WT-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Smooth transitions */
+.WT-empty-content * {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states for accessibility */
+.WT-add-exercise-btn:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.WT-back-btn:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }

@@ -1,4 +1,5 @@
 import React from "react"
+import "./delete-exercise-popup.css"
 
 interface DeleteExercisePopUpProps {
     conditional: boolean;

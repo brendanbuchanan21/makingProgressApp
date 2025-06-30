@@ -1,0 +1,631 @@
+/* Base Styles */
+.NPW-section {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 2rem;
+}
+
+/* Hero Section */
+.NPW-hero-section {
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.NPW-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.NPW-back-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NPW-back-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateX(-2px);
+}
+
+.NPW-back-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.NPW-header-text {
+  flex: 1;
+}
+
+.NPW-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.NPW-subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.NPW-edit-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.NPW-edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-edit-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.NPW-edit-btn-active {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.NPW-edit-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Progress Section */
+.NPW-progress-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.NPW-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.NPW-progress-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.NPW-progress-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.NPW-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.NPW-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  border-radius: 4px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container */
+.NPW-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Workout Content */
+.NPW-workout-content {
+  width: 100%;
+}
+
+.NPW-exercises-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Exercise Card */
+.NPW-exercise-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Exercise Header */
+.NPW-exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.NPW-exercise-info {
+  flex: 1;
+}
+
+.NPW-exercise-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.NPW-exercise-muscle {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.NPW-exercise-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.NPW-add-set-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-add-set-btn:hover {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.NPW-delete-exercise-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NPW-delete-exercise-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+  transform: scale(1.05);
+}
+
+.NPW-btn-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Sets Container */
+.NPW-sets-container {
+  background: rgba(248, 250, 252, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.NPW-sets-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 1fr;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+.NPW-header-cell {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.NPW-set-number {
+  text-align: left;
+}
+
+.NPW-sets-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.NPW-set-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.NPW-set-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NPW-set-number-cell {
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.NPW-delete-set-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NPW-delete-set-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+.NPW-delete-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.NPW-set-number {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.NPW-set-input {
+  width: 100%;
+  max-width: 80px;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  color: #1e293b;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-set-input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.NPW-set-input::placeholder {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+/* Exercise Completion */
+.NPW-exercise-completion {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.NPW-completion-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-completion-label:hover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.NPW-completion-checkbox {
+  display: none;
+}
+
+.NPW-completion-text {
+  font-weight: 600;
+  color: #64748b;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-checkmark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-check-icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-completion-checkbox:checked + .NPW-completion-text {
+  color: #10b981;
+}
+
+.NPW-completion-checkbox:checked ~ .NPW-checkmark {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.NPW-completion-checkbox:checked ~ .NPW-checkmark .NPW-check-icon {
+  opacity: 1;
+  transform: scale(1);
+  color: white;
+}
+
+/* Add Exercise Section */
+.NPW-add-exercise-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.NPW-add-exercise-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: white;
+  border: 2px dashed var(--blue);
+  border-radius: 16px;
+  color: var(--blue);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.NPW-add-exercise-btn:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: var(--hover-blue);
+  color: var(--hover-blue);
+  transform: translateY(-2px);
+}
+
+/* Submit Section */
+.NPW-submit-section {
+  display: flex;
+  justify-content: center;
+}
+
+.NPW-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--hover-blue) 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+}
+
+.NPW-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.4);
+}
+
+.NPW-submit-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.NPW-submit-btn-ready {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  animation: pulse-ready 2s infinite;
+}
+
+.NPW-submit-btn-ready:hover {
+  box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse-ready {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Empty State */
+.NPW-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  border: 2px dashed #e2e8f0;
+}
+
+.NPW-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.NPW-empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.NPW-empty-state p {
+  color: #64748b;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .NPW-main-title {
+    font-size: 2rem;
+  }
+
+  .NPW-header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .NPW-container {
+    padding: 1rem;
+  }
+
+  .NPW-exercise-card {
+    padding: 1.5rem;
+  }
+
+  .NPW-exercise-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .NPW-exercise-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .NPW-sets-header,
+  .NPW-set-row {
+    grid-template-columns: 60px 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .NPW-set-input {
+    max-width: 60px;
+    padding: 0.5rem;
+  }
+
+  .NPW-submit-btn,
+  .NPW-add-exercise-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .NPW-main-title {
+    font-size: 1.75rem;
+  }
+
+  .NPW-exercise-card {
+    padding: 1rem;
+  }
+
+  .NPW-sets-container {
+    padding: 1rem;
+  }
+
+  .NPW-sets-header,
+  .NPW-set-row {
+    grid-template-columns: 50px 1fr 1fr 1fr;
+    gap: 0.25rem;
+  }
+
+  .NPW-set-input {
+    max-width: 50px;
+    padding: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  .NPW-header-cell {
+    font-size: 0.75rem;
+  }
+}
