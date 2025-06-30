@@ -40,7 +40,7 @@ const CurrentPlanPage = () => {
   const [showAbandonPlan, setShowAbandonPlan] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [timeRange, setTimeRange] = useState<TimeRange>("7_days");
-  const [limitNumber, setLimitNumber] = useState<number>(10);
+  const [limitNumber] = useState<number>(10);
   
 
 
