@@ -194,6 +194,91 @@
   margin: 0;
 }
 
+/* Time Filter Dropdown - Modern Styling */
+.CPP-time-filter-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.CPP-dropdown-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.CPP-dropdown {
+  position: relative;
+  appearance: none;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 140px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+}
+
+.CPP-dropdown:hover {
+  border-color: var(--blue);
+  background-color: rgba(59, 130, 246, 0.02);
+}
+
+.CPP-dropdown:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: white;
+}
+
+.CPP-dropdown option {
+  color: #1e293b;
+  padding: 0.5rem;
+  font-weight: 500;
+}
+
+/* Responsive adjustments for dropdown */
+@media (max-width: 768px) {
+  .CPP-time-filter-dropdown {
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .CPP-dropdown {
+    min-width: 120px;
+    padding: 0.625rem 2rem 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .CPP-dropdown-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .CPP-time-filter-dropdown {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .CPP-dropdown {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
 .CPP-tab-switcher {
   display: flex;
   gap: 0.5rem;
@@ -245,7 +330,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
-  margin-bottom: 5rem;
 }
 
 /* History Cards */
@@ -610,80 +694,5 @@
   .week-card-div,
   .CPP-history-card {
     padding: 1.5rem;
-  }
-}
-
-
-.abandon-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent black */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.abandon-popup-modal {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  padding: 2rem;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  animation: popupFadeIn 0.3s ease-in-out;
-}
-
-.abandon-popup-modal p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-.abandon-popup-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.popup-btn {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.cancel-btn:hover {
-  background-color: #d5d5d5;
-}
-
-.confirm-btn {
-  background-color: #007bff;
-  color: white;
-}
-
-.confirm-btn:hover {
-  background-color: #0069d9;
-}
-
-@keyframes popupFadeIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
   }
 }

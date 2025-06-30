@@ -29,8 +29,24 @@ export const noPlanWorkoutApi = createApi({
                 url: '/',
                 method: "GET",
             })
-        })
+        }),
+        getNoPlanWorkoutsByDate: builder.query<any, { from: string | null; to: string; limit?: number }>({
+        query: ({ from, to, limit = 10 }) => {
+            const queryParams = [
+            from ? `from=${from}` : null,
+            to ? `to=${to}` : null,
+            limit ? `limit=${limit}` : null,
+            ]
+            .filter(Boolean)
+            .join("&");
+
+            return {
+            url: `/?${queryParams}`,
+            method: "GET",
+            };
+        },
+        }),
     })
 })
 
-export const { usePostNoPlanWorkoutMutation, useGetNoPlanWorkoutsQuery } = noPlanWorkoutApi;
+export const { usePostNoPlanWorkoutMutation, useGetNoPlanWorkoutsQuery, useGetNoPlanWorkoutsByDateQuery } = noPlanWorkoutApi;

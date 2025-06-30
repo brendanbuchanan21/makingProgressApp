@@ -16,7 +16,7 @@ import { useDeleteExerciseProgramMutation } from "../../../redux/workoutApi"
 import dumbbellImg from "../../../images/dumbbell-svgrepo-com.svg"
 import { ClipLoader } from "react-spinners"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { useGetNoPlanWorkoutsQuery } from "../../../redux/noPlanWorkoutApi"
+import { useGetNoPlanWorkoutsByDateQuery } from "../../../redux/noPlanWorkoutApi"
 import AbandonPlanPopUp from "./abandonPlanPopUp"
 
 const CurrentPlanPage = () => {
@@ -24,15 +24,25 @@ const CurrentPlanPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // State and RTK queries
-  const [isEditing, setIsEditing] = useState(false)
+
+  //TYPES FOR TYPESCRIPT SHAPES 
+   type TimeRange = "7_days" | "30_days" | "this_year" | "all_time"
+
+  // RTK queries
+  const [deleteExerciseProgram] = useDeleteExerciseProgramMutation()
   const [addWeekApi] = useHandleAddWeekApiMutation()
   const [postCompletedProgram] = usePostCompletedProgramMutation()
+
+  //states
   const [isUserReady, setIsUserReady] = useState(false)
   const [noPlan, setNoPlan] = useState(false)
   const [selectedTab, setSelectedTab] = useState<"plans" | "quickWorkouts">("plans")
   const [showAbandonPlan, setShowAbandonPlan] = useState(false)
-  const [deleteExerciseProgram] = useDeleteExerciseProgramMutation()
+  const [isEditing, setIsEditing] = useState(false)
+  const [timeRange, setTimeRange] = useState<TimeRange>("7_days");
+  const [limitNumber, setLimitNumber] = useState<number>(10);
+  
+
 
   const auth = getAuth()
 
@@ -139,15 +149,7 @@ const CurrentPlanPage = () => {
     }
   }
 
-  // Fetch quick workout data
-  const {
-    data: quickWorkouts,
-    error: quickWorkoutsError,
-    isLoading: quickWorkoutsLoading,
-  } = useGetNoPlanWorkoutsQuery(undefined, {
-    skip: !isUserReady,
-    refetchOnMountOrArgChange: true,
-  })
+
 
   const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
     if (selectedTab !== tab) {
@@ -159,9 +161,9 @@ const CurrentPlanPage = () => {
     const date = new Date(isoString)
     return date
       .toLocaleString("en-US", {
-        year: "numeric",
         month: "2-digit",
         day: "2-digit",
+        year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
@@ -175,6 +177,52 @@ const CurrentPlanPage = () => {
     setShowAbandonPlan(false)
     setIsEditing(false)
   }
+  
+  // EVERYTHING BELOW THAT IS NOT THE JSX IS FOR SETTING UP WHICH QUICK WORKOUT DATES WILL BE FETCHED
+
+
+  const getDateRange = (range: TimeRange) => {
+
+    const today = new Date();
+    let from: string | null = null;
+
+    switch (range) {
+      case "7_days":
+        from = new Date(today.setDate(today.getDate() - 7)).toISOString();
+        break;
+      case "30_days":
+        from = new Date(today.setDate(today.getDate() - 30)).toISOString();
+        break;
+      case "this_year":
+        from = new Date(today.getFullYear(), 0, 1).toISOString();
+        break;
+      case "all_time":
+        from = null;
+        break;
+    }
+    const to = new Date().toISOString();
+    return { from, to };
+  };
+
+  // TAKE THE FORMAT FUNCTION FROM ABOVE AND PUT THE TIMERANGE STATE VALUE INTO IT TO GET THE RANGE URL PARAMS
+  // FOR THE QUERY OF QUICK WORKOUTS
+  const { from, to } = getDateRange(timeRange);
+
+  const { 
+    data: quickWorkouts, 
+    error: quickWorkoutsError, 
+    isLoading: quickWorkoutsLoading
+   } = useGetNoPlanWorkoutsByDateQuery(
+    { from, to, limit: limitNumber},
+    {
+      skip: !isUserReady || selectedTab !== "quickWorkouts",
+      refetchOnMountOrArgChange: true,
+    }
+   );
+
+
+
+ 
 
   return (
     <>
@@ -308,6 +356,24 @@ const CurrentPlanPage = () => {
         </div>
 
         <div className="CPP-history-content">
+          {/* Time range filter only shows for quick workouts */}
+          {selectedTab === "quickWorkouts" && (
+          <div className="CPP-time-filter-dropdown">
+            <label htmlFor="timeRangeSelect" className="CPP-dropdown-label">View Range:</label>
+            <select
+              id="timeRangeSelect"
+              className="CPP-dropdown"
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value as TimeRange)}
+            >
+              <option value="7_days">Last 7 Days</option>
+              <option value="30_days">Last 30 Days</option>
+              <option value="this_year">This Year</option>
+              <option value="all_time">All Time</option>
+            </select>
+          </div>
+        )}
+
           {selectedTab === "plans" ? (
             isLoading ? (
               <div className="CPP-loading-state">
