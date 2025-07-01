@@ -223,14 +223,6 @@ const CurrentPlanPage = () => {
   refetchOnMountOrArgChange: true,
   });
 
-  useEffect(() => {
-    console.log('Quick Workouts Query Result:', {
-    data: quickWorkouts,
-    error: quickWorkoutsError,
-    loading: quickWorkoutsLoading,
-  });
-  }, [quickWorkouts, quickWorkoutsError, quickWorkoutsLoading]);
-
 
   return (
     <>
