@@ -45,9 +45,29 @@ export const getAllNonPlanWorkouts = async (req, res) => {
            return res.status(400).json({message: 'could not find user id?'});
         }
 
-        const completedWorkouts = await noPlanWorkoutModel.find({ userId });
-        
-        res.status(200).json(completedWorkouts);
+        const { from, to, limit } = req.query;
+
+        console.log(from, 'ayy💜');
+        console.log(to, 'yuh💧');
+
+        const query = { userId };
+
+        if (from || to) {
+            query.dateDone = {};
+            if (from) query.dateDone.$gte = from;  
+            if (to) query.dateDone.$lte = to; 
+        }
+        console.log(query, '💜');
+
+        const resultLimit = limit ? parseInt(limit, 10) : 10;
+
+        const completedWorkouts = await noPlanWorkoutModel
+        .find(query)
+        .sort({ dateDone: -1 })
+        .limit(10);
+        return res.status(200).json(completedWorkouts);
+
+
     } catch (error) {
         console.error('error fetching non-plan workouts:', error);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });

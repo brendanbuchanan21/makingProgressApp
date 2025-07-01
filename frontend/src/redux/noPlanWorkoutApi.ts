@@ -24,12 +24,6 @@ export const noPlanWorkoutApi = createApi({
                 body: completedWorkout
             }),
         }),
-        getNoPlanWorkouts: builder.query<any, void>({
-            query: () => ({
-                url: '/',
-                method: "GET",
-            })
-        }),
         getNoPlanWorkoutsByDate: builder.query<any, { from: string | null; to: string; limit?: number }>({
         query: ({ from, to, limit = 10 }) => {
             const queryParams = [
@@ -49,4 +43,4 @@ export const noPlanWorkoutApi = createApi({
     })
 })
 
-export const { usePostNoPlanWorkoutMutation, useGetNoPlanWorkoutsQuery, useGetNoPlanWorkoutsByDateQuery } = noPlanWorkoutApi;
+export const { usePostNoPlanWorkoutMutation, useGetNoPlanWorkoutsByDateQuery } = noPlanWorkoutApi;

@@ -18,6 +18,7 @@ import { ClipLoader } from "react-spinners"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useGetNoPlanWorkoutsByDateQuery } from "../../../redux/noPlanWorkoutApi"
 import AbandonPlanPopUp from "./abandonPlanPopUp"
+import { useMemo } from "react"
 
 const CurrentPlanPage = () => {
   const currentPlan = useSelector((state: RootState) => state.workout.currentPlan)
@@ -206,23 +207,28 @@ const CurrentPlanPage = () => {
 
   // TAKE THE FORMAT FUNCTION FROM ABOVE AND PUT THE TIMERANGE STATE VALUE INTO IT TO GET THE RANGE URL PARAMS
   // FOR THE QUERY OF QUICK WORKOUTS
-  const { from, to } = getDateRange(timeRange);
+  const memoizedDateRange = useMemo(() => getDateRange(timeRange), [timeRange]);
+  const { from, to } = memoizedDateRange;
+
+  
 
   const { 
-    data: quickWorkouts, 
-    error: quickWorkoutsError, 
-    isLoading: quickWorkoutsLoading
-   } = useGetNoPlanWorkoutsByDateQuery(
-    { from, to, limit: limitNumber},
-    {
-      skip: !isUserReady || selectedTab !== "quickWorkouts",
-      refetchOnMountOrArgChange: true,
-    }
-   );
+  data: quickWorkouts, 
+  error: quickWorkoutsError, 
+  isLoading: quickWorkoutsLoading
+  } = useGetNoPlanWorkoutsByDateQuery({from, to, limit: limitNumber}, {
+  skip: !isUserReady,
+  refetchOnMountOrArgChange: true,
+  });
 
+  useEffect(() => {
+    console.log('Quick Workouts Query Result:', {
+    data: quickWorkouts,
+    error: quickWorkoutsError,
+    loading: quickWorkoutsLoading,
+  });
+  }, [quickWorkouts, quickWorkoutsError, quickWorkoutsLoading]);
 
-
- 
 
   return (
     <>

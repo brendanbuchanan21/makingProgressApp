@@ -9,5 +9,4 @@ noPlanWorkoutRouter.post('/', verifyToken, newNonPlanWorkout);
 noPlanWorkoutRouter.get('/', verifyToken, getAllNonPlanWorkouts);
 
 
-
 export default noPlanWorkoutRouter;
