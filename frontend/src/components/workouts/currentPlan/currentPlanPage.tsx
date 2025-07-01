@@ -207,6 +207,8 @@ const CurrentPlanPage = () => {
 
   // TAKE THE FORMAT FUNCTION FROM ABOVE AND PUT THE TIMERANGE STATE VALUE INTO IT TO GET THE RANGE URL PARAMS
   // FOR THE QUERY OF QUICK WORKOUTS
+
+  // memoize the date values so it doesn't cause infinite render
   const memoizedDateRange = useMemo(() => getDateRange(timeRange), [timeRange]);
   const { from, to } = memoizedDateRange;
 

@@ -696,3 +696,10 @@
     padding: 1.5rem;
   }
 }
+
+@media (max-width: 420px) {
+  .CPP-card-detail {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
