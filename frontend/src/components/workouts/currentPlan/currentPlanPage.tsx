@@ -1,11 +1,9 @@
 "use client"
 
 import "./currentPlanPage.css"
-import WeekCard from "./weekCard"
 import NavBar from "../../dashboard/navbar"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import addMarkerBlue from "../../../images/addMarkerBlue.svg"
 import { useDispatch, useSelector } from "react-redux"
 import { addWeek } from "../../../redux/workoutSlice"
 import type { RootState } from "../../../redux/store"
@@ -23,7 +21,6 @@ import CurrentPlanSection from "./current-plan-section"
 
 const CurrentPlanPage = () => {
   const currentPlan = useSelector((state: RootState) => state.workout.currentPlan)
-  console.log('current plan, 🌈', currentPlan);
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -69,7 +66,6 @@ const CurrentPlanPage = () => {
     skip: !isUserReady,
     refetchOnMountOrArgChange: true,
   })
-  console.log(completedPrograms, '☺️');
 
   // Check if all days in plan are complete
   const allDaysComplete = currentPlan?.weeks?.every((week) => week.days.every((day) => day.isCompleted)) ?? false
@@ -416,7 +412,14 @@ const CurrentPlanPage = () => {
           ) : (
             <div className="CPP-empty-state">
               <div className="CPP-empty-icon">⚡</div>
-              <h3>No Quick Workouts Found</h3>
+              <h3>{timeRange === "7_days"
+                  ? "No Quick Workouts in the Last 7 Days"
+                  : timeRange === "30_days"
+                  ? "No Quick Workouts in the Last 30 Days"
+                  : timeRange === "this_year"
+                  ? "No Quick Workouts This Year"
+                  : "No Quick Workouts"}
+              </h3>
               <p>Start a quick workout to see your history here</p>
             </div>
           )}
