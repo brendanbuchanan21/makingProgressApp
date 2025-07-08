@@ -3,10 +3,9 @@ import { RootState } from "../../../redux/store";
 import { useGetCompletedWorkoutVolumeQuery } from "../../../redux/completedWorkoutApi";
 import dumbbellIcon  from '../../../images/dumbbell-svgrepo-com.svg';
 import deleteMarker from '../../../images/deleteMarker.svg';
-import { deleteWeek, setCurrentPlan } from "../../../redux/workoutSlice";
+import { deleteWeek } from "../../../redux/workoutSlice";
 import './currentPlanPage.css'
 import { useDeleteWeekApiMutation } from "../../../redux/workoutApi";
-import { useGetExerciseProgramQuery } from "../../../redux/workoutApi";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import React from "react";
@@ -24,6 +23,7 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     
   //redux state
   const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
+  console.log('current plan, 🥎', currentPlan);
   const weeks = currentPlan?.weeks ?? [];
   const workoutPlanId = currentPlan?._id;
 
@@ -51,6 +51,7 @@ useEffect(() => {
   return () => unsubscribe();
 }, [auth]);
 
+/*
   // Ensure the query is only sent when the token is ready
   const { data: workoutPlanData } = useGetExerciseProgramQuery(
   { workoutPlanId: workoutPlanId },
@@ -58,8 +59,7 @@ useEffect(() => {
   skip: !isUserReady,
   refetchOnMountOrArgChange: true,
   });
-    
-    
+*/
     
   // Second query: Get completed workout volume
   const { data: completedWorkoutData } = useGetCompletedWorkoutVolumeQuery(
@@ -70,8 +70,7 @@ useEffect(() => {
   }
   );
 
-   
-
+/*
 useEffect(() => {
   if(workoutPlanData && !currentPlan) {
   dispatch(setCurrentPlan(workoutPlanData));
@@ -79,6 +78,7 @@ useEffect(() => {
 }, [workoutPlanData, dispatch, currentPlan])
     // Fetch completed workouts for the plan
 
+    */
     
   const [deleteWeekApi] = useDeleteWeekApiMutation();
     
