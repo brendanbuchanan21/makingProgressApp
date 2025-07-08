@@ -47,9 +47,6 @@ export const getAllNonPlanWorkouts = async (req, res) => {
 
         const { from, to, limit } = req.query;
 
-        console.log(from, 'ayy💜');
-        console.log(to, 'yuh💧');
-
         const query = { userId };
 
         if (from || to) {

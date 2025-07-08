@@ -23,6 +23,8 @@ export const newWorkoutPlan = async (req, res) => {
 export const getWorkoutPlan = async (req, res) => {
     const { workoutPlanId } = req.params
     const userId = req.user.uid;
+    console.log(userId, '💜');
+    console.log(workoutPlanId, '⭐️');
     if(!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(workoutPlanId)) {
         return res.status(404).json({error: 'Nope'});
     }
