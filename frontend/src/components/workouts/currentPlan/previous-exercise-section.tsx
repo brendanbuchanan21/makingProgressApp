@@ -1,5 +1,4 @@
 import './currentPlanPage.css'
-import dumbbellImg from "../../../images/dumbbell-svgrepo-com.svg"
 import { ClipLoader } from "react-spinners"
 import { useEffect } from 'react'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -8,6 +7,7 @@ import { useGetCompletedProgramQuery } from '../../../redux/completedProgramsApi
 import { useGetNoPlanWorkoutsByDateQuery } from '../../../redux/noPlanWorkoutApi'
 import { useMemo } from 'react'
 import PreviousWorkoutCard from './previous-workout-card'
+import PreviousPlansCard from './previous-plans-card'
 
 
 const PreviousPlanSection = () => {
@@ -42,8 +42,6 @@ const PreviousPlanSection = () => {
     skip: !isUserReady,
     refetchOnMountOrArgChange: true,
   })
-
-
 
 
     const handleTabSwitch = (tab: "plans" | "quickWorkouts") => {
@@ -178,33 +176,8 @@ const PreviousPlanSection = () => {
               </div>
             ) : completedPrograms?.completedPrograms?.length > 0 ? (
               <div className="CPP-history-grid">
-                {completedPrograms.completedPrograms.map((program: any) => (
-                  <div className="CPP-history-card CPP-plan-card" key={program._id}>
-                    <div className="CPP-card-header">
-                      <div className="CPP-card-icon">🏆</div>
-                      <h3 className="CPP-card-title">{program.name}</h3>
-                    </div>
-                    <div className="CPP-card-content">
-                      <div className="CPP-card-detail">
-                        <span className="CPP-detail-label">Duration</span>
-                        <span className="CPP-detail-value">
-                          {program.startDate} - {program.endDate}
-                        </span>
-                      </div>
-                      <div className="CPP-card-detail">
-                        <span className="CPP-detail-label">Lasted</span>
-                        <span className="CPP-detail-value">{program.duration}</span>
-                      </div>
-                      <div className="CPP-card-detail">
-                        <span className="CPP-detail-label">Total Volume</span>
-                        <span className="CPP-detail-value">
-                          {program.totalVolume} lbs
-                          <img src={dumbbellImg || "/placeholder.svg"} alt="" className="CPP-dumbbell-icon" />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {/* Pass the completed programs to the PreviousPlansCard component */}
+                <PreviousPlansCard plans={completedPrograms.completedPrograms} />
               </div>
             ) : (
               <div className="CPP-empty-state">
