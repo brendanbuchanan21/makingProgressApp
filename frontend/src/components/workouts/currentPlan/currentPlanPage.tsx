@@ -392,12 +392,14 @@ const CurrentPlanPage = () => {
                     </div>
                     <div className="CPP-muscle-groups">
                       {Array.isArray(workout.exercises) ? (
-                        workout.exercises.map((exercise: any) => (
-                          <span key={exercise._id} className="CPP-muscle-tag">
-                            {exercise.muscleGroup}
-                          </span>
-                        ))
-                      ) : (
+                        (Array.from(
+                        new Set(workout.exercises.map((exercise: any) => exercise.muscleGroup))
+                        ) as string[]).map((group, index) => (
+                        <span key={index} className="CPP-muscle-tag">
+                          {group}
+                        </span>
+                      ))
+                        ) : (
                         <span className="CPP-no-exercises">No exercises found</span>
                       )}
                     </div>
