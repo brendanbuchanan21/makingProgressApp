@@ -23,7 +23,6 @@ const WeekCard: React.FC<WeekCardProps> = ({ isEditing }) => {
     
   //redux state
   const currentPlan = useSelector((state: RootState) => state.workout.currentPlan);
-  console.log('current plan, 🥎', currentPlan);
   const weeks = currentPlan?.weeks ?? [];
   const workoutPlanId = currentPlan?._id;
 
