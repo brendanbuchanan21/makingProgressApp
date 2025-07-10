@@ -14,7 +14,6 @@ const NavBar = () => {
         {/* Brand Section */}
         <div className="navbar-brand">
           <Link to="/workouts" className="brand-link">
-            <div className="brand-icon">💪</div>
             <span className="brand-text">makingProgress</span>
           </Link>
         </div>
