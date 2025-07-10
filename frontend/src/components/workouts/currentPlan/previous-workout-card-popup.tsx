@@ -34,8 +34,6 @@ const PreviousWorkoutCardPopup: React.FC<PreviousWorkoutCardPopupProps> = ({ wor
   // extract the correct workout data based on the workoutId
   const workout = workoutData?.find((workout: any) => workout._id === workoutId)
 
-  console.log("Selected workout data:", workout);
-
   const date = workout?.dateDone;
 
   const formatDate = (date: string) => {
