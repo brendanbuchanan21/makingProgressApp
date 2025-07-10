@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import addMarkerBlue from "../../../images/addMarkerBlue.svg"
 import WeekCard from './weekCard'
+import "./currentPlanPage.css"
 
 type Props = {
     controls: {
