@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import PreviousWorkoutCardPopup from './previous-workout-card-popup'
 
 interface PreviousWorkoutCardProps {
     workouts: any[];
@@ -8,10 +8,23 @@ interface PreviousWorkoutCardProps {
 
 const PreviousWorkoutCard: React.FC<PreviousWorkoutCardProps> = ({workouts, formatDate}) => {
 
+    // COMPONENT STATE
+    const [workoutPopup, setWorkoutPopup] = useState(false);
+    const [selectedWorkoutId, setSelectedWorkoutId] = useState<string>("");
+
+
+    const handleClosePopup = () => {
+        setWorkoutPopup(!workoutPopup);
+    }
+
     return (
         <>
         {workouts.map((workout: any) => (
-                <div className="CPP-history-card CPP-workout-card" key={workout._id}>
+                <div className="CPP-history-card CPP-workout-card" key={workout._id} onClick={() => {
+                  setWorkoutPopup(!workoutPopup);
+                  setSelectedWorkoutId(workout._id);
+                  console.log("Clicked workout ID:", workout._id);
+                }}>
                   <div className="CPP-card-header">
                     <div className="CPP-card-icon">⚡</div>
                     <h3 className="CPP-card-title">Quick Workout</h3>
@@ -40,7 +53,16 @@ const PreviousWorkoutCard: React.FC<PreviousWorkoutCardProps> = ({workouts, form
                     </div>
                   </div>
                 </div>
+
+        
               ))}
+
+              {workoutPopup && (
+                  <>
+                 <PreviousWorkoutCardPopup workoutId={selectedWorkoutId} workoutData={workouts} onClose={handleClosePopup}/>
+                 </>
+                )
+                }
         </>
     )
 }
